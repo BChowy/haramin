@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مجالس الحرمين — دروس المسجد الحرام والمسجد النبوي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== shadcn/ui tokens (neutral base, custom primary) ===== */
+:root{
+  --background:0 0% 100%;
+  --foreground:160 10% 8%;
+  --card:0 0% 100%;
+  --card-foreground:160 10% 8%;
+  --popover:0 0% 100%;
+  --primary:158 62% 22%;
+  --primary-foreground:150 30% 97%;
+  --secondary:150 12% 95%;
+  --secondary-foreground:160 10% 12%;
+  --muted:150 10% 95.5%;
+  --muted-foreground:160 5% 40%;
+  --accent:150 12% 94%;
+  --accent-foreground:160 10% 12%;
+  --gold:38 62% 46%;
+  --destructive:0 72% 48%;
+  --destructive-foreground:0 0% 98%;
+  --border:150 8% 89%;
+  --input:150 8% 86%;
+  --ring:158 62% 28%;
+  --radius:0.6rem;
+  --font:"IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
+  --display:"Amiri", "Traditional Arabic", "Times New Roman", serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --background:160 14% 6%;
+    --foreground:150 15% 94%;
+    --card:160 12% 8.5%;
+    --card-foreground:150 15% 94%;
+    --popover:160 12% 8.5%;
+    --primary:152 48% 52%;
+    --primary-foreground:160 30% 7%;
+    --secondary:160 8% 14%;
+    --secondary-foreground:150 15% 94%;
+    --muted:160 8% 13%;
+    --muted-foreground:150 6% 64%;
+    --accent:160 8% 15%;
+    --accent-foreground:150 15% 94%;
+    --gold:40 62% 60%;
+    --destructive:0 62% 50%;
+    --border:160 8% 17%;
+    --input:160 8% 20%;
+    --ring:152 48% 52%;
+  }
+}
+:root[data-theme="dark"]{
+  --background:160 14% 6%;
+  --foreground:150 15% 94%;
+  --card:160 12% 8.5%;
+  --card-foreground:150 15% 94%;
+  --popover:160 12% 8.5%;
+  --primary:152 48% 52%;
+  --primary-foreground:160 30% 7%;
+  --secondary:160 8% 14%;
+  --secondary-foreground:150 15% 94%;
+  --muted:160 8% 13%;
+  --muted-foreground:150 6% 64%;
+  --accent:160 8% 15%;
+  --accent-foreground:150 15% 94%;
+  --gold:40 62% 60%;
+  --destructive:0 62% 50%;
+  --border:160 8% 17%;
+  --input:160 8% 20%;
+  --ring:152 48% 52%;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:hsl(var(--background));color:hsl(var(--foreground));font-family:var(--font);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+.container{width:100%;max-width:1160px;margin-inline:auto;padding-inline:20px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid hsl(var(--ring));outline-offset:2px}
+
+/* ===== Button ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:calc(var(--radius) - 2px);font:500 14px/1 var(--font);border:1px solid transparent;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn-default{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}
+.btn-default:hover{background:hsl(var(--primary)/.9)}
+.btn-outline{background:hsl(var(--background));border-color:hsl(var(--input));color:hsl(var(--foreground))}
+.btn-outline:hover{background:hsl(var(--accent))}
+.btn-secondary{background:hsl(var(--secondary));color:hsl(var(--secondary-foreground))}
+.btn-secondary:hover{background:hsl(var(--secondary)/.8)}
+.btn-ghost{background:transparent;color:hsl(var(--foreground))}
+.btn-ghost:hover{background:hsl(var(--accent))}
+.btn-destructive{background:transparent;color:hsl(var(--destructive));border-color:hsl(var(--destructive)/.35)}
+.btn-destructive:hover{background:hsl(var(--destructive)/.08)}
+.btn-lg{height:46px;padding:0 22px;font-size:15px}
+.btn-sm{height:34px;padding:0 12px;font-size:13px}
+.btn-icon{width:40px;padding:0}
+
+/* ===== Badge ===== */
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:500;line-height:1.6;border:1px solid transparent}
+.badge-secondary{background:hsl(var(--secondary));color:hsl(var(--secondary-foreground))}
+.badge-outline{border-color:hsl(var(--border));color:hsl(var(--foreground))}
+.badge-gold{background:hsl(var(--gold)/.14);color:hsl(var(--gold));border-color:hsl(var(--gold)/.3)}
+
+/* ===== Card ===== */
+.card{background:hsl(var(--card));color:hsl(var(--card-foreground));border:1px solid hsl(var(--border));border-radius:var(--radius)}
+
+/* ===== Inputs ===== */
+.label{display:block;font-size:14px;font-weight:500;margin-bottom:6px}
+.input,.select{width:100%;height:40px;border-radius:calc(var(--radius) - 2px);border:1px solid hsl(var(--input));background:hsl(var(--background));color:hsl(var(--foreground));padding:0 12px;font:14px var(--font)}
+.input::placeholder{color:hsl(var(--muted-foreground))}
+.input:focus-visible,.select:focus-visible{outline:none;box-shadow:0 0 0 2px hsl(var(--background)),0 0 0 4px hsl(var(--ring))}
+.input[aria-invalid="true"]{border-color:hsl(var(--destructive))}
+.field-error{color:hsl(var(--destructive));font-size:12.5px;margin-top:4px;min-height:0}
+.hint{color:hsl(var(--muted-foreground));font-size:12.5px;margin-top:4px}
+.select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23888' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 10px center;padding-left:34px}
+.radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.radio-item{position:relative}
+.radio-item input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.radio-item span{display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid hsl(var(--input));border-radius:calc(var(--radius) - 2px);font-size:14px}
+.radio-item input:checked+span{border-color:hsl(var(--primary));background:hsl(var(--primary)/.08);color:hsl(var(--primary));font-weight:600}
+.radio-item input:focus-visible+span{box-shadow:0 0 0 2px hsl(var(--background)),0 0 0 4px hsl(var(--ring))}
+.checkbox{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.checkbox input{width:16px;height:16px;margin-top:5px;accent-color:hsl(var(--primary))}
+
+/* ===== Tabs ===== */
+.tabs{display:inline-flex;gap:2px;padding:4px;border-radius:var(--radius);background:hsl(var(--muted));flex-wrap:wrap}
+.tab{height:34px;padding:0 14px;border-radius:calc(var(--radius) - 3px);border:0;background:transparent;color:hsl(var(--muted-foreground));font:500 14px var(--font);cursor:pointer}
+.tab[aria-selected="true"]{background:hsl(var(--background));color:hsl(var(--foreground));box-shadow:0 1px 2px hsl(0 0% 0%/.08)}
+
+/* ===== Header ===== */
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:hsl(var(--background)/.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid hsl(var(--border))}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:17px}
+.brand svg{color:hsl(var(--primary))}
+.nav{display:flex;gap:4px}
+.nav a{font-size:14px;color:hsl(var(--muted-foreground));text-decoration:none;padding:6px 10px;border-radius:6px}
+.nav a:hover{color:hsl(var(--foreground));background:hsl(var(--accent))}
+.header-actions{display:flex;gap:8px;align-items:center}
+.count-pill{min-width:20px;height:20px;border-radius:999px;background:hsl(var(--primary));color:hsl(var(--primary-foreground));font-size:11px;display:inline-grid;place-items:center;padding:0 6px}
+@media (max-width:820px){.nav{display:none}}
+
+/* ===== Hero ===== */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid hsl(var(--border))}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:72px 64px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,84px);line-height:1.15;margin:0 0 20px;letter-spacing:0}
+.hero p.lead{font-size:18px;color:hsl(var(--muted-foreground));max-width:34em;margin:0 0 28px}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.hero-art{position:relative;aspect-ratio:1;max-width:460px;justify-self:center;width:100%}
+.hero-art svg{width:100%;height:100%;display:block}
+.hero-art .star-line{stroke:hsl(var(--gold));fill:none}
+.hero-art .star-fill{fill:hsl(var(--primary)/.06)}
+.hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.6s cubic-bezier(.6,0,.2,1) forwards}
+.hero-art .draw.d2{animation-delay:.35s}.hero-art .draw.d3{animation-delay:.7s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero-art .center-text{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.hero-art .center-text b{font-family:var(--display);font-size:clamp(26px,3.4vw,38px);display:block;line-height:1.3}
+.hero-art .center-text span{color:hsl(var(--muted-foreground));font-size:13px}
+.masjid-pick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px;max-width:560px}
+.masjid-pick button{all:unset;cursor:pointer;display:block;padding:14px 16px;border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--card))}
+.masjid-pick button:hover{border-color:hsl(var(--primary)/.5)}
+.masjid-pick button:focus-visible{outline:2px solid hsl(var(--ring));outline-offset:2px}
+.masjid-pick strong{display:block;font-size:15px}
+.masjid-pick small{color:hsl(var(--muted-foreground));font-size:13px}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr;padding-block:48px}.hero-art{max-width:300px;order:-1}}
+
+/* ===== Sections ===== */
+section.block{padding-block:80px}
+.section-head{max-width:640px;margin-bottom:36px}
+.section-head h2{font-size:clamp(26px,3.2vw,34px);line-height:1.35;margin:0 0 10px;font-weight:700}
+.section-head p{margin:0;color:hsl(var(--muted-foreground))}
+.muted-bg{background:hsl(var(--muted)/.55);border-block:1px solid hsl(var(--border))}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.about-card{padding:28px}
+.about-card h3{font-family:var(--display);font-size:30px;margin:0 0 4px;font-weight:700}
+.about-card .city{color:hsl(var(--muted-foreground));font-size:14px;margin-bottom:16px}
+.about-card p{margin:0 0 18px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid hsl(var(--border));padding-top:16px;gap:8px}
+.facts div{font-size:13px;color:hsl(var(--muted-foreground))}
+.facts b{display:block;color:hsl(var(--foreground));font-size:15px}
+@media (max-width:760px){.about-grid{grid-template-columns:1fr}}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s;border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--card))}
+.step{padding:24px;position:relative}
+.step+.step{border-inline-start:1px solid hsl(var(--border))}
+.step .n{width:30px;height:30px;border-radius:999px;border:1px solid hsl(var(--primary)/.4);color:hsl(var(--primary));display:grid;place-items:center;font-weight:600;font-size:14px;margin-bottom:12px}
+.step h3{margin:0 0 6px;font-size:17px}
+.step p{margin:0;color:hsl(var(--muted-foreground));font-size:14.5px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}.step+.step{border-inline-start:0;border-top:1px solid hsl(var(--border))}}
+
+/* ===== Lessons ===== */
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:20px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filters .input{width:220px}
+.filters .select{width:170px}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.lesson{display:flex;flex-direction:column;padding:20px;gap:12px}
+.lesson-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lesson h3{margin:0;font-size:18px;line-height:1.5}
+.lesson .by{color:hsl(var(--muted-foreground));font-size:14px;margin-top:-6px}
+.meta{display:grid;gap:6px;font-size:14px}
+.meta div{display:flex;gap:8px;align-items:center}
+.meta svg{flex:none;color:hsl(var(--muted-foreground))}
+.seats{margin-top:auto}
+.progress{height:6px;border-radius:999px;background:hsl(var(--secondary));overflow:hidden}
+.progress>i{display:block;height:100%;background:hsl(var(--primary));border-radius:999px}
+.seats-row{display:flex;justify-content:space-between;font-size:12.5px;color:hsl(var(--muted-foreground));margin-bottom:6px}
+.lesson-actions{display:flex;gap:8px}
+.lesson-actions .btn{flex:1}
+.registered-tag{color:hsl(var(--primary));font-weight:600;font-size:13px;display:inline-flex;gap:6px;align-items:center}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;border:1px dashed hsl(var(--border));border-radius:var(--radius);color:hsl(var(--muted-foreground))}
+
+/* ===== Accordion (FAQ) ===== */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid hsl(var(--border))}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-weight:500;font-size:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{transition:transform .2s;flex:none}
+.faq details[open] summary svg{transform:rotate(180deg)}
+.faq details p{margin:0 0 18px;color:hsl(var(--muted-foreground))}
+
+/* ===== CTA / footer ===== */
+.cta-band{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:32px;flex-wrap:wrap}
+.cta-band h2{font-family:var(--display);margin:0;font-size:32px;font-weight:700}
+.cta-band p{margin:4px 0 0;color:hsl(var(--muted-foreground))}
+footer{border-top:1px solid hsl(var(--border));padding-block:28px;color:hsl(var(--muted-foreground));font-size:13.5px}
+footer .container{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ===== Dialog & Sheet ===== */
+dialog{border:0;padding:0;background:transparent;color:inherit;max-width:none;max-height:none}
+dialog::backdrop{background:hsl(0 0% 0%/.55)}
+.dialog-panel{background:hsl(var(--popover));border:1px solid hsl(var(--border));border-radius:var(--radius);width:min(620px,calc(100vw - 24px));max-height:calc(100dvh - 40px);overflow:auto;box-shadow:0 20px 50px hsl(0 0% 0%/.25)}
+#lessonDialog[open] .dialog-panel{animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}}
+.dialog-head{padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.dialog-head h2{margin:0;font-size:21px;line-height:1.45}
+.dialog-body{padding:16px 24px 24px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.detail-grid div{background:hsl(var(--muted));border-radius:calc(var(--radius) - 2px);padding:10px 12px;font-size:13px;color:hsl(var(--muted-foreground))}
+.detail-grid b{display:block;color:hsl(var(--foreground));font-size:14.5px;font-weight:600}
+.separator{height:1px;background:hsl(var(--border));margin:20px 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+@media (max-width:560px){.form-grid,.detail-grid{grid-template-columns:1fr}}
+.success{text-align:center;padding:12px 0}
+.success .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:24px;letter-spacing:2px;padding:10px 18px;border:1px dashed hsl(var(--primary)/.5);border-radius:var(--radius);display:inline-block;margin:10px 0 6px;direction:ltr}
+.check-circle{width:52px;height:52px;border-radius:999px;background:hsl(var(--primary)/.12);color:hsl(var(--primary));display:grid;place-items:center;margin:0 auto 10px}
+#sheet{position:fixed;inset:0 0 0 auto;margin:0;height:100dvh}
+#sheet .sheet-panel{background:hsl(var(--popover));border-inline-end:0;border-left:1px solid hsl(var(--border));width:min(420px,100vw);height:100dvh;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 20px)}
+#sheet[open] .sheet-panel{animation:slide .22s ease-out}
+@keyframes slide{from{transform:translateX(100%)}}
+.reg-item{padding:14px;margin-bottom:10px}
+.reg-item h4{margin:0 0 2px;font-size:15px}
+.reg-item .sub{font-size:13px;color:hsl(var(--muted-foreground))}
+.reg-item .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.reg-item code{direction:ltr;font-size:13px}
+
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);inset-inline-start:20px;z-index:100;background:hsl(var(--popover));border:1px solid hsl(var(--border));border-radius:var(--radius);padding:14px 16px;box-shadow:0 10px 30px hsl(0 0% 0%/.18);font-size:14px;max-width:360px;transform:translateY(20px);opacity:0;pointer-events:none;transition:all .2s}
+.toast.show{transform:none;opacity:1}
+.toast b{display:block}
+/* ===== Visitor tools ===== */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tool-card{padding:24px;display:flex;flex-direction:column;gap:14px}
+.tool-card h3{margin:0;font-size:20px}
+.tool-card p{margin:0;color:hsl(var(--muted-foreground))}
+.tool-card .btn{align-self:flex-start;margin-top:auto}
+.tool-preview{border:1px solid hsl(var(--border));border-radius:calc(var(--radius) - 2px);background:hsl(var(--muted)/.5);padding:16px 18px;display:grid;gap:10px;min-height:150px;align-content:start}
+.tp-ar{font-size:14px;color:hsl(var(--muted-foreground))}
+.tp-tr{font-size:16px;font-weight:500;direction:ltr;text-align:left}
+.tp-live{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:hsl(var(--destructive))}
+.tp-live::before{content:"";width:7px;height:7px;border-radius:99px;background:currentColor}
+.tp-note{font-size:14px;line-height:1.9;background:repeating-linear-gradient(transparent 0 26px,hsl(var(--border)) 26px 27px);padding-top:2px}
+.tp-meta{font-size:12px;color:hsl(var(--muted-foreground));display:flex;justify-content:space-between}
+@media (max-width:760px){.tools-grid{grid-template-columns:1fr}}
+.dialog-panel.wide{width:min(780px,calc(100vw - 24px))}
+.textarea{width:100%;min-height:96px;border-radius:calc(var(--radius) - 2px);border:1px solid hsl(var(--input));background:hsl(var(--background));color:hsl(var(--foreground));padding:10px 12px;font:15px/1.8 var(--font);resize:vertical}
+.textarea:focus-visible{outline:none;box-shadow:0 0 0 2px hsl(var(--background)),0 0 0 4px hsl(var(--ring))}
+.tr-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.tr-controls>div{min-width:200px;flex:1}
+.tr-box{border:1px solid hsl(var(--border));border-radius:var(--radius);min-height:220px;max-height:44vh;overflow:auto;padding:4px 16px 12px;background:hsl(var(--muted)/.35)}
+.tr-line{padding:12px 0;border-bottom:1px dashed hsl(var(--border))}
+.tr-line:last-of-type{border-bottom:0}
+.tr-line .ar{font-size:14px;color:hsl(var(--muted-foreground))}
+.tr-line .tr{font-size:17px;margin-top:4px;unicode-bidi:plaintext;white-space:pre-wrap}
+.tr-line .tr.pending{color:hsl(var(--muted-foreground));font-size:14px}
+.tr-line .tr-err{color:hsl(var(--destructive));font-size:13px;margin-top:4px;display:flex;gap:8px;align-items:center}
+.tr-interim{color:hsl(var(--muted-foreground));font-style:italic;padding:10px 0 2px}
+.tr-empty{color:hsl(var(--muted-foreground));text-align:center;padding:60px 12px;font-size:14px}
+.btn-listen.on{background:hsl(var(--destructive));color:#fff}
+.btn-listen.on::before{content:"";width:8px;height:8px;border-radius:99px;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.status{font-size:13px;margin-top:10px;min-height:1.5em}
+.status.warn{color:hsl(var(--destructive))}
+.status.ok{color:hsl(var(--primary))}
+.dlg-foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.notes-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+.notes-toolbar .select{flex:1;min-width:200px}
+.notes-toolbar .input{flex:1;min-width:160px}
+.note-group h4{font-size:13.5px;margin:20px 0 8px;color:hsl(var(--muted-foreground));font-weight:600}
+.note-card{display:block;width:100%;text-align:start;cursor:pointer;padding:12px 14px;margin-bottom:8px;border:1px solid hsl(var(--border));border-radius:calc(var(--radius) - 2px);background:hsl(var(--card));color:inherit;font:inherit}
+.note-card:hover{border-color:hsl(var(--primary)/.5)}
+.note-card .top{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:hsl(var(--muted-foreground));margin-bottom:4px}
+.note-card b{display:block;font-size:15px}
+.note-card .snip{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;color:hsl(var(--muted-foreground));unicode-bidi:plaintext}
+.note-body{min-height:260px}
+.reg-item .row .btns{display:flex;gap:6px}
+/* ===== Tools marketing ===== */
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:28px}
+.feature+.feature{border-top:1px solid hsl(var(--border))}
+.feature.flip .feature-copy{order:2}
+.feature h3{font-family:var(--display);font-size:clamp(30px,3.6vw,40px);font-weight:700;margin:0 0 10px;line-height:1.3}
+.feature p{margin:0 0 18px;color:hsl(var(--muted-foreground));max-width:34em}
+.benefits{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:10px}
+.benefits li{display:flex;gap:10px;align-items:flex-start}
+.benefits svg{flex:none;margin-top:6px;color:hsl(var(--primary))}
+.mock{border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--card));box-shadow:0 18px 40px -24px hsl(var(--foreground)/.35);overflow:hidden}
+.mock-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid hsl(var(--border));font-size:13px}
+.mock-body{padding:6px 18px 16px}
+.mock-line{padding:12px 0;border-bottom:1px dashed hsl(var(--border))}
+.mock-line:last-child{border-bottom:0}
+.mock-line .ar{font-size:13.5px;color:hsl(var(--muted-foreground))}
+.mock-line .en{direction:ltr;text-align:left;font-size:16px;margin-top:2px}
+.mock-line .en.dim{color:hsl(var(--muted-foreground));font-style:italic}
+.mock-note{padding:14px 0;border-bottom:1px solid hsl(var(--border))}
+.mock-note:last-child{border-bottom:0}
+.mock-note small{color:hsl(var(--muted-foreground));font-size:12px;display:block}
+.mock-note b{display:block;font-size:15px;margin:2px 0}
+.mock-note span{font-size:14px;color:hsl(var(--muted-foreground))}
+@media (max-width:820px){.feature{grid-template-columns:1fr;gap:24px}.feature.flip .feature-copy{order:0}}
+/* ===== Lessons carousel & list page ===== */
+.lessons-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.lessons-head .section-head{margin-bottom:0}
+.swiper-nav{display:flex;gap:8px;align-items:center}
+.swiper{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(290px,340px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:2px 2px 10px;scrollbar-width:none;overscroll-behavior-x:contain}
+.swiper::-webkit-scrollbar{display:none}
+.swiper>*{scroll-snap-align:start}
+.swiper:focus-visible{outline:2px solid hsl(var(--ring));outline-offset:4px;border-radius:var(--radius)}
+.see-all{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;padding:24px;border:1px dashed hsl(var(--primary)/.45);border-radius:var(--radius);background:hsl(var(--primary)/.04);text-decoration:none;color:inherit}
+.see-all b{font-family:var(--display);font-size:30px;line-height:1.3}
+.see-all span{color:hsl(var(--muted-foreground));font-size:14px}
+.see-all:hover{background:hsl(var(--primary)/.08)}
+.next-date{font-size:12.5px;color:hsl(var(--primary));font-weight:600}
+@media (max-width:640px){.swiper{grid-auto-columns:84%}.swiper-nav .btn-icon{display:none}}
+#listView{padding-bottom:80px;min-height:70vh}
+.page-top{padding-block:40px 20px}
+.crumbs{font-size:13px;color:hsl(var(--muted-foreground));margin-bottom:6px}
+.crumbs a{color:inherit}
+.page-top h1{margin:0;font-size:clamp(28px,3.6vw,38px);line-height:1.35}
+.page-top p{margin:4px 0 0;color:hsl(var(--muted-foreground))}
+.result-count{font-size:13px;color:hsl(var(--muted-foreground));margin:-6px 0 14px}
+.how{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:14px;counter-reset:how}
+.how li{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start}
+.how li::before{counter-increment:how;content:counter(how,arabic-indic);width:30px;height:30px;border-radius:999px;border:1px solid hsl(var(--primary)/.4);color:hsl(var(--primary));display:grid;place-items:center;font-size:14px;font-weight:600}
+.how b{display:block;font-size:15.5px;line-height:1.6}
+.how span{color:hsl(var(--muted-foreground));font-size:14px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;padding-top:18px;border-top:1px solid hsl(var(--border));font-size:14px}
+.specs dt{color:hsl(var(--muted-foreground));white-space:nowrap}
+.specs dd{margin:0}
+.lang-chips{display:flex;flex-wrap:wrap;gap:6px}
+.find-strip{margin-top:32px;padding:18px 22px;display:flex;gap:14px;align-items:center;border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--muted)/.5)}
+.find-strip svg{flex:none;color:hsl(var(--primary))}
+.find-strip p{margin:0}
+.feature{align-items:start}
+.feature .mock{margin-top:8px}
+@media (max-width:820px){.feature .mock{order:-1}}
+.tool{display:flex;flex-direction:column;gap:8px}
+.tool .mock{margin-bottom:12px}
+.tool h3{font-family:var(--display);font-size:28px;font-weight:700;margin:0;line-height:1.3}
+.tool p{margin:0;color:hsl(var(--muted-foreground))}
+.tool-hint{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:hsl(var(--muted-foreground));margin-top:4px}
+.tool-hint svg{flex:none;margin-top:4px}
+.tool{padding:24px}
+.tool-icon{width:52px;height:52px;border-radius:14px;background:hsl(var(--primary)/.1);color:hsl(var(--primary));display:grid;place-items:center;margin-bottom:8px}
+.tool h3{font-family:var(--font);font-size:19px;font-weight:600}
+/* ===== Profile ===== */
+#profile{padding-bottom:80px;min-height:70vh}
+.profile-head{display:flex;gap:16px;align-items:center;padding-block:40px 24px;flex-wrap:wrap}
+.p-avatar{width:56px;height:56px;border-radius:999px;background:hsl(var(--primary)/.12);color:hsl(var(--primary));display:grid;place-items:center;font-size:20px;font-weight:700;flex:none}
+.profile-head h1{margin:0;font-size:26px;line-height:1.4}
+.profile-head p{margin:0;color:hsl(var(--muted-foreground))}
+.p-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--card));margin-bottom:24px}
+.p-stats>div{padding:14px 18px;font-size:13px;color:hsl(var(--muted-foreground))}
+.p-stats>div+div{border-inline-start:1px solid hsl(var(--border))}
+.p-stats b{display:block;color:hsl(var(--foreground));font-size:18px;font-weight:600;line-height:1.5}
+@media (max-width:640px){.p-stats{grid-template-columns:1fr}.p-stats>div+div{border-inline-start:0;border-top:1px solid hsl(var(--border))}}
+.p-tabs{display:flex;gap:4px;border-bottom:1px solid hsl(var(--border));margin-bottom:24px;overflow-x:auto}
+.p-tabs a{padding:10px 14px;text-decoration:none;color:hsl(var(--muted-foreground));border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
+.p-tabs a:hover{color:hsl(var(--foreground))}
+.p-tabs a[aria-current="page"]{color:hsl(var(--foreground));border-color:hsl(var(--primary))}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.panel-head h2{margin:0;font-size:20px;line-height:1.5}
+.pane{max-width:860px}
+.bookings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.bookings-grid .reg-item{margin:0}
+.nav a[aria-current="page"]{color:hsl(var(--foreground));background:hsl(var(--accent))}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="#top" class="brand" aria-label="مجالس الحرمين — الصفحة الرئيسية">
+      <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="6"><rect x="22" y="22" width="56" height="56"/><rect x="22" y="22" width="56" height="56" transform="rotate(45 50 50)"/></g></svg>
+      مجالس الحرمين
+    </a>
+    <nav class="nav" aria-label="التنقل الرئيسي">
+      <a href="#about">عن الحرمين</a>
+      <a href="#how">طريقة التسجيل</a>
+      <a href="#all-lessons" data-navlist>الدروس</a>
+      <a href="#tools">الأدوات</a>
+      <a href="#faq">الأسئلة الشائعة</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-icon" id="themeBtn" aria-label="تبديل المظهر">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a href="dashboard/" class="btn btn-ghost" title="للنموذج الأولي فقط">لوحة التحكم</a>
+      <a href="#profile" class="btn btn-outline" id="myBtn">ملفي <span class="count-pill" id="myCount">٠</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>مجالس العلم في الحرمين الشريفين</h1>
+        <p class="lead">اطّلع على الدروس العلمية المقامة في المسجد الحرام والمسجد النبوي، واعرف موعد كل درس ومكانه، ثم احجز مقعدك في دقيقة واحدة.</p>
+        <div class="hero-ctas">
+          <a href="#lessons" class="btn btn-default btn-lg">استعرض الدروس</a>
+          <a href="#how" class="btn btn-outline btn-lg">كيف يتم التسجيل؟</a>
+        </div>
+        <div class="masjid-pick">
+          <button data-jump="haram"><strong>المسجد الحرام</strong><small>مكة المكرمة · <span data-count="haram">–</span> دروس</small></button>
+          <button data-jump="nabawi"><strong>المسجد النبوي</strong><small>المدينة المنورة · <span data-count="nabawi">–</span> دروس</small></button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+          <g transform="translate(200 200)">
+            <circle r="186" class="star-line draw" pathLength="1" stroke-width="1"/>
+            <g class="star-fill"><rect x="-120" y="-120" width="240" height="240"/><rect x="-120" y="-120" width="240" height="240" transform="rotate(45)"/></g>
+            <rect x="-120" y="-120" width="240" height="240" class="star-line draw d2" pathLength="1" stroke-width="1.5"/>
+            <rect x="-120" y="-120" width="240" height="240" transform="rotate(45)" class="star-line draw d2" pathLength="1" stroke-width="1.5"/>
+            <rect x="-86" y="-86" width="172" height="172" transform="rotate(22.5)" class="star-line draw d3" pathLength="1" stroke-width="1"/>
+            <rect x="-86" y="-86" width="172" height="172" transform="rotate(67.5)" class="star-line draw d3" pathLength="1" stroke-width="1"/>
+            <circle r="150" class="star-line draw d3" pathLength="1" stroke-width=".6" stroke-dasharray="2 6"/>
+          </g>
+        </svg>
+        <div class="center-text"><div><b>حِلَقُ العلم</b><span>في رحاب الحرمين</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="block" id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2>دروس مفتوحة للزوار والمقيمين</h2>
+        <p>تُعقد الدروس بعد الصلوات في أروقة الحرمين، ويشرحها مشايخ متخصصون في العقيدة والفقه والتفسير والحديث واللغة العربية. الحضور مجاني، والتسجيل يضمن لك مقعدًا ويذكّرك بالموعد.</p>
+      </div>
+      <div class="about-grid">
+        <article class="card about-card">
+          <h3>المسجد الحرام</h3>
+          <div class="city">مكة المكرمة</div>
+          <p>تُقام الدروس في الرواق العثماني والتوسعة السعودية الثالثة، مع دروس مخصصة للمعتمرين تشرح أحكام العمرة والطواف والسعي.</p>
+          <div class="facts">
+            <div><b data-count="haram">–</b>دروس متاحة</div>
+            <div><b>٤</b>لغات ترجمة</div>
+            <div><b>يوميًا</b>بعد الصلوات</div>
+          </div>
+        </article>
+        <article class="card about-card">
+          <h3>المسجد النبوي</h3>
+          <div class="city">المدينة المنورة</div>
+          <p>مجالس في شرح السنة والسيرة النبوية وآداب الزيارة، ومصلى مخصص للنساء يضم دروسًا في فقه الأسرة وتحفيظ القرآن.</p>
+          <div class="facts">
+            <div><b data-count="nabawi">–</b>دروس متاحة</div>
+            <div><b>٣</b>لغات ترجمة</div>
+            <div><b>يوميًا</b>بعد الصلوات</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="block muted-bg" id="how">
+    <div class="container">
+      <div class="section-head">
+        <h2>ثلاث خطوات للتسجيل</h2>
+        <p>لا تحتاج إلى حساب. يكفي اسمك ورقم جوالك.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">١</div><h3>اختر الدرس</h3><p>صفِّ الدروس حسب المسجد أو المجال، واقرأ تفاصيل الموعد والمكان واللغة.</p></div>
+        <div class="step"><div class="n">٢</div><h3>أدخل بياناتك</h3><p>اسمك ورقم جوالك، ونوع الحضور إن كان الدرس مخصصًا للرجال أو النساء.</p></div>
+        <div class="step"><div class="n">٣</div><h3>احضر برقم الحجز</h3><p>تحصل على رقم حجز فوري، وتجد كل حجوزاتك في «ملفي» أعلى الصفحة.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LESSONS -->
+  <section class="block" id="lessons">
+    <div class="container">
+      <div class="lessons-head">
+        <div class="section-head">
+          <h2>الدروس القادمة</h2>
+          <p>أقرب الدروس موعدًا في الحرمين. اضغط على أي درس لعرض تفاصيله والتسجيل فيه.</p>
+        </div>
+        <div class="swiper-nav">
+          <button class="btn btn-outline btn-icon" id="swPrev" aria-label="الدروس السابقة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+          <button class="btn btn-outline btn-icon" id="swNext" aria-label="الدروس التالية"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <a href="#all-lessons" class="btn btn-default">عرض كل الدروس</a>
+        </div>
+      </div>
+      <div class="swiper" id="swiper" tabindex="0" role="region" aria-roledescription="carousel" aria-label="الدروس القادمة"></div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="block" id="tools">
+    <div class="container">
+      <div class="section-head">
+        <h2>أدوات ترافقك في المجلس</h2>
+        <p>مجانية لكل زائر، وتجدها في «ملفي».</p>
+      </div>
+      <div class="tools-grid">
+        <article class="card tool">
+          <div class="tool-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg></div>
+          <h3>الترجمة الفورية</h3>
+          <p>افهم كلام الشيخ بلغتك في أثناء الدرس.</p>
+          <div class="tool-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«ملفي» ← الترجمة الفورية، ثم قرّب جوالك من مكبّر الصوت.</span></div>
+        </article>
+        <article class="card tool">
+          <div class="tool-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h4M2 10h4M2 14h4M2 18h4"/><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M16 2v20"/></svg></div>
+          <h3>ملاحظاتي</h3>
+          <p>دوّن فوائد كل درس وارجع إليها متى شئت.</p>
+          <div class="tool-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«ملفي» ← ملاحظاتي، ثم اختر الدرس واكتب.</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block muted-bg" id="faq">
+    <div class="container">
+      <div class="section-head"><h2>الأسئلة الشائعة</h2></div>
+      <div class="faq">
+        <details><summary>هل حضور الدروس مجاني؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary><p>نعم، جميع الدروس مجانية. التسجيل يضمن لك مقعدًا قريبًا من الشيخ ويساعد المنظمين على تقدير أعداد الحضور.</p></details>
+        <details><summary>هل يمكنني الحضور دون تسجيل؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary><p>يمكنك الحضور، لكن الأولوية في المقاعد المخصصة للمسجلين. احضر قبل بداية الدرس بعشر دقائق وأبرز رقم الحجز للمنظم.</p></details>
+        <details><summary>هل تتوفر ترجمة لغير الناطقين بالعربية؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary><p>بعض الدروس تُترجم فوريًا، وتظهر لغات الترجمة المتاحة في بطاقة كل درس. أحضر سماعة أذن للاستماع عبر تطبيق الترجمة.</p></details>
+        <details><summary>كيف ألغي تسجيلي؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary><p>افتح «ملفي» من أعلى الصفحة واضغط «إلغاء التسجيل» بجانب الدرس، ليتاح المقعد لغيرك.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="card cta-band">
+        <div><h2>مقعدك في حلقة العلم ينتظرك</h2><p>اختر درسًا الآن، وسجّل قبل أن تكتمل المقاعد.</p></div>
+        <a href="#lessons" class="btn btn-default btn-lg">سجّل في درس</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="listView" hidden>
+  <div class="container">
+    <div class="page-top">
+      <div class="crumbs"><a href="#top">الرئيسية</a> / الدروس</div>
+      <h1>جميع الدروس</h1>
+      <p>دروس المسجد الحرام والمسجد النبوي. صفِّها حسب المسجد أو المجال، أو ابحث باسم الدرس أو الشيخ.</p>
+    </div>
+    <div class="toolbar">
+      <div class="tabs" role="tablist" aria-label="اختيار المسجد">
+        <button class="tab" role="tab" data-masjid="all" aria-selected="true">الكل</button>
+        <button class="tab" role="tab" data-masjid="haram" aria-selected="false">المسجد الحرام</button>
+        <button class="tab" role="tab" data-masjid="nabawi" aria-selected="false">المسجد النبوي</button>
+      </div>
+      <div class="filters">
+        <label class="sr-only" for="cat">المجال</label>
+        <select class="select" id="cat"><option value="">كل المجالات</option></select>
+        <label class="sr-only" for="q">بحث</label>
+        <input class="input" id="q" type="search" placeholder="ابحث باسم الدرس أو الشيخ">
+      </div>
+    </div>
+    <div class="result-count" id="resultCount" aria-live="polite"></div>
+    <div class="lessons-grid" id="grid"></div>
+  </div>
+</main>
+
+<main id="profile" hidden>
+  <div class="container">
+    <div class="profile-head" id="profHead"></div>
+    <div class="p-stats" id="profStats"></div>
+    <nav class="p-tabs" aria-label="أقسام الملف">
+      <a href="#profile/bookings" data-ptab="bookings">حجوزاتي</a>
+      <a href="#profile/notes" data-ptab="notes">ملاحظاتي</a>
+      <a href="#profile/translate" data-ptab="translate">الترجمة الفورية</a>
+    </nav>
+    <section class="pane" data-pane="bookings" aria-labelledby="bkTitle"><div class="panel-head"><div><h2 id="bkTitle">حجوزاتي</h2><p class="hint" style="margin:0">الدروس التي سجّلت فيها وأرقام الحجز. أبرز الرقم للمنظّم عند الحضور.</p></div></div><div id="myList"></div></section>
+    <section class="pane" data-pane="notes" id="ntPanel"></section>
+    <section class="pane" data-pane="translate" id="trPanel"></section>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <span>مجالس الحرمين — منصة تعريفية بالدروس العلمية في المسجد الحرام والمسجد النبوي</span>
+    <span>أسماء المشايخ والمواعيد في هذه النسخة بيانات تجريبية</span>
+  </div>
+</footer>
+
+<!-- Lesson dialog -->
+<dialog id="lessonDialog" aria-labelledby="dlgTitle">
+  <div class="dialog-panel" id="dlgPanel"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- Data ---------- */
+const PRAYERS = {fajr:"بعد صلاة الفجر",asr:"بعد صلاة العصر",maghrib:"بعد صلاة المغرب",isha:"بعد صلاة العشاء"};
+const DAYS = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const LESSONS = [
+ {id:"h1",masjid:"haram",cat:"العقيدة",title:"شرح كتاب التوحيد",sheikh:"الشيخ د. عبدالرحمن بن سالم",place:"الرواق العثماني — باب الملك عبدالعزيز",prayer:"maghrib",days:[0,2],mins:50,capacity:120,sessions:24,langs:["العربية","الإنجليزية"],audience:"all",desc:"شرح متن كتاب التوحيد بابًا بابًا، مع بيان الأدلة وتقريب المسائل لطالب العلم المبتدئ."},
+ {id:"h2",masjid:"haram",cat:"التفسير",title:"تفسير جزء عمّ",sheikh:"الشيخ د. خالد بن إبراهيم",place:"التوسعة السعودية الثالثة — الدور الأول",prayer:"fajr",days:[1,3,5],mins:40,capacity:150,sessions:30,langs:["العربية","الأردية","الإندونيسية"],audience:"all",desc:"تفسير ميسّر لسور جزء عمّ مع وقفات تدبرية وفوائد سلوكية، مناسب لعامة الزوار."},
+ {id:"h3",masjid:"haram",cat:"الفقه",title:"أحكام العمرة للمعتمرين",sheikh:"الشيخ أ. فهد بن عبدالله",place:"الرواق العثماني — قرب باب الصفا",prayer:"asr",days:[0,1,2,3,4,5,6],mins:30,capacity:200,sessions:1,langs:["العربية","الإنجليزية","الأردية","الفرنسية"],audience:"all",desc:"درس يومي قصير يشرح أركان العمرة وواجباتها وأخطاء المعتمرين الشائعة في الطواف والسعي."},
+ {id:"h4",masjid:"haram",cat:"القرآن الكريم",title:"حلقة تصحيح التلاوة للكبار",sheikh:"الشيخ القارئ محمد بن يوسف",place:"صحن المطاف — الدور الأرضي",prayer:"isha",days:[1,3],mins:60,capacity:40,sessions:16,langs:["العربية"],audience:"men",desc:"حلقة عملية لتصحيح تلاوة سورة الفاتحة وقصار السور، بإشراف قارئ مجاز."},
+ {id:"h5",masjid:"haram",cat:"الحديث",title:"شرح الأربعين النووية",sheikh:"الشيخ د. سليمان بن ناصر",place:"التوسعة السعودية الثالثة — الدور الأرضي",prayer:"maghrib",days:[4],mins:50,capacity:100,sessions:20,langs:["العربية"],audience:"all",desc:"شرح الأحاديث الأربعين التي عليها مدار الإسلام، مع ربطها بواقع المسلم اليوم."},
+ {id:"n1",masjid:"nabawi",cat:"الحديث",title:"شرح صحيح البخاري — كتاب العلم",sheikh:"الشيخ د. عبدالمحسن بن حمد",place:"التوسعة الشمالية — قرب باب الملك فهد",prayer:"maghrib",days:[0,1,2],mins:55,capacity:130,sessions:28,langs:["العربية","الإنجليزية"],audience:"all",desc:"قراءة وشرح لأحاديث كتاب العلم من صحيح البخاري، مع التعليق على تراجم الأبواب."},
+ {id:"n2",masjid:"nabawi",cat:"السيرة",title:"دروس في السيرة النبوية",sheikh:"الشيخ د. أحمد بن علي",place:"الروضة الشريفة — الجهة الغربية",prayer:"asr",days:[3,4],mins:45,capacity:90,sessions:18,langs:["العربية","الإندونيسية"],audience:"all",desc:"رحلة مع أحداث السيرة من المولد إلى الهجرة، مع الوقوف على المعالم المرتبطة بها في المدينة."},
+ {id:"n3",masjid:"nabawi",cat:"الفقه",title:"آداب زيارة المسجد النبوي",sheikh:"الشيخ أ. ماجد بن سعد",place:"الساحات الجنوبية — المظلة ١٢",prayer:"fajr",days:[0,1,2,3,4,5,6],mins:25,capacity:180,sessions:1,langs:["العربية","الإنجليزية","الأردية"],audience:"all",desc:"درس قصير يوضح السنن والآداب عند زيارة المسجد النبوي والسلام على النبي ﷺ وصاحبيه."},
+ {id:"n4",masjid:"nabawi",cat:"اللغة العربية",title:"متن الآجرومية في النحو",sheikh:"الشيخ د. يحيى بن عمر",place:"التوسعة الشرقية — الدور الأول",prayer:"isha",days:[1,3],mins:50,capacity:60,sessions:12,langs:["العربية"],audience:"all",desc:"مدخل إلى علم النحو عبر متن الآجرومية، مع تمارين إعراب قصيرة في نهاية كل مجلس."},
+ {id:"n5",masjid:"nabawi",cat:"الفقه",title:"فقه الأسرة للنساء",sheikh:"أ. د. نورة بنت عبدالعزيز",place:"مصلى النساء — باب ٢٥",prayer:"asr",days:[0,2],mins:45,capacity:80,sessions:10,langs:["العربية","الإنجليزية"],audience:"women",desc:"مجلس نسائي يتناول أحكام الأسرة والحقوق الزوجية وتربية الأبناء بأسلوب قريب وعملي."}
+];
+const MASJID = {haram:"المسجد الحرام",nabawi:"المسجد النبوي"};
+const AUD = {all:"للجميع",men:"للرجال",women:"للنساء"};
+
+/* ---------- Helpers ---------- */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const nf = new Intl.NumberFormat("ar-SA");
+const esc = s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let hijri, greg;
+try{ hijri = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}); }catch(e){ hijri=null; }
+greg = new Intl.DateTimeFormat("ar-SA-u-ca-gregory",{weekday:"long",day:"numeric",month:"long"});
+function nextDate(l){
+  const d=new Date(); d.setHours(0,0,0,0);
+  for(let i=0;i<8;i++){ const t=new Date(d); t.setDate(d.getDate()+i); if(l.days.includes(t.getDay())) return t; }
+  return d;
+}
+function daysText(l){ return l.days.length===7 ? "يوميًا" : l.days.map(i=>DAYS[i]).join(" و"); }
+function dateText(l){ const t=nextDate(l); return greg.format(t)+(hijri?" — "+hijri.format(t):""); }
+function code(l){ const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let s=""; for(let i=0;i<5;i++) s+=a[Math.floor(Math.random()*a.length)]; return (l.masjid==="haram"?"HR-":"NB-")+s; }
+
+const icon = {
+  cal:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+  clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  pin:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  lang:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>',
+  check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>',
+  x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>'
+};
+
+/* ---------- Storage (db capability with local fallback) ---------- */
+const store = {
+  db:null, seats:{}, regs:{},
+  local(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(k)||"null"); localStorage.setItem(k,JSON.stringify(v)); }catch(e){ return null; } },
+  init(){
+    this.regs = this.local("hl_regs")||{};
+    this.seats = this.local("hl_seats")||{};
+    render(); renderMine();
+    if(window.claude && typeof window.claude.use==="function"){
+      window.claude.use("db").then(db=>{
+        if(!db) return;
+        this.db=db;
+        notes.attach(db);
+        db.collection("seats").onSnapshot(s=>{
+          const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=Math.max(0,Number(v.count)||0); });
+          this.seats=m; render(); refreshDialog();
+        },()=>{});
+        db.collection("data/users/me").onSnapshot(s=>{
+          const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v&&LESSONS.some(l=>l.id===d.id)) m[d.id]=v; });
+          this.regs=m; render(); renderMine(); refreshDialog();
+        },()=>{});
+      }).catch(()=>{});
+    }
+  },
+  async bump(id,delta){
+    if(this.db){
+      const ref=this.db.collection("seats").doc(id);
+      const snap=await ref.get();
+      const cur=snap.exists?(Number(snap.data().count)||0):0;
+      await ref.set({count:Math.max(0,cur+delta)});
+    }else{
+      this.seats[id]=Math.max(0,(this.seats[id]||0)+delta); this.local("hl_seats",this.seats);
+    }
+  },
+  async register(l,data){
+    const rec={...data,lessonId:l.id,code:code(l),at:new Date().toISOString()};
+    if(this.db){ await this.db.collection("data/users/me").doc(l.id).set(rec); }
+    else { this.regs[l.id]=rec; this.local("hl_regs",this.regs); }
+    if(!this.db) this.regs[l.id]=rec;
+    await this.bump(l.id,1);
+    if(!this.db) { render(); renderMine(); }
+    return rec;
+  },
+  async cancel(id){
+    if(this.db){ await this.db.collection("data/users/me").doc(id).delete(); }
+    else { delete this.regs[id]; this.local("hl_regs",this.regs); }
+    await this.bump(id,-1);
+    if(!this.db){ render(); renderMine(); }
+  }
+};
+const taken = l => store.seats[l.id]||0;
+const left = l => Math.max(0,l.capacity-taken(l));
+
+/* ---------- Listing ---------- */
+const state={masjid:"all",cat:"",q:""};
+function setupFilters(){
+  const cats=[...new Set(LESSONS.map(l=>l.cat))];
+  $("#cat").insertAdjacentHTML("beforeend",cats.map(c=>`<option>${esc(c)}</option>`).join(""));
+  $$("[data-masjid]").forEach(t=>t.addEventListener("click",()=>setMasjid(t.dataset.masjid)));
+  $("#cat").addEventListener("change",e=>{state.cat=e.target.value;render();});
+  $("#q").addEventListener("input",e=>{state.q=e.target.value.trim();render();});
+  $$("[data-jump]").forEach(b=>b.addEventListener("click",()=>{setMasjid(b.dataset.jump);location.hash="#all-lessons";}));
+  const sw=$("#swiper"), step=()=>{ const c=sw.firstElementChild; return c?c.getBoundingClientRect().width+16:320; };
+  const dir=getComputedStyle(sw).direction==="rtl"?-1:1;
+  $("#swNext").onclick=()=>sw.scrollBy({left:dir*step()});
+  $("#swPrev").onclick=()=>sw.scrollBy({left:-dir*step()});
+  sw.addEventListener("scroll",swiperState,{passive:true}); window.addEventListener("resize",swiperState);
+  sw.addEventListener("keydown",e=>{ if(e.key==="ArrowLeft"){ e.preventDefault(); sw.scrollBy({left:-step()}); } if(e.key==="ArrowRight"){ e.preventDefault(); sw.scrollBy({left:step()}); } });
+  ["haram","nabawi"].forEach(m=>$$(`[data-count="${m}"]`).forEach(e=>e.textContent=nf.format(LESSONS.filter(l=>l.masjid===m).length)));
+}
+function swiperState(){ const sw=$("#swiper"); if(!sw) return; const max=sw.scrollWidth-sw.clientWidth, pos=Math.abs(sw.scrollLeft); $("#swPrev").disabled=pos<=4; $("#swNext").disabled=pos>=max-4; }
+const PRAYER_ORDER=["fajr","asr","maghrib","isha"];
+function upcoming(n){ return LESSONS.map(l=>({l,d:nextDate(l)})).sort((a,b)=>a.d-b.d||PRAYER_ORDER.indexOf(a.l.prayer)-PRAYER_ORDER.indexOf(b.l.prayer)).slice(0,n); }
+function renderSwiper(){
+  const sw=$("#swiper"); if(!sw) return;
+  const todayK=new Date().toDateString();
+  sw.innerHTML=upcoming(5).map(({l,d})=>card(l,(d.toDateString()===todayK?"اليوم":greg.format(d))+" · "+PRAYERS[l.prayer])).join("")+
+    `<a href="#all-lessons" class="see-all"><b>كل الدروس</b><span>${nf.format(LESSONS.length)} دروس في المسجد الحرام والمسجد النبوي، مع تصفية حسب المسجد والمجال.</span><span class="btn btn-default btn-sm" style="color:hsl(var(--primary-foreground))">عرض القائمة</span></a>`;
+  $$("[data-open]",sw).forEach(b=>b.addEventListener("click",()=>openLesson(b.dataset.open)));
+  swiperState();
+}
+function setMasjid(m){ state.masjid=m; $$("[data-masjid]").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.masjid===m))); render(); }
+function render(){
+  const q=state.q;
+  const list=LESSONS.filter(l=>(state.masjid==="all"||l.masjid===state.masjid)&&(!state.cat||l.cat===state.cat)&&(!q||l.title.includes(q)||l.sheikh.includes(q)||l.cat.includes(q)));
+  const g=$("#grid");
+  if(!list.length){ g.innerHTML=`<div class="empty">لا توجد دروس تطابق البحث. جرّب مجالًا آخر أو امسح كلمة البحث.<div style="margin-top:12px"><button class="btn btn-outline btn-sm" id="clearF">مسح عوامل التصفية</button></div></div>`;
+    $("#clearF").onclick=()=>{state.cat="";state.q="";$("#cat").value="";$("#q").value="";setMasjid("all");}; }
+  else g.innerHTML=list.map(l=>card(l)).join("");
+  $("#resultCount").textContent=list.length===LESSONS.length?`${nf.format(list.length)} دروس`:`${nf.format(list.length)} من ${nf.format(LESSONS.length)} دروس`;
+  $$("[data-open]",g).forEach(b=>b.addEventListener("click",()=>openLesson(b.dataset.open)));
+  renderSwiper();
+  $("#myCount").textContent=nf.format(Object.keys(store.regs).length);
+}
+function card(l,when){
+  const t=taken(l), pct=Math.min(100,Math.round(t/l.capacity*100)), reg=store.regs[l.id];
+  return `<article class="card lesson">
+    <div class="lesson-top"><span class="badge badge-secondary">${MASJID[l.masjid]}</span><span class="badge badge-outline">${esc(l.cat)}</span></div>
+    <div>${when?`<div class="next-date">${esc(when)}</div>`:""}<h3>${esc(l.title)}</h3><div class="by">${esc(l.sheikh)}</div></div>
+    <div class="meta">
+      <div>${icon.cal}<span>${daysText(l)} — ${PRAYERS[l.prayer]}</span></div>
+      <div>${icon.pin}<span>${esc(l.place)}</span></div>
+      <div>${icon.lang}<span>${l.langs.join("، ")}</span></div>
+    </div>
+    <div class="seats">
+      <div class="seats-row"><span>${l.audience!=="all"?`<span class="badge badge-gold">${AUD[l.audience]}</span>`:"المقاعد المتبقية"}</span><span>${nf.format(left(l))} من ${nf.format(l.capacity)}</span></div>
+      <div class="progress" role="progressbar" aria-label="نسبة الحجز" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+    </div>
+    <div class="lesson-actions">
+      ${reg?`<button class="btn btn-secondary" data-open="${l.id}"><span class="registered-tag">${icon.check} مسجّل</span></button>`
+        :`<button class="btn btn-default" data-open="${l.id}" ${left(l)?"":"disabled"}>${left(l)?"التفاصيل والتسجيل":"اكتملت المقاعد"}</button>`}
+    </div>
+  </article>`;
+}
+
+/* ---------- Dialog ---------- */
+const dlg=$("#lessonDialog"); let current=null, view="form";
+function openLesson(id){ current=LESSONS.find(l=>l.id===id); view=store.regs[id]?"done":"form"; paint(); dlg.showModal(); }
+function refreshDialog(){ if(dlg.open && current && view!=="form") paint(); }
+dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+function paint(){
+  const l=current, reg=store.regs[l.id];
+  const head=`<div class="dialog-head"><div><div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><span class="badge badge-secondary">${MASJID[l.masjid]}</span><span class="badge badge-outline">${esc(l.cat)}</span>${l.audience!=="all"?`<span class="badge badge-gold">${AUD[l.audience]}</span>`:""}</div><h2 id="dlgTitle">${esc(l.title)}</h2><div class="hint" style="margin:0">${esc(l.sheikh)}</div></div><button class="btn btn-ghost btn-icon" data-x aria-label="إغلاق">${icon.x}</button></div>`;
+  const details=`<p style="margin:12px 0 0">${esc(l.desc)}</p>
+    <div class="detail-grid">
+      <div>أقرب موعد<b>${dateText(l)}</b></div>
+      <div>الوقت<b>${PRAYERS[l.prayer]} · ${nf.format(l.mins)} دقيقة</b></div>
+      <div>أيام الدرس<b>${daysText(l)}</b></div>
+      <div>عدد المجالس<b>${l.sessions===1?"درس مستقل":nf.format(l.sessions)+" مجلسًا"}</b></div>
+      <div style="grid-column:1/-1">المكان<b>${esc(l.place)}</b></div>
+      <div>الترجمة<b>${l.langs.join("، ")}</b></div>
+      <div>المقاعد المتبقية<b>${nf.format(left(l))} من ${nf.format(l.capacity)}</b></div>
+    </div>`;
+  let body;
+  if(view==="done" && reg){
+    body=`<div class="success"><div class="check-circle">${icon.check}</div><h3 style="margin:0">تم تسجيلك في الدرس</h3><div class="code">${esc(reg.code)}</div><p class="hint">أبرز رقم الحجز للمنظم عند الحضور، وتجده دائمًا في «ملفي». احضر قبل بداية الدرس بعشر دقائق.</p>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap"><button class="btn btn-default" data-x>تم</button><button class="btn btn-outline" data-ln>ملاحظات الدرس</button><button class="btn btn-destructive" data-cancel>إلغاء التسجيل</button></div></div>`;
+  }else{
+    const fixedG = l.audience==="men"?"male":l.audience==="women"?"female":"";
+    body=`<form id="regForm" novalidate>
+      <div class="form-grid">
+        <div class="full"><label class="label" for="f_name">الاسم الكامل</label><input class="input" id="f_name" name="name" autocomplete="name" placeholder="مثال: عبدالله محمد"><div class="field-error" data-err="name"></div></div>
+        <div><label class="label" for="f_phone">رقم الجوال</label><input class="input" id="f_phone" name="phone" type="tel" inputmode="tel" dir="ltr" style="text-align:right" autocomplete="tel" placeholder="05XXXXXXXX"><div class="field-error" data-err="phone"></div></div>
+        <div><label class="label" for="f_email">البريد الإلكتروني <span class="hint">(اختياري)</span></label><input class="input" id="f_email" name="email" type="email" dir="ltr" style="text-align:right" autocomplete="email" placeholder="name@example.com"><div class="field-error" data-err="email"></div></div>
+        <div class="full"><span class="label" id="g_lbl">الجنس</span>
+          <div class="radio-group" role="radiogroup" aria-labelledby="g_lbl">
+            <label class="radio-item"><input type="radio" name="gender" value="male" ${fixedG==="male"?"checked":""} ${fixedG==="female"?"disabled":""}><span>ذكر</span></label>
+            <label class="radio-item"><input type="radio" name="gender" value="female" ${fixedG==="female"?"checked":""} ${fixedG==="male"?"disabled":""}><span>أنثى</span></label>
+          </div>${fixedG?`<div class="hint">هذا الدرس ${AUD[l.audience]} فقط.</div>`:""}<div class="field-error" data-err="gender"></div></div>
+        <div class="full"><label class="label" for="f_lang">لغة الاستماع</label><select class="select" id="f_lang" name="lang">${l.langs.map(x=>`<option>${x}</option>`).join("")}</select></div>
+        <div class="full"><label class="checkbox"><input type="checkbox" name="agree"><span>أتعهد بالحضور في الموعد، وإلغاء التسجيل إن تعذّر حضوري ليُتاح المقعد لغيري.</span></label><div class="field-error" data-err="agree"></div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap"><button type="submit" class="btn btn-default btn-lg" style="flex:1">تأكيد التسجيل</button><button type="button" class="btn btn-outline btn-lg" data-x>إلغاء</button></div>
+    </form>`;
+  }
+  $("#dlgPanel").innerHTML=head+`<div class="dialog-body">${details}<div class="separator"></div>${body}</div>`;
+  $$("[data-x]",dlg).forEach(b=>b.onclick=()=>dlg.close());
+  const c=$("[data-cancel]",dlg); if(c) c.onclick=async()=>{ c.disabled=true; await store.cancel(l.id); view="form"; toast("تم إلغاء التسجيل","أُتيح مقعدك لزائر آخر."); paint(); };
+  const ln=$("[data-ln]",dlg); if(ln) ln.onclick=()=>{ dlg.close(); openNotes({filter:l.id}); };
+  const f=$("#regForm"); if(f) f.addEventListener("submit",e=>submit(e,l));
+}
+async function submit(e,l){
+  e.preventDefault();
+  const f=e.target, fd=new FormData(f);
+  const v={name:(fd.get("name")||"").trim(),phone:(fd.get("phone")||"").replace(/[\s-]/g,""),email:(fd.get("email")||"").trim(),gender:fd.get("gender")||"",lang:fd.get("lang"),agree:!!fd.get("agree")};
+  const errs={};
+  if(v.name.split(/\s+/).filter(Boolean).length<2) errs.name="اكتب اسمك الأول واسم العائلة.";
+  if(!/^(05\d{8}|\+?[1-9]\d{8,14})$/.test(v.phone)) errs.phone="اكتب رقم جوال صحيحًا، مثل 0512345678 أو ‎+966512345678.";
+  if(v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) errs.email="صيغة البريد غير صحيحة.";
+  if(!v.gender) errs.gender="اختر الجنس لتحديد مكان الجلوس.";
+  if(!v.agree) errs.agree="وافق على التعهد لإكمال التسجيل.";
+  $$("[data-err]",f).forEach(el=>{ const k=el.dataset.err; el.textContent=errs[k]||""; const inp=f.elements[k]; if(inp&&inp.setAttribute) inp.setAttribute("aria-invalid",errs[k]?"true":"false"); });
+  const first=Object.keys(errs)[0]; if(first){ const el=f.elements[first]; (el.length?el[0]:el).focus(); return; }
+  if(!left(l)){ toast("اكتملت المقاعد","اختر درسًا آخر أو موعدًا لاحقًا."); return; }
+  const btn=f.querySelector("[type=submit]"); btn.disabled=true; btn.textContent="جارٍ التسجيل…";
+  try{ const rec=await store.register(l,v); store.regs[l.id]=store.regs[l.id]||rec; view="done"; paint(); toast("تم تسجيلك",l.title); }
+  catch(err){ btn.disabled=false; btn.textContent="تأكيد التسجيل"; toast("تعذّر حفظ التسجيل","تحقق من اتصالك ثم اضغط «تأكيد التسجيل» مرة أخرى."); }
+}
+
+/* ---------- My lessons ---------- */
+function renderMine(){
+  const ids=Object.keys(store.regs); const box=$("#myList");
+  $("#myCount").textContent=nf.format(ids.length);
+  if(!ids.length){ box.innerHTML=`<div class="empty" style="padding:40px 16px">لم تسجّل في أي درس بعد.<div style="margin-top:12px"><a href="#all-lessons" class="btn btn-default btn-sm">استعرض الدروس</a></div></div>`; paintProfileTop(); return; }
+  box.innerHTML=`<div class="bookings-grid">`+ids.map(id=>{ const l=LESSONS.find(x=>x.id===id); if(!l) return ""; const r=store.regs[id];
+    return `<div class="card reg-item"><h4>${esc(l.title)}</h4><div class="sub">${MASJID[l.masjid]} — ${daysText(l)}، ${PRAYERS[l.prayer]}</div><div class="sub">أقرب موعد: ${dateText(l)}</div>
+    <div class="row"><code>${esc(r.code)}</code><div class="btns"><button class="btn btn-outline btn-sm" data-nt="${id}">ملاحظاتي (${nf.format(notes.list().filter(n=>n.lessonId===id).length)})</button><button class="btn btn-destructive btn-sm" data-cx="${id}">إلغاء</button></div></div></div>`; }).join("")+`</div>`;
+  $$("[data-nt]",box).forEach(b=>b.onclick=()=>openNotes({filter:b.dataset.nt}));
+  paintProfileTop();
+  $$("[data-cx]",box).forEach(b=>b.onclick=async()=>{ b.disabled=true; await store.cancel(b.dataset.cx); toast("تم إلغاء التسجيل","أُتيح مقعدك لزائر آخر."); renderMine(); });
+}
+
+/* ---------- Toast & theme ---------- */
+let tt; function toast(t,s){ const el=$("#toast"); el.innerHTML=`<b>${esc(t)}</b><span class="hint">${esc(s||"")}</span>`; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),3200); }
+$("#themeBtn").onclick=()=>{ const r=document.documentElement; const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches; r.dataset.theme=dark?"light":"dark"; try{localStorage.setItem("hl_theme",r.dataset.theme);}catch(e){} };
+try{ const t=localStorage.getItem("hl_theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+
+/* ---------- Visitor tools: notes ---------- */
+const NOTES_PATH="data/users/me/notebook/notes";
+const notes={
+  map:{}, db:null,
+  init(){ this.map=store.local("hl_notes")||{}; },
+  attach(db){ this.db=db; db.collection(NOTES_PATH).onSnapshot(s=>{ const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=v; }); this.map=m; notesChanged(); },()=>{}); },
+  list(){ return Object.entries(this.map).map(([id,v])=>({id,...v})).sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||"")); },
+  async save(id,rec){
+    rec.updatedAt=new Date().toISOString(); if(!rec.createdAt) rec.createdAt=rec.updatedAt;
+    if(this.db){ if(id) await this.db.collection(NOTES_PATH).doc(id).set(rec); else { const r=await this.db.collection(NOTES_PATH).add(rec); id=r.id; } this.map[id]=rec; }
+    else { id=id||("n"+Date.now().toString(36)); this.map[id]=rec; store.local("hl_notes",this.map); }
+    notesChanged(); return id;
+  },
+  async del(id){ if(this.db) await this.db.collection(NOTES_PATH).doc(id).delete(); delete this.map[id]; if(!this.db) store.local("hl_notes",this.map); notesChanged(); }
+};
+const nt={view:"list",filter:"",q:"",id:null,draft:null};
+const todayKey=()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
+function noteDate(k){ if(!k) return ""; const d=new Date(k+"T00:00"); return new Intl.DateTimeFormat("ar-SA-u-ca-gregory",{day:"numeric",month:"long"}).format(d)+(hijri?" — "+hijri.format(d):""); }
+function defaultLesson(){ const mine=LESSONS.filter(l=>store.regs[l.id]); const dow=new Date().getDay(); return (mine.find(l=>l.days.includes(dow))||mine[0]||{}).id||""; }
+function lessonOptions(sel,withAll){
+  const mine=LESSONS.filter(l=>store.regs[l.id]), others=LESSONS.filter(l=>!store.regs[l.id]);
+  const o=l=>`<option value="${l.id}" ${l.id===sel?"selected":""}>${esc(l.title)} — ${MASJID[l.masjid]}</option>`;
+  return (withAll?`<option value="">كل الدروس</option>`:`<option value="">اختر الدرس…</option>`)+(mine.length?`<optgroup label="دروسي">${mine.map(o).join("")}</optgroup>`:"")+`<optgroup label="${mine.length?"دروس أخرى":"كل الدروس"}">${others.map(o).join("")}</optgroup>`;
+}
+function notesChanged(){
+  const n=notes.list().length; const t=$("#notesCountTxt"); if(t) t.textContent=n?`لديك ${nf.format(n)} ملاحظة محفوظة.`:"";
+  if(onTab("notes")&&nt.view==="list") paintNoteList();
+  if(onTab("bookings")) renderMine(); else paintProfileTop();
+}
+function openNotes(o={}){
+  nt.filter=o.filter??nt.filter; nt.q="";
+  if(o.draft){ nt.view="edit"; nt.id=o.id||null; nt.draft=o.draft; } else { nt.view="list"; }
+  if(location.hash!=="#profile/notes") location.hash="#profile/notes"; else paintNotes();
+}
+function paintNotes(){
+  const P=$("#ntPanel");
+  if(nt.view==="list"){
+    P.innerHTML=`<div class="panel-head"><div><h2 id="ntTitle">ملاحظاتي</h2><p class="hint" style="margin:2px 0 0">${notes.db?"ملاحظاتك خاصة بك ولا يراها غيرك، ومحفوظة لتعود إليها متى شئت.":"ملاحظاتك محفوظة في هذا المتصفح."}</p></div></div>
+    <div><div class="notes-toolbar"><label class="sr-only" for="ntFilter">الدرس</label><select class="select" id="ntFilter">${lessonOptions(nt.filter,true)}</select>
+    <label class="sr-only" for="ntQ">بحث</label><input class="input" id="ntQ" type="search" placeholder="ابحث في ملاحظاتك"><button class="btn btn-default" id="ntNew">ملاحظة جديدة</button></div><div id="ntList"></div></div>`;
+    $("#ntFilter").onchange=e=>{ nt.filter=e.target.value; paintNoteList(); };
+    $("#ntQ").oninput=e=>{ nt.q=e.target.value.trim(); paintNoteList(); };
+    $("#ntNew").onclick=()=>{ nt.onSaved=null; nt.view="edit"; nt.id=null; nt.draft={lessonId:nt.filter||defaultLesson(),date:todayKey(),title:"",body:"",kind:"note"}; paintNotes(); };
+    paintNoteList();
+  }else{
+    const d=nt.draft, existing=nt.id&&notes.map[nt.id];
+    P.innerHTML=`<div class="panel-head"><div><button class="btn btn-ghost btn-sm" id="ntBack" style="margin-inline-start:-10px">→ كل الملاحظات</button><h2 id="ntTitle" style="margin-top:4px">${existing?"تعديل الملاحظة":"ملاحظة جديدة"}</h2></div></div>
+    <div><form id="ntForm" novalidate><div class="form-grid">
+      <div><label class="label" for="ntLesson">الدرس</label><select class="select" id="ntLesson" name="lessonId">${lessonOptions(d.lessonId)}</select><div class="field-error" data-err="lessonId"></div></div>
+      <div><label class="label" for="ntDate">تاريخ المجلس</label><input class="input" type="date" id="ntDate" name="date" value="${esc(d.date||todayKey())}"></div>
+      <div class="full"><label class="label" for="ntTitleIn">العنوان <span class="hint">(اختياري)</span></label><input class="input" id="ntTitleIn" name="title" value="${esc(d.title||"")}" placeholder="مثال: الباب الثالث — فضل التوحيد"></div>
+      <div class="full"><label class="label" for="ntBody">الملاحظة</label><textarea class="textarea note-body" id="ntBody" name="body" placeholder="الفوائد، الأدلة، أسئلة تريد مراجعتها…">${esc(d.body||"")}</textarea><div class="field-error" data-err="body"></div></div>
+    </div>
+    <div class="dlg-foot"><button type="submit" class="btn btn-default">حفظ الملاحظة</button>${existing?`<button type="button" class="btn btn-destructive" id="ntDel">حذف</button>`:""}<span class="hint" style="margin:0" id="ntMeta">${existing&&existing.updatedAt?`آخر حفظ: ${new Intl.DateTimeFormat("ar-SA",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}).format(new Date(existing.updatedAt))}`:""}</span></div></form></div>`;
+    $("#ntBack").onclick=()=>{ nt.view="list"; paintNotes(); };
+    const del=$("#ntDel"); if(del) del.onclick=async()=>{ del.disabled=true; try{ await notes.del(nt.id); toast("تم حذف الملاحظة",""); nt.view="list"; paintNotes(); }catch(e){ del.disabled=false; toast("تعذّر الحذف","تحقق من اتصالك ثم أعد المحاولة."); } };
+    $("#ntForm").onsubmit=async e=>{ e.preventDefault(); const f=e.target, E=f.elements;
+      const rec={...nt.draft,lessonId:E.lessonId.value,date:E.date.value||todayKey(),title:E.title.value.trim(),body:E.body.value.trim()};
+      const errs={}; if(!rec.lessonId) errs.lessonId="اختر الدرس الذي تتبعه الملاحظة."; if(!rec.body) errs.body="اكتب نص الملاحظة.";
+      $$("[data-err]",f).forEach(el=>el.textContent=errs[el.dataset.err]||""); E.lessonId.setAttribute("aria-invalid",errs.lessonId?"true":"false"); E.body.setAttribute("aria-invalid",errs.body?"true":"false");
+      if(errs.lessonId){ E.lessonId.focus(); return; } if(errs.body){ E.body.focus(); return; }
+      const btn=f.querySelector("[type=submit]"); btn.disabled=true; btn.textContent="جارٍ الحفظ…";
+      try{ const id=await notes.save(nt.id,rec); nt.id=id; nt.draft=rec; if(nt.onSaved){ nt.onSaved(id); nt.onSaved=null; } toast("تم حفظ الملاحظة",LESSONS.find(l=>l.id===rec.lessonId).title); nt.filter=rec.lessonId; nt.view="list"; paintNotes(); }
+      catch(err){ btn.disabled=false; btn.textContent="حفظ الملاحظة"; toast("تعذّر حفظ الملاحظة","تحقق من اتصالك ثم اضغط «حفظ الملاحظة» مرة أخرى."); } };
+  }
+}
+function paintNoteList(){
+  const box=$("#ntList"); if(!box) return;
+  const q=nt.q; const list=notes.list().filter(n=>(!nt.filter||n.lessonId===nt.filter)&&(!q||(n.body||"").includes(q)||(n.title||"").includes(q)));
+  if(!list.length){ box.innerHTML=`<div class="empty" style="margin-top:16px">${notes.list().length?"لا توجد ملاحظات تطابق البحث.":"لا توجد ملاحظات بعد. اضغط «ملاحظة جديدة» أثناء الدرس لتدوين ما تستفيده، أو احفظ ترجمة من المترجم."}</div>`; return; }
+  const groups={}; list.forEach(n=>{ (groups[n.lessonId]=groups[n.lessonId]||[]).push(n); });
+  box.innerHTML=Object.entries(groups).map(([lid,ns])=>{ const l=LESSONS.find(x=>x.id===lid)||{title:"درس محذوف",masjid:"haram"};
+    return `<div class="note-group"><h4>${esc(l.title)} — ${MASJID[l.masjid]} (${nf.format(ns.length)})</h4>${ns.map(n=>`<button class="note-card" data-note="${n.id}"><div class="top"><span>${noteDate(n.date)}</span>${n.kind==="translation"?`<span class="badge badge-gold">ترجمة</span>`:""}</div>${n.title?`<b>${esc(n.title)}</b>`:""}<div class="snip">${esc((n.body||"").slice(0,240))}</div></button>`).join("")}</div>`; }).join("");
+  $$("[data-note]",box).forEach(b=>b.onclick=()=>{ const n=notes.map[b.dataset.note]; nt.view="edit"; nt.id=b.dataset.note; nt.draft={...n}; paintNotes(); });
+}
+
+/* ---------- Visitor tools: live translation ---------- */
+const TLANGS=[["en","English","English"],["ur","اردو","Urdu"],["id","Bahasa Indonesia","Indonesian"],["fr","Français","French"],["tr","Türkçe","Turkish"],["ms","Bahasa Melayu","Malay"],["bn","বাংলা","Bengali"],["fa","فارسی","Persian"],["ha","Hausa","Hausa"],["sw","Kiswahili","Swahili"],["ru","Русский","Russian"],["es","Español","Spanish"]];
+const trs={lines:[],lang:"en",mode:"live",listening:false,rec:null,interim:"",queue:Promise.resolve(),samplePromise:null,noteId:null,status:"",statusKind:""};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function getSample(){ if(!trs.samplePromise) trs.samplePromise=(window.claude&&typeof window.claude.use==="function")?window.claude.use("sample").catch(()=>null):Promise.resolve(null); return trs.samplePromise; }
+try{ const l0=localStorage.getItem("hl_tlang"); if(l0) trs.lang=l0; }catch(e){}
+if(!SR) trs.mode="text";
+function paintTranslator(){
+  $("#trPanel").innerHTML=`<div class="panel-head"><div><h2 id="trTitle">الترجمة الفورية <span class="hint" style="font-weight:400">Live translation</span></h2><p class="hint" style="margin:2px 0 0">ترجمة آلية لكلام الشيخ؛ قد تقع فيها أخطاء، فارجع إلى الشيخ في المسائل الدقيقة.</p></div></div>
+  <div>
+    <div class="tr-controls">
+      <div><label class="label" for="trLang">ترجم إلى · Translate to</label><select class="select" id="trLang">${TLANGS.map(([c,n])=>`<option value="${c}" ${c===trs.lang?"selected":""}>${n}</option>`).join("")}</select></div>
+      <div class="tabs" role="tablist" aria-label="طريقة الإدخال" style="flex:none"><button class="tab" role="tab" data-mode="live" aria-selected="${trs.mode==="live"}">استماع مباشر</button><button class="tab" role="tab" data-mode="text" aria-selected="${trs.mode==="text"}">كتابة نص</button></div>
+    </div>
+    <div id="trInput"></div>
+    <div class="status" id="trStatus" role="status" aria-live="polite"></div>
+    <div class="tr-box" id="trBox" aria-live="polite"></div>
+    <div class="dlg-foot"><button class="btn btn-outline" id="trSave">حفظ في ملاحظاتي</button><button class="btn btn-ghost" id="trClear">مسح</button></div>
+  </div>`;
+  $("#trLang").onchange=e=>{ trs.lang=e.target.value; try{localStorage.setItem("hl_tlang",trs.lang);}catch(_){}};
+  const TP=$("#trPanel"); $$("[data-mode]",TP).forEach(b=>b.onclick=()=>{ trs.mode=b.dataset.mode; if(trs.mode==="text") stopListen(); $$("[data-mode]",TP).forEach(x=>x.setAttribute("aria-selected",String(x===b))); paintInput(); });
+  $("#trSave").onclick=saveTranscript;
+  $("#trClear").onclick=()=>{ stopListen(); trs.lines=[]; trs.noteId=null; paintLines(); };
+  paintInput(); paintLines(); setStatus(trs.status,trs.statusKind);
+}
+function paintInput(){
+  const box=$("#trInput"); if(!box) return;
+  if(trs.mode==="live"){
+    box.innerHTML=`<button class="btn btn-lg btn-listen ${trs.listening?"on":"btn-default"}" id="trListen" aria-pressed="${trs.listening}">${trs.listening?"إيقاف الاستماع":"ابدأ الاستماع"}</button>`;
+    $("#trListen").onclick=()=>trs.listening?stopListen():startListen();
+  }else{
+    box.innerHTML=`<form id="trText" style="display:grid;gap:8px"><label class="sr-only" for="trIn">النص العربي</label><textarea class="textarea" id="trIn" placeholder="اكتب أو الصق نصًا عربيًا، مثل حديث أو آية ذكرها الشيخ"></textarea><button class="btn btn-default" type="submit" style="justify-self:start">ترجم</button></form>`;
+    $("#trText").onsubmit=e=>{ e.preventDefault(); const v=$("#trIn").value.trim(); if(!v){ $("#trIn").focus(); return; } addLine(v); $("#trIn").value=""; };
+  }
+}
+function setStatus(t,k){ trs.status=t||""; trs.statusKind=k||""; const el=$("#trStatus"); if(el){ el.textContent=trs.status; el.className="status "+trs.statusKind; } }
+function lineHTML(l){
+  const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
+  return `<div class="tr-line" id="ln_${l.id}"><div class="ar">${esc(l.ar)}</div><div class="tr ${l.tr?"":"pending"}" lang="${l.lang}" dir="auto">${l.tr?esc(l.tr):(l.err?"":"جارٍ الترجمة…")}</div>${l.err?`<div class="tr-err">${esc(l.err)} <button class="btn btn-outline btn-sm" data-retry="${l.id}">أعد المحاولة</button></div>`:""}${l.lang!==trs.lang&&false?"":""}</div>`;
+}
+function paintLines(){
+  const box=$("#trBox"); if(!box) return;
+  box.innerHTML=trs.lines.length?trs.lines.map(lineHTML).join("")+`<div class="tr-interim" id="trInterim">${esc(trs.interim)}</div>`:`<div class="tr-empty">${trs.mode==="live"?"اضغط «ابدأ الاستماع» وقرّب الجوال من مكبّر الصوت. ستظهر الترجمة هنا جملةً جملة.":"ستظهر الترجمة هنا."}</div><div class="tr-interim" id="trInterim">${esc(trs.interim)}</div>`;
+  bindRetry(box); box.scrollTop=box.scrollHeight;
+  const sv=$("#trSave"); if(sv) sv.disabled=!trs.lines.some(l=>l.tr);
+}
+function paintLine(l){
+  const el=$("#ln_"+l.id); if(!el){ paintLines(); return; }
+  const box=$("#trBox"); const atEnd=box.scrollHeight-box.scrollTop-box.clientHeight<40;
+  el.outerHTML=lineHTML(l); bindRetry(box); if(atEnd) box.scrollTop=box.scrollHeight;
+  const sv=$("#trSave"); if(sv) sv.disabled=!trs.lines.some(x=>x.tr);
+}
+function bindRetry(box){ $$("[data-retry]",box).forEach(b=>b.onclick=()=>{ const l=trs.lines.find(x=>x.id===b.dataset.retry); if(l){ l.err=""; l.tr=""; paintLine(l); enqueue(l);} }); }
+function paintInterim(){ const el=$("#trInterim"); if(el){ el.textContent=trs.interim; const box=$("#trBox"); box.scrollTop=box.scrollHeight; } }
+function addLine(ar){ const l={id:Math.random().toString(36).slice(2,9),ar,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); enqueue(l); }
+function enqueue(l){ trs.queue=trs.queue.then(()=>translateLine(l)).catch(()=>{}); }
+async function translateLine(l){
+  const s=await getSample();
+  if(!s){ l.err="الترجمة غير متاحة في هذه النافذة. افتح الصفحة من رابطها في Claude."; paintLine(l); return; }
+  const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
+  const prompt=`You are a live interpreter for a religious lesson held in Masjid al-Haram or Masjid an-Nabawi. Translate the Arabic below into ${L[2]}.
+The text may come from speech recognition, so it can be a fragment or contain recognition errors: translate the most likely intended meaning.
+Translate Quran verses and hadith as faithful meaning translations. Keep names of prophets, companions and scholars recognisable. Add ﷺ after the Prophet's name where the speaker says it.
+Output only the ${L[2]} translation, with no notes, quotes or preamble.
+
+Arabic:
+${l.ar}`;
+  try{
+    const r=await s(prompt,{modelTier:"quick",onText:u=>{ l.tr=u.text; paintLine(l); }});
+    l.tr=(r.text||"").trim(); if(!l.tr) l.err="لم تصل ترجمة لهذه الجملة.";
+  }catch(e){
+    if(e&&e.text) l.tr=e.text;
+    l.err = e&&e.code==="not_granted"?"لم يُسمح بالترجمة. اضغط «أعد المحاولة» ووافق على طلب الإذن.":e&&e.code==="rate_limited"?"طلبات كثيرة في وقت قصير. انتظر قليلًا ثم اضغط «أعد المحاولة».":"تعذّرت الترجمة. تحقق من اتصالك ثم اضغط «أعد المحاولة».";
+    if(e&&e.code==="rate_limited") await new Promise(r=>setTimeout(r,4000));
+  }
+  paintLine(l);
+}
+function startListen(){
+  if(!SR){ setStatus("متصفحك لا يدعم الاستماع المباشر. استخدم Chrome أو Safari، أو انتقل إلى «كتابة نص».","warn"); return; }
+  getSample();
+  const rec=new SR(); rec.lang="ar-SA"; rec.continuous=true; rec.interimResults=true;
+  rec.onresult=e=>{ let interim=""; for(let i=e.resultIndex;i<e.results.length;i++){ const r=e.results[i]; if(r.isFinal){ const t=r[0].transcript.trim(); if(t) addLine(t); } else interim+=r[0].transcript; } trs.interim=interim; paintInterim(); };
+  rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"||e.error==="audio-capture"){ trs.listening=false; setStatus(e.error==="audio-capture"?"لم يُعثر على ميكروفون. تأكد من توصيله، أو استخدم «كتابة نص».":"لم يُسمح باستخدام الميكروفون في هذه الصفحة. اسمح به من إعدادات المتصفح، أو استخدم «كتابة نص».","warn"); paintInput(); } };
+  rec.onend=()=>{ if(trs.listening){ try{ rec.start(); }catch(_){ trs.listening=false; paintInput(); setStatus("توقف الاستماع. اضغط «ابدأ الاستماع» للمتابعة.","warn"); } } };
+  try{ rec.start(); trs.rec=rec; trs.listening=true; setStatus("يستمع الآن… قرّب الجوال من مكبّر الصوت.","ok"); }
+  catch(e){ trs.listening=false; setStatus("تعذّر تشغيل الاستماع. أعد المحاولة، أو استخدم «كتابة نص».","warn"); }
+  paintInput();
+}
+function stopListen(){ const was=trs.listening; trs.listening=false; try{ trs.rec&&trs.rec.stop(); }catch(e){} trs.rec=null; trs.interim=""; paintInterim(); paintInput(); if(was) setStatus("توقف الاستماع.",""); }
+function saveTranscript(){
+  const done=trs.lines.filter(l=>l.tr); if(!done.length) return;
+  const names=[...new Set(done.map(l=>(TLANGS.find(x=>x[0]===l.lang)||TLANGS[0])[1]))].join("، ");
+  const body=done.map(l=>`${l.ar}\n${l.tr}`).join("\n\n");
+  const ex=trs.noteId&&notes.map[trs.noteId];
+  const draft=ex?{...ex,body}:{lessonId:defaultLesson(),date:todayKey(),title:`ترجمة إلى ${names}`,body,kind:"translation"};
+  nt.onSaved=id=>{ trs.noteId=id; };
+  openNotes({draft,id:ex?trs.noteId:null});
+}
+/* ---------- Profile page router ---------- */
+const TABS=["bookings","notes","translate"];
+let curTab=null;
+function onTab(t){ return curTab===t; }
+function visitorName(){ const r=Object.values(store.regs).sort((a,b)=>(b.at||"").localeCompare(a.at||""))[0]; return r&&r.name?r.name:""; }
+function nextBooking(){
+  const today=new Date(); today.setHours(0,0,0,0); let best=null;
+  Object.keys(store.regs).forEach(id=>{ const l=LESSONS.find(x=>x.id===id); if(!l) return; const d=nextDate(l); if(!best||d<best.d) best={l,d}; });
+  return best;
+}
+function paintProfileTop(){
+  if(!$("#profHead")) return;
+  const name=visitorName(), n=nextBooking(), nb=Object.keys(store.regs).length, nn=notes.list().length;
+  $("#profHead").innerHTML=`<div class="p-avatar" aria-hidden="true">${esc(name?name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join(" "):"؟")}</div><div><h1>${name?`أهلًا، ${esc(name.split(/\s+/)[0])}`:"ملفي"}</h1><p>حجوزاتك وملاحظاتك وأدوات الدرس في مكان واحد.</p></div>`;
+  $("#profStats").innerHTML=`<div>الحجوزات<b>${nf.format(nb)}</b></div><div>الملاحظات<b>${nf.format(nn)}</b></div><div>أقرب درس<b>${n?esc(n.l.title):"—"}</b>${n?greg.format(n.d)+" · "+PRAYERS[n.l.prayer]:"سجّل في درس ليظهر هنا"}</div>`;
+}
+let curView=null;
+function route(){
+  const h=location.hash||"";
+  const view=h.startsWith("#profile")?"profile":h==="#all-lessons"?"list":"home";
+  const prevTab=curTab, prevView=curView;
+  $("#top").hidden=view!=="home"; $("#listView").hidden=view!=="list"; $("#profile").hidden=view!=="profile";
+  $$(".nav a").forEach(a=>a.toggleAttribute("aria-current",view==="list"&&a.hasAttribute("data-navlist")));
+  $("#myBtn").toggleAttribute("aria-current",view==="profile");
+  if(prevTab==="translate"&&!(view==="profile"&&h.startsWith("#profile/translate"))) stopListen();
+  if(prevTab==="notes") nt.onSaved=(view==="profile"&&h.startsWith("#profile/notes"))?nt.onSaved:null;
+  if(view==="profile"){
+    let tab=h.split("/")[1]||"bookings"; if(!TABS.includes(tab)) tab="bookings";
+    curTab=tab;
+    $$("[data-ptab]").forEach(a=>a.toggleAttribute("aria-current",a.dataset.ptab===tab));
+    $$("[data-pane]").forEach(p=>p.hidden=p.dataset.pane!==tab);
+    paintProfileTop();
+    if(tab==="bookings") renderMine();
+    if(tab==="notes") paintNotes();
+    if(tab==="translate") paintTranslator();
+    document.title="ملفي — مجالس الحرمين";
+  }else{
+    curTab=null;
+    document.title=view==="list"?"جميع الدروس — مجالس الحرمين":"مجالس الحرمين — دروس المسجد الحرام والمسجد النبوي";
+    if(view==="home") requestAnimationFrame(swiperState);
+  }
+  curView=view;
+  if(view!==prevView||view!=="home"){
+    const id=h.slice(1); const el=view==="home"&&id&&document.getElementById(id);
+    if(el&&el!==$("#top")) requestAnimationFrame(()=>el.scrollIntoView());
+    else if(view!==prevView) window.scrollTo(0,0);
+  } else { const el=h&&document.getElementById(h.slice(1)); if(el&&el!==$("#top")) el.scrollIntoView(); else if(h==="#top") window.scrollTo(0,0); }
+}
+function setupTools(){
+  window.addEventListener("hashchange",route);
+  route();
+  notesChanged();
+}
+
+setupFilters();
+notes.init();
+setupTools();
+store.init();
+})();
+</script>
+</body>
+</html>
