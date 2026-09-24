@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لوحة تحكم مجالس الحرمين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+:root{
+  --background:0 0% 100%;--foreground:160 10% 8%;
+  --card:0 0% 100%;--popover:0 0% 100%;
+  --sidebar:150 14% 97.5%;
+  --primary:158 62% 22%;--primary-foreground:150 30% 97%;
+  --secondary:150 12% 95%;--secondary-foreground:160 10% 12%;
+  --muted:150 10% 95.5%;--muted-foreground:160 5% 40%;
+  --accent:150 12% 93.5%;--accent-foreground:160 10% 12%;
+  --gold:38 62% 42%;--destructive:0 72% 46%;--warning:32 90% 40%;--success:152 60% 30%;
+  --border:150 8% 89%;--input:150 8% 86%;--ring:158 62% 28%;
+  --radius:0.6rem;
+  --font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --display:"Amiri","Traditional Arabic",serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --background:160 14% 6%;--foreground:150 15% 94%;--card:160 12% 8%;--popover:160 12% 9%;--sidebar:160 13% 7.5%;
+  --primary:152 48% 52%;--primary-foreground:160 30% 7%;--secondary:160 8% 14%;--secondary-foreground:150 15% 94%;
+  --muted:160 8% 12.5%;--muted-foreground:150 6% 64%;--accent:160 8% 15%;--accent-foreground:150 15% 94%;
+  --gold:40 62% 60%;--destructive:0 70% 60%;--warning:36 90% 58%;--success:152 50% 55%;
+  --border:160 8% 17%;--input:160 8% 21%;--ring:152 48% 52%;}}
+:root[data-theme="dark"]{
+  --background:160 14% 6%;--foreground:150 15% 94%;--card:160 12% 8%;--popover:160 12% 9%;--sidebar:160 13% 7.5%;
+  --primary:152 48% 52%;--primary-foreground:160 30% 7%;--secondary:160 8% 14%;--secondary-foreground:150 15% 94%;
+  --muted:160 8% 12.5%;--muted-foreground:150 6% 64%;--accent:160 8% 15%;--accent-foreground:150 15% 94%;
+  --gold:40 62% 60%;--destructive:0 70% 60%;--warning:36 90% 58%;--success:152 50% 55%;
+  --border:160 8% 17%;--input:160 8% 21%;--ring:152 48% 52%;}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:hsl(var(--background));color:hsl(var(--foreground));font:14.5px/1.7 var(--font);-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:2px solid hsl(var(--ring));outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]{display:none!important}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;letter-spacing:.5px}
+.muted{color:hsl(var(--muted-foreground))}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border-radius:calc(var(--radius) - 2px);font:500 14px/1 var(--font);border:1px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,border-color .15s;color:inherit;background:none}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn-default{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}
+.btn-default:hover{background:hsl(var(--primary)/.9)}
+.btn-outline{background:hsl(var(--background));border-color:hsl(var(--input))}
+.btn-outline:hover{background:hsl(var(--accent))}
+.btn-secondary{background:hsl(var(--secondary))}
+.btn-secondary:hover{background:hsl(var(--accent))}
+.btn-ghost:hover{background:hsl(var(--accent))}
+.btn-danger{background:hsl(var(--destructive));color:#fff}
+.btn-danger:hover{background:hsl(var(--destructive)/.9)}
+.btn-sm{height:32px;padding:0 10px;font-size:13px}
+.btn-icon{width:38px;padding:0}.btn-sm.btn-icon{width:32px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:500;line-height:1.7;border:1px solid transparent;white-space:nowrap}
+.b-secondary{background:hsl(var(--secondary))}
+.b-outline{border-color:hsl(var(--border))}
+.b-primary{background:hsl(var(--primary)/.12);color:hsl(var(--primary))}
+.b-gold{background:hsl(var(--gold)/.13);color:hsl(var(--gold))}
+.b-danger{background:hsl(var(--destructive)/.1);color:hsl(var(--destructive))}
+.b-warn{background:hsl(var(--warning)/.12);color:hsl(var(--warning))}
+.card{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:var(--radius)}
+.card-h{padding:18px 20px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card-h h3{margin:0;font-size:16px;font-weight:600}
+.card-h p{margin:2px 0 0;font-size:13px;color:hsl(var(--muted-foreground))}
+.card-b{padding:16px 20px 20px}
+.label{display:block;font-size:13.5px;font-weight:500;margin-bottom:6px}
+.input,.select,.textarea{width:100%;height:38px;border-radius:calc(var(--radius) - 2px);border:1px solid hsl(var(--input));background:hsl(var(--background));color:hsl(var(--foreground));padding:0 11px;font:14px var(--font)}
+.textarea{height:auto;min-height:88px;padding:8px 11px;resize:vertical;line-height:1.7}
+.input:focus-visible,.select:focus-visible,.textarea:focus-visible{outline:none;box-shadow:0 0 0 2px hsl(var(--background)),0 0 0 4px hsl(var(--ring))}
+[aria-invalid="true"]{border-color:hsl(var(--destructive))!important}
+.select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23888' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 10px center;padding-left:32px}
+.err{color:hsl(var(--destructive));font-size:12.5px;margin-top:4px}
+.hint{color:hsl(var(--muted-foreground));font-size:12.5px;margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.chip span{display:inline-flex;align-items:center;height:32px;padding:0 12px;border:1px solid hsl(var(--input));border-radius:999px;font-size:13px}
+.chip input:checked+span{border-color:hsl(var(--primary));background:hsl(var(--primary)/.1);color:hsl(var(--primary));font-weight:600}
+.chip input:focus-visible+span{box-shadow:0 0 0 2px hsl(var(--background)),0 0 0 4px hsl(var(--ring))}
+.switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:13.5px}
+.switch input{appearance:none;width:36px;height:20px;border-radius:999px;background:hsl(var(--input));position:relative;cursor:pointer;margin:0;flex:none;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:999px;background:#fff;transition:transform .15s;box-shadow:0 1px 2px #0003}
+.switch input:checked{background:hsl(var(--primary))}
+.switch input:checked::after{transform:translateX(-16px)}
+.switch input:disabled{opacity:.55;cursor:not-allowed}
+.tabs{display:inline-flex;gap:2px;padding:4px;border-radius:var(--radius);background:hsl(var(--muted));flex-wrap:wrap}
+.tab{height:32px;padding:0 13px;border-radius:calc(var(--radius) - 3px);border:0;background:transparent;color:hsl(var(--muted-foreground));font:500 13.5px var(--font);cursor:pointer}
+.tab[aria-selected="true"]{background:hsl(var(--background));color:hsl(var(--foreground));box-shadow:0 1px 2px #00000014}
+.alert{display:flex;gap:10px;padding:12px 14px;border:1px solid hsl(var(--border));border-radius:var(--radius);font-size:13.5px}
+.alert svg{flex:none;margin-top:3px}
+.alert.danger{border-color:hsl(var(--destructive)/.4);color:hsl(var(--destructive));background:hsl(var(--destructive)/.05)}
+.alert.warn{border-color:hsl(var(--warning)/.4);color:hsl(var(--warning));background:hsl(var(--warning)/.06)}
+.alert.ok{border-color:hsl(var(--success)/.4);color:hsl(var(--success));background:hsl(var(--success)/.06)}
+
+/* layout */
+.sidebar{position:fixed;top:0;bottom:0;right:0;width:260px;background:hsl(var(--sidebar));border-left:1px solid hsl(var(--border));display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 12px calc(env(safe-area-inset-bottom,0px) + 12px);z-index:60;transition:transform .2s}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font-weight:700;font-size:15.5px}
+.brand svg{color:hsl(var(--primary))}
+.brand small{display:block;font-weight:400;font-size:12px;color:hsl(var(--muted-foreground));line-height:1.3}
+.nav{flex:1;overflow:auto;margin-inline:-4px;padding-inline:4px}
+.nav-group{margin-top:14px}
+.nav-group>div{font-size:12px;color:hsl(var(--muted-foreground));padding:0 10px 6px}
+.nav a{display:flex;align-items:center;gap:10px;height:36px;padding:0 10px;border-radius:calc(var(--radius) - 2px);text-decoration:none;color:hsl(var(--foreground)/.85);font-size:14px}
+.nav a:hover{background:hsl(var(--accent))}
+.nav a[aria-current="page"]{background:hsl(var(--accent));color:hsl(var(--foreground));font-weight:600}
+.nav a[aria-current="page"] svg{color:hsl(var(--primary))}
+.nav a .count{margin-inline-start:auto;font-size:11.5px;color:hsl(var(--muted-foreground))}
+.me{border-top:1px solid hsl(var(--border));padding-top:12px;margin-top:8px}
+.me-row{display:flex;gap:10px;align-items:center;padding:0 6px 10px}
+.avatar{width:34px;height:34px;border-radius:999px;background:hsl(var(--primary)/.12);color:hsl(var(--primary));display:grid;place-items:center;font-weight:600;flex:none;font-size:14px}
+.me-row b{display:block;font-size:13.5px;line-height:1.4}
+.me-row span{font-size:12px;color:hsl(var(--muted-foreground))}
+.main{margin-right:260px;min-height:100dvh;min-width:0;--gutter:max(24px, calc((100% - 1560px) / 2))}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;height:60px;display:flex;align-items:center;gap:12px;padding:0 var(--gutter);background:hsl(var(--background)/.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid hsl(var(--border))}
+.topbar h1{font-size:17px;margin:0;font-weight:600}
+.topbar .date{margin-inline-start:auto;font-size:13px;color:hsl(var(--muted-foreground))}
+.menu-btn{display:none}
+.page{padding:28px var(--gutter)}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.page-head h2{margin:0;font-size:22px;font-weight:700}
+.page-head p{margin:2px 0 0;color:hsl(var(--muted-foreground))}
+.scrim{position:fixed;inset:0;background:#0007;z-index:55}
+@media (max-width:920px){
+  .sidebar{transform:translateX(100%)}.sidebar.open{transform:none}
+  .main{margin-right:0}.menu-btn{display:inline-flex}
+  .page{padding:16px var(--gutter)}
+  .topbar .date{display:none}
+}
+.banner{margin:16px var(--gutter) 0}
+@media (max-width:920px){.main{--gutter:16px}}
+
+/* grids */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{padding:16px 18px}
+.stat span{font-size:13px;color:hsl(var(--muted-foreground))}
+.stat b{display:block;font-size:26px;font-weight:600;line-height:1.35}
+.stat small{font-size:12px;color:hsl(var(--muted-foreground))}
+@media (max-width:900px){.stats{grid-template-columns:1fr 1fr}}
+.two{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.two>*,.scan-grid>*,.stats>*{min-width:0}
+@media (min-width:1600px){.two{gap:20px}.stats{gap:16px}}
+@media (max-width:1000px){.two{grid-template-columns:1fr}}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar .input{width:230px}.toolbar .select{width:190px}
+.toolbar .grow{margin-inline-start:auto}
+
+/* tables */
+.table-wrap{overflow-x:auto;border:1px solid hsl(var(--border));border-radius:var(--radius);background:hsl(var(--card))}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:start;font-weight:500;color:hsl(var(--muted-foreground));height:42px;padding:0 12px;border-bottom:1px solid hsl(var(--border));white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid hsl(var(--border));vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:hsl(var(--muted)/.5)}
+td .t{font-weight:600;display:block}
+td .s{font-size:12.5px;color:hsl(var(--muted-foreground))}
+.actions{display:flex;gap:4px;justify-content:flex-end}
+.empty{text-align:center;padding:40px 20px;color:hsl(var(--muted-foreground))}
+.progress{height:6px;border-radius:999px;background:hsl(var(--secondary));overflow:hidden;min-width:70px}
+.progress>i{display:block;height:100%;background:hsl(var(--primary));border-radius:999px}
+.list-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid hsl(var(--border))}
+.list-row:last-child{border-bottom:0}
+
+/* checkin */
+.scan-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (min-width:1280px){.scan-grid{grid-template-columns:minmax(360px,520px) minmax(0,1fr)}}
+@media (max-width:900px){.scan-grid{grid-template-columns:1fr}}
+.viewfinder{position:relative;aspect-ratio:1;width:100%;max-width:520px;margin-inline:auto;border-radius:var(--radius);background:hsl(var(--muted));overflow:hidden;display:grid;place-items:center}
+.viewfinder video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.viewfinder .frame{position:absolute;inset:18%;border:2px solid hsl(0 0% 100%/.9);border-radius:14px;box-shadow:0 0 0 999px hsl(0 0% 0%/.35)}
+.viewfinder .placeholder{text-align:center;padding:20px;color:hsl(var(--muted-foreground));font-size:13.5px;max-width:280px}
+.viewfinder .placeholder svg{display:block;margin:0 auto 8px;color:hsl(var(--muted-foreground))}
+.flash{animation:flash .5s}
+@keyframes flash{from{box-shadow:0 0 0 4px hsl(var(--primary))}}
+.result-empty{border:1px dashed hsl(var(--border));border-radius:var(--radius);padding:28px;text-align:center;color:hsl(var(--muted-foreground))}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13.5px;margin:12px 0}
+.kv dt{color:hsl(var(--muted-foreground))}.kv dd{margin:0;font-weight:500}
+
+/* matrix */
+.matrix td:not(:first-child),.matrix th:not(:first-child){text-align:center;width:110px}
+.matrix input[type=checkbox]{width:17px;height:17px;accent-color:hsl(var(--primary));cursor:pointer}
+.matrix input:disabled{cursor:not-allowed}
+
+/* dialog */
+dialog{border:0;padding:0;background:transparent;color:inherit;max-width:none;max-height:none}
+dialog::backdrop{background:#0008}
+.dlg{background:hsl(var(--popover));border:1px solid hsl(var(--border));border-radius:var(--radius);width:min(640px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;box-shadow:0 20px 50px #0004}
+dialog[open] .dlg{animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.985)}}
+.dlg-h{padding:20px 22px 4px;display:flex;justify-content:space-between;gap:12px}
+.dlg-h h2{margin:0;font-size:18px}
+.dlg-h p{margin:2px 0 0;font-size:13px;color:hsl(var(--muted-foreground))}
+.dlg-b{padding:12px 22px 22px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+@media (max-width:560px){.form-grid{grid-template-columns:1fr}}
+.dlg-f{display:flex;gap:8px;justify-content:flex-start;margin-top:20px;padding-top:16px;border-top:1px solid hsl(var(--border))}
+.sm-dlg{width:min(420px,calc(100vw - 24px))}
+.qr-box{display:grid;place-items:center;padding:12px;background:#fff;border-radius:var(--radius);margin:8px auto;width:240px;height:240px}
+.qr-box svg{width:100%;height:100%}
+
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);left:18px;z-index:100;background:hsl(var(--popover));border:1px solid hsl(var(--border));border-radius:var(--radius);padding:12px 16px;box-shadow:0 10px 30px #0003;font-size:13.5px;max-width:340px;transform:translateY(16px);opacity:0;pointer-events:none;transition:all .2s}
+.toast.show{transform:none;opacity:1}
+.toast b{display:block}
+.skeleton{height:120px;border-radius:var(--radius);background:hsl(var(--muted));animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.5}}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar" aria-label="القائمة الجانبية">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><rect x="22" y="22" width="56" height="56"/><rect x="22" y="22" width="56" height="56" transform="rotate(45 50 50)"/></g></svg>
+    <div>مجالس الحرمين<small>لوحة التحكم</small></div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+  <div class="me" id="me"></div>
+</aside>
+<div class="scrim" id="scrim" hidden></div>
+
+<div class="main">
+  <header class="topbar">
+    <button class="btn btn-ghost btn-icon menu-btn" id="menuBtn" aria-label="فتح القائمة"></button>
+    <h1 id="pageTitle">لوحة التحكم</h1>
+    <span class="date" id="today"></span>
+    <button class="btn btn-ghost btn-icon" id="themeBtn" aria-label="تبديل المظهر"></button>
+  </header>
+  <div id="banner"></div>
+  <main class="page" id="page"><div class="skeleton"></div></main>
+</div>
+
+<dialog id="formDlg" aria-labelledby="formTitle"><div class="dlg" id="formPanel"></div></dialog>
+<dialog id="confirmDlg" aria-labelledby="cTitle"><div class="dlg sm-dlg" id="confirmPanel"></div></dialog>
+<dialog id="qrDlg" aria-labelledby="qTitle"><div class="dlg sm-dlg" id="qrPanel"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+/* ============ constants ============ */
+const ROLES={super:"مدير عام",admin:"مدير",supervisor:"مشرف",organizer:"منظّم"};
+const ROLE_DESC={super:"يشرف على كل شيء، بما فيها الأدوار والصلاحيات، ويستطيع أداء مهام جميع الأدوار.",admin:"يضيف المشرفين والمنظمين، ويضبط الإعدادات: التصنيفات والمواقع والمشايخ واللغات.",supervisor:"يضيف الدروس ويحدد مواعيدها وتكرارها والشيخ المقدِّم من الإعدادات.",organizer:"يسجّل حضور المسجلين بمسح رمز QR عند بداية الدرس."};
+const RANK={super:4,admin:3,supervisor:2,organizer:1};
+const MASJID={haram:"المسجد الحرام",nabawi:"المسجد النبوي"};
+const PRAYERS={fajr:"بعد الفجر",dhuhr:"بعد الظهر",asr:"بعد العصر",maghrib:"بعد المغرب",isha:"بعد العشاء"};
+const DAYS=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const AUD={all:"للجميع",men:"للرجال",women:"للنساء"};
+const PERMS=[
+  ["attendance.checkin","تسجيل الحضور بقارئ QR"],
+  ["registrations.view","عرض التسجيلات"],
+  ["registrations.edit","إضافة التسجيلات وإلغاؤها وتعديل الحضور"],
+  ["lessons.manage","إضافة الدروس وتعديلها وحذفها"],
+  ["config.manage","إدارة الإعدادات: التصنيفات والمواقع والمشايخ واللغات"],
+  ["users.manage","إضافة المستخدمين ذوي الأدوار الأدنى"],
+  ["audit.view","عرض سجل النشاط"]
+];
+const DEFAULT_PERMS={
+  admin:["attendance.checkin","registrations.view","registrations.edit","lessons.manage","config.manage","users.manage"],
+  supervisor:["attendance.checkin","registrations.view","registrations.edit","lessons.manage"],
+  organizer:["attendance.checkin","registrations.view"]
+};
+const COLLS=["categories","languages","places","sheikhs","users","lessons","registrations","attendance","audit","settings"];
+
+/* ============ helpers ============ */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nf=new Intl.NumberFormat("ar-SA"), N=n=>nf.format(n||0);
+const pad=n=>String(n).padStart(2,"0");
+const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const TODAY=dkey(new Date());
+let hijriF=null; try{hijriF=new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"});}catch(e){}
+const gregF=new Intl.DateTimeFormat("ar-SA-u-ca-gregory",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+const shortF=new Intl.DateTimeFormat("ar-SA-u-ca-gregory",{day:"numeric",month:"short"});
+const timeF=new Intl.DateTimeFormat("ar-SA",{hour:"numeric",minute:"2-digit"});
+const fmtDate=s=>s?shortF.format(new Date(s.length===10?s+"T00:00":s)):"—";
+const fmtTime=s=>s?timeF.format(new Date(s)):"";
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const initials=n=>(n||"؟").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join(" ");
+const P=p=>`<path d="${p}"/>`;
+const ICONS={
+ dash:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
+ scan:P("M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2")+'<rect x="7" y="7" width="4" height="4"/><rect x="13" y="13" width="4" height="4"/>'+P("M13 7h4v2M7 15v2h2"),
+ clip:'<rect x="8" y="2" width="8" height="4" rx="1"/>'+P("M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M12 11h4M12 16h4M8 11h.01M8 16h.01"),
+ book:P("M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"),
+ sliders:P("M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"),
+ users:P("M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75")+'<circle cx="9" cy="7" r="4"/>',
+ shield:P("M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z")+P("m9 12 2 2 4-4"),
+ history:P("M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5M12 7v5l4 2"),
+ menu:P("M4 6h16M4 12h16M4 18h16"), plus:P("M12 5v14M5 12h14"),
+ edit:P("M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"),
+ trash:P("M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"),
+ check:P("M20 6 9 17l-5-5"), x:P("M18 6 6 18M6 6l12 12"),
+ camera:P("M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z")+'<circle cx="12" cy="13" r="3"/>',
+ image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/>'+P("m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"),
+ qr:'<rect x="3" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/>'+P("M21 16h-3a2 2 0 0 0-2 2v3M21 21v.01M12 7v3a2 2 0 0 1-2 2H7M3 12h.01M12 3h.01M12 16v.01M16 12h1M21 12v.01M12 21v-1"),
+ moon:P("M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"),
+ alert:'<circle cx="12" cy="12" r="10"/>'+P("M12 8v4M12 16h.01"),
+ eye:P("M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z")+'<circle cx="12" cy="12" r="3"/>',
+ power:P("M12 2v10M18.4 6.6a9 9 0 1 1-12.77.04")
+};
+const ic=(n,s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
+$("#menuBtn").innerHTML=ic("menu",18); $("#themeBtn").innerHTML=ic("moon",17);
+$("#today").textContent=gregF.format(new Date())+(hijriF?" — "+hijriF.format(new Date()):"");
+
+/* ============ data layer ============ */
+const S={}; COLLS.forEach(c=>S[c]={});
+let DB=null, mode="loading";
+const LSKEY="hd_local_v1";
+function persistLocal(){ if(DB) return; try{localStorage.setItem(LSKEY,JSON.stringify(S));}catch(e){} }
+const data={
+  list:c=>Object.entries(S[c]).map(([id,v])=>({id,...v})),
+  get:(c,id)=>id&&S[c][id]?{id,...S[c][id]}:null,
+  async add(c,obj){ if(DB){const r=await DB.collection(c).add(obj);return r.id;} const id=uid(); S[c][id]=obj; persistLocal(); schedule(); return id; },
+  async set(c,id,obj){ if(DB) return DB.collection(c).doc(id).set(obj); S[c][id]=obj; persistLocal(); schedule(); },
+  async update(c,id,patch){ if(DB) return DB.collection(c).doc(id).update(patch); S[c][id]={...S[c][id],...patch}; persistLocal(); schedule(); },
+  async del(c,id){ if(DB) return DB.collection(c).doc(id).delete(); delete S[c][id]; persistLocal(); schedule(); }
+};
+function snapToMap(s){ const m={}; s.docs.forEach(d=>{const v=d.data(); if(v) m[d.id]=v;}); return m; }
+function startLocal(){
+  mode="local";
+  try{ const saved=JSON.parse(localStorage.getItem(LSKEY)||"null"); if(saved) COLLS.forEach(c=>S[c]=saved[c]||{}); }catch(e){}
+  schedule();
+}
+function connect(){
+  if(!(window.claude&&typeof window.claude.use==="function")){ startLocal(); return; }
+  window.claude.use("db").then(db=>{
+    if(!db){ startLocal(); return; }
+    DB=db; mode="db";
+    COLLS.forEach(c=>{
+      const q = c==="audit" ? db.collection(c).orderBy("at","desc").limit(200) : db.collection(c);
+      q.onSnapshot(s=>{ S[c]=snapToMap(s); schedule(); }, e=>{ toast("تعذّر تحميل البيانات", e&&e.code==="not_granted"?"ليست لديك صلاحية الوصول إلى بيانات هذه الصفحة.":"تحقق من الاتصال ثم أعد فتح الصفحة."); });
+    });
+    schedule();
+  }).catch(startLocal);
+}
+async function log(text){ try{ await data.add("audit",{at:new Date().toISOString(),by:me().id||"",byName:me().name,role:me().role,text}); }catch(e){} }
+
+/* ============ current user & permissions ============ */
+function me(){
+  const users=data.list("users").filter(u=>u.active!==false);
+  let id=null; try{id=localStorage.getItem("hd_as");}catch(e){}
+  return users.find(u=>u.id===id) || users.slice().sort((a,b)=>RANK[b.role]-RANK[a.role])[0] || {id:"",name:"المدير العام",role:"super"};
+}
+function permsOf(role){ if(role==="super") return PERMS.map(p=>p[0]).concat("roles.manage"); const saved=S.settings.permissions; return (saved&&Array.isArray(saved[role]))?saved[role]:DEFAULT_PERMS[role]||[]; }
+const can=p=>permsOf(me().role).includes(p);
+const canManageRole=r=>me().role==="super"||(can("users.manage")&&RANK[r]<RANK[me().role]);
+
+/* ============ domain helpers ============ */
+const catName=id=>(data.get("categories",id)||{}).name||"—";
+const sheikhName=id=>{const s=data.get("sheikhs",id); return s?(s.title?s.title+" ":"")+s.name:"—";};
+const placeOf=id=>data.get("places",id);
+const placeLabel=id=>{const p=placeOf(id); return p?`${MASJID[p.masjid]} — ${p.name}`:"—";};
+const lessonMasjid=l=>(placeOf(l.placeId)||{}).masjid;
+function heldOn(l,ds){
+  if(l.status!=="published") return false;
+  if(l.recurrence==="once") return l.date===ds;
+  if(l.startDate&&ds<l.startDate) return false;
+  if(l.endDate&&ds>l.endDate) return false;
+  if(l.recurrence==="daily") return true;
+  return (l.days||[]).includes(new Date(ds+"T00:00").getDay());
+}
+function scheduleText(l){
+  const t=PRAYERS[l.prayer]||""; const tm=l.time?` (${l.time})`:"";
+  if(l.recurrence==="once") return `مرة واحدة ${fmtDate(l.date)} — ${t}${tm}`;
+  if(l.recurrence==="daily") return `يوميًا — ${t}${tm}`;
+  return `${(l.days||[]).slice().sort().map(d=>DAYS[d]).join("، ")||"—"} — ${t}${tm}`;
+}
+const activeRegs=lid=>data.list("registrations").filter(r=>r.lessonId===lid&&r.status!=="cancelled");
+const attendanceOf=(rid)=>data.list("attendance").filter(a=>a.regId===rid);
+const attendedToday=rid=>!!S.attendance[`${rid}_${TODAY}`];
+function newCode(masjid){ const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let s; do{ s=(masjid==="nabawi"?"NB-":"HR-"); for(let i=0;i<5;i++) s+=a[Math.floor(Math.random()*a.length)]; }while(data.list("registrations").some(r=>r.code===s)); return s; }
+
+/* ============ router & shell ============ */
+const ROUTES=[
+  {id:"overview",title:"نظرة عامة",icon:"dash",group:"التشغيل"},
+  {id:"checkin",title:"قارئ الحضور",icon:"scan",group:"التشغيل",perm:"attendance.checkin"},
+  {id:"registrations",title:"التسجيلات",icon:"clip",group:"التشغيل",perm:"registrations.view"},
+  {id:"lessons",title:"الدروس",icon:"book",group:"الإدارة",perm:"lessons.manage"},
+  {id:"config",title:"الإعدادات",icon:"sliders",group:"الإدارة",perm:"config.manage"},
+  {id:"users",title:"المستخدمون",icon:"users",group:"الإدارة",perm:"users.manage"},
+  {id:"roles",title:"الأدوار والصلاحيات",icon:"shield",group:"النظام",perm:"roles.manage"},
+  {id:"audit",title:"سجل النشاط",icon:"history",group:"النظام",perm:"audit.view"}
+];
+const ui={route:"overview",lessonMasjid:"all",lessonStatus:"",regLesson:"",regQ:"",cfgTab:"categories",sessionLesson:"",autoConfirm:false,lastScan:null,userQ:""};
+function allowed(r){ return !r.perm||can(r.perm); }
+function route(){ const h=(location.hash||"#overview").slice(1); const r=ROUTES.find(x=>x.id===h); return r&&allowed(r)?r:ROUTES[0]; }
+window.addEventListener("hashchange",()=>{ closeSidebar(); if(ui.route==="checkin") stopCam(); render(true); });
+
+let pending=false;
+function schedule(){ if(pending) return; pending=true; requestAnimationFrame(()=>{pending=false; render(false);}); }
+
+function renderShell(r){
+  const groups=[...new Set(ROUTES.map(x=>x.group))];
+  const counts={registrations:data.list("registrations").filter(x=>x.status!=="cancelled").length,lessons:data.list("lessons").length,users:data.list("users").length};
+  $("#nav").innerHTML=groups.map(g=>{ const items=ROUTES.filter(x=>x.group===g&&allowed(x)); if(!items.length) return "";
+    return `<div class="nav-group"><div>${g}</div>${items.map(x=>`<a href="#${x.id}" ${x.id===r.id?'aria-current="page"':""}>${ic(x.icon)}<span>${x.title}</span>${counts[x.id]!=null?`<span class="count">${N(counts[x.id])}</span>`:""}</a>`).join("")}</div>`; }).join("");
+  const m=me(), users=data.list("users").filter(u=>u.active!==false).sort((a,b)=>RANK[b.role]-RANK[a.role]);
+  $("#me").innerHTML=`<div class="me-row"><div class="avatar">${esc(initials(m.name))}</div><div><b>${esc(m.name)}</b><span>${ROLES[m.role]}</span></div></div>
+    ${users.length?`<label class="label" for="asSel" style="font-size:12px;color:hsl(var(--muted-foreground));padding:0 6px;font-weight:400">تجربة اللوحة بصفة</label>
+    <select class="select" id="asSel" style="height:34px;font-size:13px">${users.map(u=>`<option value="${u.id}" ${u.id===m.id?"selected":""}>${esc(u.name)} — ${ROLES[u.role]}</option>`).join("")}</select>`:""}`;
+  const sel=$("#asSel"); if(sel) sel.onchange=()=>{ try{localStorage.setItem("hd_as",sel.value);}catch(e){} stopCam(); render(true); toast("تم تبديل المستخدم",`تعرض اللوحة الآن بصلاحيات ${ROLES[me().role]}.`); };
+  $("#pageTitle").textContent=r.title; document.title=r.title+" — لوحة تحكم مجالس الحرمين";
+  $("#banner").innerHTML = mode==="local"?`<div class="banner alert warn">${ic("alert")}<div>تعمل اللوحة الآن في وضع محلي؛ البيانات محفوظة في هذا المتصفح فقط ولا يراها بقية الفريق.</div></div>`:"";
+}
+
+function render(full){
+  if(mode==="loading") return;
+  const r=route();
+  const routeChanged=ui.route!==r.id; ui.route=r.id;
+  renderShell(r);
+  if(r.id==="checkin"&&!routeChanged&&!full&&$("#scanRoot")){ updateCheckin(); return; }
+  // preserve focus for live updates
+  const a=document.activeElement, aid=a&&a.id, sel=a&&a.selectionStart;
+  $("#page").innerHTML=PAGES[r.id]();
+  (BIND[r.id]||(()=>{}))();
+  if(aid&&!full){ const el=document.getElementById(aid); if(el){ el.focus(); try{ if(sel!=null) el.setSelectionRange(sel,sel);}catch(e){} } }
+  if(full) window.scrollTo(0,0);
+}
+
+/* sidebar mobile */
+function closeSidebar(){ $("#sidebar").classList.remove("open"); $("#scrim").hidden=true; }
+$("#menuBtn").onclick=()=>{ $("#sidebar").classList.add("open"); $("#scrim").hidden=false; };
+$("#scrim").onclick=closeSidebar;
+$("#themeBtn").onclick=()=>{ const r=document.documentElement; const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches; r.dataset.theme=dark?"light":"dark"; try{localStorage.setItem("hd_theme",r.dataset.theme);}catch(e){} };
+try{ const t=localStorage.getItem("hd_theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+
+/* ============ toast / confirm / form ============ */
+let tt; function toast(t,s){ const el=$("#toast"); el.innerHTML=`<b>${esc(t)}</b><span class="muted">${esc(s||"")}</span>`; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),3400); }
+function confirmDlg(title,text,okLabel="حذف",danger=true){
+  return new Promise(res=>{ const d=$("#confirmDlg");
+    $("#confirmPanel").innerHTML=`<div class="dlg-h"><div><h2 id="cTitle">${esc(title)}</h2></div></div><div class="dlg-b"><p style="margin:0">${esc(text)}</p><div class="dlg-f"><button class="btn ${danger?"btn-danger":"btn-default"}" data-ok>${esc(okLabel)}</button><button class="btn btn-outline" data-no>تراجع</button></div></div>`;
+    let v=false; $("[data-ok]",d).onclick=()=>{v=true;d.close();}; $("[data-no]",d).onclick=()=>d.close();
+    d.onclose=()=>res(v); d.showModal(); });
+}
+function fieldHTML(f,v){
+  const val=v[f.name]??f.value??"";
+  const req=f.required?' <span class="muted">*</span>':"";
+  const lab=`<label class="label" for="f_${f.name}">${esc(f.label)}${req}</label>`;
+  let ctl="";
+  if(f.type==="textarea") ctl=`<textarea class="textarea" id="f_${f.name}" name="${f.name}" placeholder="${esc(f.placeholder||"")}">${esc(val)}</textarea>`;
+  else if(f.type==="select") ctl=`<select class="select" id="f_${f.name}" name="${f.name}">${f.placeholder!==false?`<option value="">${esc(f.placeholder||"اختر…")}</option>`:""}${(typeof f.options==="function"?f.options():f.options).map(o=>`<option value="${esc(o.value)}" ${String(o.value)===String(val)?"selected":""}>${esc(o.label)}</option>`).join("")}</select>`;
+  else if(f.type==="chips"||f.type==="days"){ const opts=f.type==="days"?DAYS.map((d,i)=>({value:i,label:d})):(typeof f.options==="function"?f.options():f.options); const cur=(Array.isArray(val)?val:[]).map(String);
+    return `<div class="${f.full?"full":""}" data-field="${f.name}"><span class="label" id="lb_${f.name}">${esc(f.label)}${req}</span><div class="chips" role="group" aria-labelledby="lb_${f.name}">${opts.map(o=>`<label class="chip"><input type="checkbox" name="${f.name}" value="${esc(o.value)}" ${cur.includes(String(o.value))?"checked":""}><span>${esc(o.label)}</span></label>`).join("")||`<span class="hint">${esc(f.emptyText||"لا توجد خيارات")}</span>`}</div>${f.hint?`<div class="hint">${esc(f.hint)}</div>`:""}<div class="err" data-err="${f.name}"></div></div>`; }
+  else if(f.type==="radio") return `<div class="${f.full?"full":""}" data-field="${f.name}"><span class="label" id="lb_${f.name}">${esc(f.label)}${req}</span><div class="chips" role="radiogroup" aria-labelledby="lb_${f.name}">${f.options.map(o=>`<label class="chip"><input type="radio" name="${f.name}" value="${esc(o.value)}" ${String(o.value)===String(val)?"checked":""}><span>${esc(o.label)}</span></label>`).join("")}</div><div class="err" data-err="${f.name}"></div></div>`;
+  else ctl=`<input class="input ${f.ltr?"ltr":""}" id="f_${f.name}" name="${f.name}" type="${f.type||"text"}" value="${esc(val)}" placeholder="${esc(f.placeholder||"")}" ${f.min!=null?`min="${f.min}"`:""} ${f.ltr?'style="text-align:right"':""}>`;
+  return `<div class="${f.full?"full":""}" data-field="${f.name}">${lab}${ctl}${f.hint?`<div class="hint">${esc(f.hint)}</div>`:""}<div class="err" data-err="${f.name}"></div></div>`;
+}
+function openForm(cfg){
+  const d=$("#formDlg"), vals=cfg.values||{};
+  $("#formPanel").innerHTML=`<div class="dlg-h"><div><h2 id="formTitle">${esc(cfg.title)}</h2>${cfg.desc?`<p>${esc(cfg.desc)}</p>`:""}</div><button class="btn btn-ghost btn-icon" data-x aria-label="إغلاق">${ic("x",18)}</button></div>
+  <div class="dlg-b"><form id="gform" novalidate><div class="form-grid">${cfg.fields.map(f=>fieldHTML(f,vals)).join("")}</div><div class="err" id="formErr"></div>
+  <div class="dlg-f"><button type="submit" class="btn btn-default">${esc(cfg.submit||"حفظ")}</button><button type="button" class="btn btn-outline" data-x>إلغاء</button></div></form></div>`;
+  const form=$("#gform");
+  const read=()=>{ const o={}; cfg.fields.forEach(f=>{
+    if(f.type==="chips"||f.type==="days") o[f.name]=$$(`[name="${f.name}"]:checked`,form).map(i=>f.type==="days"?Number(i.value):i.value);
+    else if(f.type==="radio"){ const c=form.querySelector(`[name="${f.name}"]:checked`); o[f.name]=c?c.value:""; }
+    else if(f.type==="number"){ const x=form.elements[f.name].value; o[f.name]=x===""?"":Number(x); }
+    else o[f.name]=form.elements[f.name].value.trim(); }); return o; };
+  const visible=f=>!form.querySelector(`[data-field="${f.name}"]`).hidden;
+  const vis=()=>{ const v=read(); cfg.fields.forEach(f=>{ if(f.showIf) form.querySelector(`[data-field="${f.name}"]`).hidden=!f.showIf(v); }); };
+  form.addEventListener("change",e=>{ vis(); if(cfg.onChange) cfg.onChange(e.target.name,form,read()); });
+  vis();
+  $$("[data-x]",d).forEach(b=>b.onclick=()=>d.close());
+  form.onsubmit=async e=>{ e.preventDefault(); const v=read(); const errs={};
+    cfg.fields.forEach(f=>{ if(!f.required||!visible(f)) return; const x=v[f.name]; if(x===""||x==null||(Array.isArray(x)&&!x.length)) errs[f.name]=f.requiredMsg||`أدخل ${f.label}.`; });
+    if(cfg.validate) Object.assign(errs,cfg.validate(v,visible)||{});
+    cfg.fields.forEach(f=>{ const el=form.querySelector(`[data-err="${f.name}"]`); el.textContent=errs[f.name]||""; const inp=form.elements[f.name]; if(inp&&inp.setAttribute) inp.setAttribute("aria-invalid",errs[f.name]?"true":"false"); });
+    const first=cfg.fields.find(f=>errs[f.name]); if(first){ const el=form.elements[first.name]; (el&&el.length&&!el.tagName?el[0]:el)?.focus?.(); return; }
+    const btn=form.querySelector("[type=submit]"); btn.disabled=true;
+    try{ cfg.fields.forEach(f=>{ if(!visible(f)) delete v[f.name]; }); await cfg.onSubmit(v); d.close(); }
+    catch(err){ $("#formErr").textContent=err&&err.message?err.message:"تعذّر الحفظ. تحقق من الاتصال ثم أعد المحاولة."; btn.disabled=false; }
+  };
+  d.showModal();
+}
+function showQR(reg){
+  const d=$("#qrDlg"), l=data.get("lessons",reg.lessonId);
+  let svg=`<div class="mono" style="color:#000">${esc(reg.code)}</div>`;
+  try{ const q=qrcode(0,"M"); q.addData(reg.code); q.make(); svg=q.createSvgTag({cellSize:6,margin:2,scalable:true}); }catch(e){}
+  $("#qrPanel").innerHTML=`<div class="dlg-h"><div><h2 id="qTitle">رمز الحجز</h2><p>${esc(reg.name)} — ${esc(l?l.title:"")}</p></div><button class="btn btn-ghost btn-icon" data-x aria-label="إغلاق">${ic("x",18)}</button></div><div class="dlg-b" style="text-align:center"><div class="qr-box">${svg}</div><div class="mono ltr" style="font-size:18px">${esc(reg.code)}</div><p class="hint">هذا الرمز نفسه الذي يُعرض للمسجَّل بعد التسجيل، ويمسحه المنظّم عند الدخول.</p></div>`;
+  $("[data-x]",d).onclick=()=>d.close(); d.showModal();
+}
+
+/* ============ PAGES ============ */
+const PAGES={}, BIND={};
+
+/* ---- overview ---- */
+PAGES.overview=()=>{
+  const m=me(), lessons=data.list("lessons"), pub=lessons.filter(l=>l.status==="published");
+  const regs=data.list("registrations").filter(r=>r.status!=="cancelled");
+  const todayL=pub.filter(l=>heldOn(l,TODAY));
+  const todayAtt=data.list("attendance").filter(a=>a.date===TODAY);
+  const expected=todayL.reduce((s,l)=>s+activeRegs(l.id).length,0);
+  const rate=expected?Math.round(todayAtt.length/expected*100):0;
+  const quick=[
+    can("attendance.checkin")&&`<a class="btn btn-default" href="#checkin">${ic("scan")} فتح قارئ الحضور</a>`,
+    can("lessons.manage")&&`<button class="btn btn-outline" data-act="newLesson">${ic("plus")} إضافة درس</button>`,
+    can("users.manage")&&`<button class="btn btn-outline" data-act="newUser">${ic("plus")} إضافة مستخدم</button>`
+  ].filter(Boolean).join("");
+  const audit=data.list("audit").sort((a,b)=>b.at.localeCompare(a.at)).slice(0,7);
+  return `<div class="page-head"><div><h2>مرحبًا، ${esc(m.name)}</h2><p>${ROLE_DESC[m.role]}</p></div><div style="display:flex;gap:8px;flex-wrap:wrap">${quick}</div></div>
+  <div class="stats">
+    <div class="card stat"><span>دروس اليوم</span><b>${N(todayL.length)}</b><small>من ${N(pub.length)} درسًا منشورًا</small></div>
+    <div class="card stat"><span>حضور اليوم</span><b>${N(todayAtt.length)}</b><small>من ${N(expected)} مسجّلًا متوقعًا</small></div>
+    <div class="card stat"><span>نسبة الحضور اليوم</span><b>${N(rate)}٪</b><small>للدروس المنعقدة اليوم</small></div>
+    <div class="card stat"><span>التسجيلات النشطة</span><b>${N(regs.length)}</b><small>في جميع الدروس</small></div>
+  </div>
+  <div class="two">
+    <div class="card"><div class="card-h"><div><h3>دروس اليوم</h3><p>الحضور المسجّل مقارنة بعدد المسجلين</p></div></div><div class="card-b" style="padding-top:8px">
+    ${todayL.length?`<div class="table-wrap" style="border:0"><table><thead><tr><th>الدرس</th><th>الموعد</th><th>الحضور</th></tr></thead><tbody>${todayL.sort((a,b)=>Object.keys(PRAYERS).indexOf(a.prayer)-Object.keys(PRAYERS).indexOf(b.prayer)).map(l=>{ const reg=activeRegs(l.id).length, att=todayAtt.filter(a=>a.lessonId===l.id).length, p=reg?Math.round(att/reg*100):0;
+      return `<tr><td><span class="t">${esc(l.title)}</span><span class="s">${esc(placeLabel(l.placeId))}</span></td><td>${PRAYERS[l.prayer]||""}${l.time?`<div class="s">${esc(l.time)}</div>`:""}</td><td style="min-width:130px"><div class="s" style="margin-bottom:4px">${N(att)} من ${N(reg)}</div><div class="progress"><i style="width:${p}%"></i></div></td></tr>`;}).join("")}</tbody></table></div>`
+      :`<div class="empty">لا توجد دروس منشورة اليوم.</div>`}</div></div>
+    ${can("audit.view")?`<div class="card"><div class="card-h"><div><h3>آخر النشاطات</h3><p>ما يفعله الفريق في اللوحة</p></div><a href="#audit" class="btn btn-ghost btn-sm">عرض الكل</a></div><div class="card-b" style="padding-top:6px">${audit.length?audit.map(a=>`<div class="list-row"><div><div style="font-size:13.5px">${esc(a.text)}</div><div class="s muted" style="font-size:12px">${esc(a.byName)} · ${ROLES[a.role]||""}</div></div><span class="muted" style="font-size:12px;white-space:nowrap">${fmtDate(a.at)} ${fmtTime(a.at)}</span></div>`).join(""):`<div class="empty">لا يوجد نشاط بعد.</div>`}</div></div>`
+    :`<div class="card"><div class="card-h"><div><h3>صلاحياتك</h3><p>ما يمكنك فعله بدور ${ROLES[m.role]}</p></div></div><div class="card-b">${permsOf(m.role).map(p=>{const x=PERMS.find(q=>q[0]===p);return x?`<div class="list-row"><span>${x[1]}</span>${ic("check")}</div>`:"";}).join("")}</div></div>`}
+  </div>`;
+};
+BIND.overview=()=>{ $$("[data-act=newLesson]").forEach(b=>b.onclick=()=>lessonForm()); $$("[data-act=newUser]").forEach(b=>b.onclick=()=>userForm()); };
+
+/* ---- check-in ---- */
+let stream=null, scanning=false, lastHit={code:"",t:0};
+PAGES.checkin=()=>{
+  const todayL=data.list("lessons").filter(l=>heldOn(l,TODAY));
+  return `<div id="scanRoot"><div class="page-head"><div><h2>قارئ الحضور</h2><p>امسح رمز QR الخاص بالمسجَّل، أو اكتب رقم الحجز يدويًا.</p></div></div>
+  <div class="scan-grid">
+    <div class="card"><div class="card-b">
+      <div class="viewfinder" id="vf"><div class="placeholder" id="vfPh">${ic("camera",28)}اضغط «تشغيل الكاميرا» ووجّهها نحو رمز QR على جوال المسجَّل.</div></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-default" id="camBtn">${ic("camera")} تشغيل الكاميرا</button>
+        <button class="btn btn-outline" id="imgBtn">${ic("image")} مسح من صورة</button>
+        <input type="file" id="imgIn" accept="image/*" hidden>
+      </div>
+      <form id="manualF" style="display:flex;gap:8px;margin-top:14px" novalidate>
+        <label class="sr-only" for="manualCode">رقم الحجز</label>
+        <input class="input ltr mono" id="manualCode" placeholder="HR-XXXXX" autocomplete="off" style="text-align:left;text-transform:uppercase">
+        <button class="btn btn-secondary" type="submit">تحقق</button>
+      </form>
+    </div></div>
+    <div style="display:grid;gap:16px">
+      <div class="card"><div class="card-b" style="display:grid;gap:12px">
+        <div><label class="label" for="sessSel">الدرس الذي تنظّمه الآن</label>
+        <select class="select" id="sessSel"><option value="">أي درس منعقد اليوم</option>${todayL.map(l=>`<option value="${l.id}" ${ui.sessionLesson===l.id?"selected":""}>${esc(l.title)} — ${PRAYERS[l.prayer]||""}</option>`).join("")}</select>
+        <div class="hint">عند اختيار درس، يُنبّهك القارئ إذا كان الحجز لدرس آخر.</div></div>
+        <label class="switch"><input type="checkbox" role="switch" id="autoSw" ${ui.autoConfirm?"checked":""}>تأكيد الحضور تلقائيًا عند المسح الصحيح</label>
+      </div></div>
+      <div id="result"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="card-h"><div><h3>حضور اليوم</h3><p id="attSub"></p></div></div><div class="card-b" id="attList"></div></div></div>`;
+};
+BIND.checkin=()=>{
+  $("#camBtn").onclick=()=>scanning?stopCam():startCam();
+  $("#imgBtn").onclick=()=>$("#imgIn").click();
+  $("#imgIn").onchange=e=>{ const f=e.target.files[0]; if(f) scanImage(f); e.target.value=""; };
+  $("#manualF").onsubmit=e=>{ e.preventDefault(); const v=$("#manualCode").value.trim(); if(v) handleCode(v); };
+  $("#sessSel").onchange=e=>{ ui.sessionLesson=e.target.value; if(ui.lastScan) updateCheckin(); };
+  $("#autoSw").onchange=e=>{ ui.autoConfirm=e.target.checked; };
+  updateCheckin();
+};
+function updateCheckin(){
+  const r=$("#result"); if(!r) return;
+  r.innerHTML=resultHTML();
+  const cb=$("#confirmAtt"); if(cb) cb.onclick=()=>confirmAttendance(ui.lastScan.regId);
+  const today=data.list("attendance").filter(a=>a.date===TODAY&&(!ui.sessionLesson||a.lessonId===ui.sessionLesson)).sort((a,b)=>b.at.localeCompare(a.at));
+  $("#attSub").textContent=ui.sessionLesson?`لدرس: ${(data.get("lessons",ui.sessionLesson)||{}).title||""} — ${N(today.length)}`:`جميع الدروس — ${N(today.length)}`;
+  $("#attList").innerHTML=today.length?`<div class="table-wrap"><table><thead><tr><th>الاسم</th><th>رقم الحجز</th><th>الدرس</th><th>الوقت</th><th>بواسطة</th></tr></thead><tbody>${today.slice(0,50).map(a=>{const g=data.get("registrations",a.regId)||{}; const l=data.get("lessons",a.lessonId)||{}; return `<tr><td>${esc(g.name||"—")}</td><td class="mono ltr" style="text-align:right">${esc(g.code||"")}</td><td>${esc(l.title||"—")}</td><td>${fmtTime(a.at)}</td><td class="s">${esc(a.byName||"")}</td></tr>`;}).join("")}</tbody></table></div>`:`<div class="empty">لم يُسجَّل أي حضور اليوم بعد.</div>`;
+}
+function resultHTML(){
+  const s=ui.lastScan;
+  if(!s) return `<div class="result-empty">${ic("qr",28)}<div style="margin-top:6px">ستظهر بيانات المسجَّل هنا بعد المسح.</div></div>`;
+  if(!s.regId) return `<div class="card"><div class="card-b"><div class="alert danger">${ic("alert")}<div><b>رقم الحجز غير موجود</b><div>الرمز <span class="mono ltr">${esc(s.code)}</span> لا يطابق أي تسجيل. اطلب من الزائر فتح رقم الحجز من صفحة «دروسي».</div></div></div></div></div>`;
+  const g=data.get("registrations",s.regId); if(!g) return "";
+  const l=data.get("lessons",g.lessonId)||{};
+  const warns=[];
+  if(g.status==="cancelled") warns.push(["danger","هذا التسجيل ملغى."]);
+  if(l.id&&!heldOn(l,TODAY)) warns.push(["warn","هذا الدرس لا يُعقد اليوم حسب الجدول."]);
+  if(ui.sessionLesson&&g.lessonId!==ui.sessionLesson) warns.push(["warn",`الحجز لدرس آخر: ${l.title||"—"}.`]);
+  const att=S.attendance[`${g.id}_${TODAY}`];
+  const status = att?`<div class="alert ok">${ic("check")}<div><b>تم تسجيل الحضور</b><div>الساعة ${fmtTime(att.at)} بواسطة ${esc(att.byName||"")}</div></div></div>`:"";
+  return `<div class="card ${s.flash?"flash":""}"><div class="card-b">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div style="font-size:17px;font-weight:600">${esc(g.name)}</div><div class="mono ltr muted" style="text-align:right">${esc(g.code)}</div></div>${g.gender?`<span class="badge b-secondary">${g.gender==="female"?"أنثى":"ذكر"}</span>`:""}</div>
+    <dl class="kv"><dt>الدرس</dt><dd>${esc(l.title||"—")}</dd><dt>المكان</dt><dd>${esc(placeLabel(l.placeId))}</dd><dt>الموعد</dt><dd>${esc(l.id?scheduleText(l):"—")}</dd><dt>لغة الاستماع</dt><dd>${esc(g.lang||"—")}</dd><dt>مرات الحضور</dt><dd>${N(attendanceOf(g.id).length)}</dd></dl>
+    <div style="display:grid;gap:8px">${warns.map(w=>`<div class="alert ${w[0]}">${ic("alert")}<div>${esc(w[1])}</div></div>`).join("")}${status}</div>
+    ${!att&&g.status!=="cancelled"?`<button class="btn btn-default" id="confirmAtt" style="width:100%;margin-top:12px;height:44px">${ic("check")} تأكيد الحضور${warns.length?" رغم التنبيه":""}</button>`:""}
+  </div></div>`;
+}
+function extractCode(t){ const m=String(t).toUpperCase().match(/\b(HR|NB)-[A-Z0-9]{5}\b/); return m?m[0]:String(t).trim().toUpperCase(); }
+function handleCode(raw){
+  const code=extractCode(raw);
+  const g=data.list("registrations").find(r=>r.code===code);
+  ui.lastScan={code,regId:g?g.id:null,flash:true};
+  updateCheckin(); setTimeout(()=>{ if(ui.lastScan) ui.lastScan.flash=false; },600);
+  if(g&&ui.autoConfirm&&g.status!=="cancelled"&&!attendedToday(g.id)){ const l=data.get("lessons",g.lessonId); if(l&&heldOn(l,TODAY)&&(!ui.sessionLesson||ui.sessionLesson===g.lessonId)) confirmAttendance(g.id); }
+  const mc=$("#manualCode"); if(mc) mc.value="";
+}
+async function confirmAttendance(rid){
+  const g=data.get("registrations",rid); if(!g||attendedToday(rid)) return;
+  const b=$("#confirmAtt"); if(b) b.disabled=true;
+  try{ await data.set("attendance",`${rid}_${TODAY}`,{regId:rid,lessonId:g.lessonId,date:TODAY,at:new Date().toISOString(),by:me().id,byName:me().name});
+    toast("تم تسجيل الحضور",g.name); log(`سجّل حضور ${g.name} (${g.code})`); if(navigator.vibrate) navigator.vibrate(60); }
+  catch(e){ toast("تعذّر تسجيل الحضور","تحقق من الاتصال ثم اضغط «تأكيد الحضور» مرة أخرى."); if(b) b.disabled=false; }
+}
+async function startCam(){
+  if(!window.jsQR){ toast("قارئ QR غير متاح","اكتب رقم الحجز يدويًا."); return; }
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ camFail(); return; }
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false});
+    const vf=$("#vf"); if(!vf){ stopCam(); return; }
+    vf.innerHTML=`<video id="vid" playsinline muted></video><div class="frame"></div>`;
+    const v=$("#vid"); v.srcObject=stream; await v.play();
+    scanning=true; $("#camBtn").innerHTML=`${ic("x")} إيقاف الكاميرا`; tick();
+  }catch(e){ stopCam(); camFail(); }
+}
+function camFail(){ const ph=$("#vfPh"); if(ph) ph.innerHTML=`${ic("alert",28)}تعذّر فتح الكاميرا في هذه النافذة. استخدم «مسح من صورة» لالتقاط صورة للرمز، أو اكتب رقم الحجز.`; }
+const cv=document.createElement("canvas"), cx=cv.getContext("2d",{willReadFrequently:true});
+function tick(){
+  if(!scanning) return; const v=$("#vid");
+  if(v&&v.readyState>=2){ const w=480, h=Math.round(v.videoHeight/v.videoWidth*w)||480; cv.width=w; cv.height=h; cx.drawImage(v,0,0,w,h);
+    const r=jsQR(cx.getImageData(0,0,w,h).data,w,h,{inversionAttempts:"dontInvert"});
+    if(r&&r.data){ const now=Date.now(); if(r.data!==lastHit.code||now-lastHit.t>3000){ lastHit={code:r.data,t:now}; handleCode(r.data); } } }
+  requestAnimationFrame(tick);
+}
+function stopCam(){ scanning=false; if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; } const vf=$("#vf"); if(vf&&$("#vid")) vf.innerHTML=`<div class="placeholder" id="vfPh">${ic("camera",28)}الكاميرا متوقفة.</div>`; const b=$("#camBtn"); if(b) b.innerHTML=`${ic("camera")} تشغيل الكاميرا`; }
+function scanImage(file){
+  if(!window.jsQR){ toast("قارئ QR غير متاح","اكتب رقم الحجز يدويًا."); return; }
+  const img=new Image(); const url=URL.createObjectURL(file);
+  img.onload=()=>{ const s=Math.min(1,1200/Math.max(img.width,img.height)); const w=Math.round(img.width*s), h=Math.round(img.height*s); cv.width=w; cv.height=h; cx.drawImage(img,0,0,w,h);
+    const r=jsQR(cx.getImageData(0,0,w,h).data,w,h); URL.revokeObjectURL(url);
+    if(r&&r.data) handleCode(r.data); else toast("لم يُعثر على رمز QR","التقط صورة أوضح للرمز وحده، أو اكتب رقم الحجز."); };
+  img.onerror=()=>toast("تعذّر قراءة الصورة","اختر صورة بصيغة JPG أو PNG.");
+  img.src=url;
+}
+
+/* ---- registrations ---- */
+PAGES.registrations=()=>{
+  const lessons=data.list("lessons");
+  const q=ui.regQ.toUpperCase();
+  const rows=data.list("registrations").filter(r=>(!ui.regLesson||r.lessonId===ui.regLesson)&&(!q||(r.name||"").includes(ui.regQ)||(r.code||"").includes(q)||(r.phone||"").includes(ui.regQ))).sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||""));
+  const edit=can("registrations.edit");
+  return `<div class="page-head"><div><h2>التسجيلات</h2><p>كل من سجّل في الدروس وسجل حضوره.</p></div>${edit?`<button class="btn btn-default" id="addReg">${ic("plus")} تسجيل زائر</button>`:""}</div>
+  <div class="toolbar"><label class="sr-only" for="regLesson">الدرس</label><select class="select" id="regLesson"><option value="">كل الدروس</option>${lessons.map(l=>`<option value="${l.id}" ${ui.regLesson===l.id?"selected":""}>${esc(l.title)}</option>`).join("")}</select>
+  <label class="sr-only" for="regQ">بحث</label><input class="input" id="regQ" type="search" placeholder="ابحث بالاسم أو الجوال أو رقم الحجز" value="${esc(ui.regQ)}"><span class="grow muted" style="font-size:13px">${N(rows.length)} تسجيل</span></div>
+  <div class="table-wrap"><table><thead><tr><th>المسجَّل</th><th>رقم الحجز</th><th>الدرس</th><th>تاريخ التسجيل</th><th>الحضور</th><th>الحالة</th><th><span class="sr-only">إجراءات</span></th></tr></thead><tbody>
+  ${rows.length?rows.map(r=>{ const l=data.get("lessons",r.lessonId)||{}; const today=attendedToday(r.id);
+    return `<tr><td><span class="t">${esc(r.name)}</span><span class="s ltr" style="display:block;text-align:right">${esc(r.phone||"")}</span></td><td class="mono ltr" style="text-align:right">${esc(r.code)}</td><td>${esc(l.title||"—")}</td><td>${fmtDate(r.createdAt)}</td><td>${N(attendanceOf(r.id).length)} ${today?`<span class="badge b-primary">حضر اليوم</span>`:""}</td><td>${r.status==="cancelled"?`<span class="badge b-danger">ملغى</span>`:`<span class="badge b-secondary">نشط</span>`}</td>
+    <td><div class="actions"><button class="btn btn-ghost btn-sm btn-icon" data-qr="${r.id}" aria-label="عرض رمز QR">${ic("qr")}</button>${edit&&r.status!=="cancelled"?`${!today&&heldOn(l,TODAY)?`<button class="btn btn-outline btn-sm" data-att="${r.id}">تسجيل حضور</button>`:""}<button class="btn btn-ghost btn-sm" data-cancel="${r.id}">إلغاء</button>`:""}</div></td></tr>`; }).join(""):`<tr><td colspan="7"><div class="empty">لا توجد تسجيلات تطابق البحث.</div></td></tr>`}
+  </tbody></table></div>`;
+};
+BIND.registrations=()=>{
+  $("#regLesson").onchange=e=>{ui.regLesson=e.target.value;render();};
+  $("#regQ").oninput=e=>{ui.regQ=e.target.value.trim();render();};
+  $$("[data-qr]").forEach(b=>b.onclick=()=>showQR(data.get("registrations",b.dataset.qr)));
+  $$("[data-att]").forEach(b=>b.onclick=()=>confirmAttendance(b.dataset.att));
+  $$("[data-cancel]").forEach(b=>b.onclick=async()=>{ const r=data.get("registrations",b.dataset.cancel); if(await confirmDlg("إلغاء التسجيل؟",`سيُلغى تسجيل ${r.name} ويُتاح مقعده لغيره.`,"إلغاء التسجيل")){ await data.update("registrations",r.id,{status:"cancelled"}); log(`ألغى تسجيل ${r.name} (${r.code})`); toast("تم إلغاء التسجيل",r.name);} });
+  const a=$("#addReg"); if(a) a.onclick=()=>openForm({title:"تسجيل زائر",desc:"لمن يحضر دون تسجيل مسبق. يُنشأ له رقم حجز ورمز QR.",submit:"إنشاء التسجيل",
+    fields:[{name:"lessonId",label:"الدرس",type:"select",required:true,full:true,options:()=>data.list("lessons").filter(l=>l.status==="published").map(l=>({value:l.id,label:l.title}))},
+      {name:"name",label:"الاسم الكامل",required:true},{name:"phone",label:"رقم الجوال",required:true,ltr:true,placeholder:"05XXXXXXXX"},
+      {name:"gender",label:"الجنس",type:"radio",required:true,options:[{value:"male",label:"ذكر"},{value:"female",label:"أنثى"}]},
+      {name:"lang",label:"لغة الاستماع",type:"select",options:()=>data.list("languages").map(x=>({value:x.name,label:x.name})),placeholder:"العربية"}],
+    validate:v=>{ const e={}; if(v.phone&&!/^(05\d{8}|\+?[1-9]\d{8,14})$/.test(v.phone.replace(/[\s-]/g,""))) e.phone="اكتب رقم جوال صحيحًا، مثل 0512345678."; const l=data.get("lessons",v.lessonId); if(l){ if(l.audience==="men"&&v.gender==="female") e.gender="هذا الدرس للرجال فقط."; if(l.audience==="women"&&v.gender==="male") e.gender="هذا الدرس للنساء فقط."; if(activeRegs(l.id).length>=(l.capacity||0)) e.lessonId="اكتملت مقاعد هذا الدرس."; } return e; },
+    onSubmit:async v=>{ const l=data.get("lessons",v.lessonId); const code=newCode(lessonMasjid(l)); await data.add("registrations",{...v,phone:v.phone.replace(/[\s-]/g,""),lang:v.lang||"العربية",code,status:"active",createdAt:new Date().toISOString(),source:"dashboard",createdBy:me().id}); log(`سجّل الزائر ${v.name} في «${l.title}»`); toast("تم إنشاء التسجيل",code); }});
+};
+
+/* ---- lessons ---- */
+function lessonForm(l){
+  const cfgMissing=[!data.list("categories").length&&"التصنيفات",!data.list("places").length&&"المواقع",!data.list("sheikhs").length&&"المشايخ"].filter(Boolean);
+  if(cfgMissing.length){ toast("الإعدادات غير مكتملة",`أضف ${cfgMissing.join(" و")} من صفحة الإعدادات أولًا.`); return; }
+  const v=l?{...l}:{recurrence:"weekly",audience:"all",status:"published",startDate:TODAY,duration:45,languages:["العربية"]};
+  openForm({title:l?"تعديل الدرس":"إضافة درس",desc:"اختر التصنيف والمكان والشيخ من الإعدادات، ثم حدد الموعد والتكرار.",submit:l?"حفظ التعديلات":"إضافة الدرس",values:v,
+    fields:[
+      {name:"title",label:"عنوان الدرس",required:true,full:true,placeholder:"مثال: شرح الأربعين النووية"},
+      {name:"description",label:"الوصف",type:"textarea",full:true,required:true,placeholder:"ما الذي سيتعلمه الحاضر؟ ولمن يناسب الدرس؟"},
+      {name:"categoryId",label:"التصنيف",type:"select",required:true,options:()=>data.list("categories").map(c=>({value:c.id,label:c.name}))},
+      {name:"sheikhId",label:"الشيخ المقدِّم",type:"select",required:true,options:()=>data.list("sheikhs").filter(s=>s.active!==false).map(s=>({value:s.id,label:(s.title?s.title+" ":"")+s.name}))},
+      {name:"placeId",label:"المكان",type:"select",required:true,full:true,options:()=>data.list("places").sort((a,b)=>a.masjid.localeCompare(b.masjid)).map(p=>({value:p.id,label:`${MASJID[p.masjid]} — ${p.name}`})),hint:"تُضبط المواقع وسعتها من صفحة الإعدادات."},
+      {name:"recurrence",label:"التكرار",type:"radio",required:true,full:true,options:[{value:"weekly",label:"أسبوعي"},{value:"daily",label:"يومي"},{value:"once",label:"مرة واحدة"}]},
+      {name:"days",label:"أيام الدرس",type:"days",required:true,full:true,showIf:x=>x.recurrence==="weekly",requiredMsg:"اختر يومًا واحدًا على الأقل."},
+      {name:"date",label:"تاريخ الدرس",type:"date",required:true,showIf:x=>x.recurrence==="once"},
+      {name:"startDate",label:"تاريخ البداية",type:"date",required:true,showIf:x=>x.recurrence!=="once"},
+      {name:"endDate",label:"تاريخ النهاية",type:"date",showIf:x=>x.recurrence!=="once",hint:"اتركه فارغًا إن كان الدرس مستمرًا."},
+      {name:"prayer",label:"وقت الدرس",type:"select",required:true,options:Object.entries(PRAYERS).map(([k,t])=>({value:k,label:t}))},
+      {name:"time",label:"الساعة التقريبية",type:"time",hint:"اختياري؛ تتغير أوقات الصلاة خلال العام."},
+      {name:"duration",label:"المدة بالدقائق",type:"number",required:true,min:5},
+      {name:"capacity",label:"عدد المقاعد",type:"number",required:true,min:1,hint:"تُملأ تلقائيًا من سعة المكان، ويمكنك تعديلها."},
+      {name:"audience",label:"الفئة",type:"radio",required:true,options:Object.entries(AUD).map(([k,t])=>({value:k,label:t}))},
+      {name:"languages",label:"لغات الترجمة",type:"chips",full:true,required:true,options:()=>data.list("languages").map(x=>({value:x.name,label:x.name})),emptyText:"أضف لغات من صفحة الإعدادات."},
+      {name:"status",label:"الحالة",type:"radio",required:true,options:[{value:"published",label:"منشور"},{value:"draft",label:"مسودة"}]}
+    ],
+    onChange:(name,form)=>{ if(name==="placeId"){ const p=placeOf(form.elements.placeId.value); const c=form.elements.capacity; if(p&&p.capacity&&!c.value) c.value=p.capacity; } },
+    validate:x=>{ const e={}; if(x.endDate&&x.startDate&&x.endDate<x.startDate) e.endDate="تاريخ النهاية قبل تاريخ البداية."; if(x.duration!==""&&x.duration<5) e.duration="المدة 5 دقائق على الأقل."; if(x.capacity!==""&&x.capacity<1) e.capacity="أدخل عدد مقاعد صحيحًا.";
+      const p=placeOf(x.placeId); if(p&&p.capacity&&x.capacity>p.capacity) e.capacity=`سعة المكان ${N(p.capacity)} مقعدًا فقط.`;
+      if(l&&x.capacity!==""&&x.capacity<activeRegs(l.id).length) e.capacity=`يوجد ${N(activeRegs(l.id).length)} مسجّلًا؛ لا يمكن أن تقل المقاعد عنهم.`; return e; },
+    onSubmit:async x=>{ const rec={...x,recurrence:x.recurrence,days:x.days||[],updatedAt:new Date().toISOString(),updatedBy:me().id};
+      if(l){ const {id,...old}=l; await data.set("lessons",l.id,{...old,...rec,days:x.recurrence==="weekly"?x.days:[],date:x.recurrence==="once"?x.date:"",startDate:x.startDate||"",endDate:x.endDate||""}); log(`عدّل الدرس «${x.title}»`); toast("تم حفظ الدرس",x.title); }
+      else { await data.add("lessons",{...rec,date:x.date||"",startDate:x.startDate||"",endDate:x.endDate||"",time:x.time||"",createdAt:new Date().toISOString(),createdBy:me().id,createdByName:me().name}); log(`أضاف الدرس «${x.title}»`); toast("تمت إضافة الدرس",x.title); } }
+  });
+}
+PAGES.lessons=()=>{
+  const rows=data.list("lessons").filter(l=>(ui.lessonMasjid==="all"||lessonMasjid(l)===ui.lessonMasjid)&&(!ui.lessonStatus||l.status===ui.lessonStatus)).sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||""));
+  return `<div class="page-head"><div><h2>الدروس</h2><p>الدروس ومواعيدها والمشايخ المقدِّمون لها.</p></div><button class="btn btn-default" id="addLesson">${ic("plus")} إضافة درس</button></div>
+  <div class="toolbar"><div class="tabs" role="tablist" aria-label="المسجد">${[["all","الكل"],["haram",MASJID.haram],["nabawi",MASJID.nabawi]].map(([k,t])=>`<button class="tab" role="tab" data-m="${k}" aria-selected="${ui.lessonMasjid===k}">${t}</button>`).join("")}</div>
+  <label class="sr-only" for="lStatus">الحالة</label><select class="select" id="lStatus" style="width:150px"><option value="">كل الحالات</option><option value="published" ${ui.lessonStatus==="published"?"selected":""}>منشور</option><option value="draft" ${ui.lessonStatus==="draft"?"selected":""}>مسودة</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>الدرس</th><th>الشيخ</th><th>المكان</th><th>الموعد</th><th>المقاعد</th><th>الحالة</th><th><span class="sr-only">إجراءات</span></th></tr></thead><tbody>
+  ${rows.length?rows.map(l=>{ const reg=activeRegs(l.id).length, p=l.capacity?Math.min(100,Math.round(reg/l.capacity*100)):0;
+    return `<tr><td><span class="t">${esc(l.title)}</span><span class="s">${esc(catName(l.categoryId))}${l.audience!=="all"?` · ${AUD[l.audience]}`:""}</span></td><td>${esc(sheikhName(l.sheikhId))}</td><td><span class="s" style="color:inherit">${esc(placeLabel(l.placeId))}</span></td><td style="min-width:160px">${esc(scheduleText(l))}</td>
+    <td style="min-width:110px"><div class="s" style="margin-bottom:4px">${N(reg)} / ${N(l.capacity)}</div><div class="progress"><i style="width:${p}%"></i></div></td>
+    <td>${l.status==="published"?`<span class="badge b-primary">منشور</span>`:`<span class="badge b-outline">مسودة</span>`}</td>
+    <td><div class="actions"><button class="btn btn-ghost btn-sm btn-icon" data-edit="${l.id}" aria-label="تعديل">${ic("edit")}</button><button class="btn btn-ghost btn-sm btn-icon" data-del="${l.id}" aria-label="حذف">${ic("trash")}</button></div></td></tr>`; }).join(""):`<tr><td colspan="7"><div class="empty">لا توجد دروس هنا بعد. اضغط «إضافة درس» لإنشاء أول درس.</div></td></tr>`}
+  </tbody></table></div>`;
+};
+BIND.lessons=()=>{
+  $("#addLesson").onclick=()=>lessonForm();
+  $$("[data-m]").forEach(b=>b.onclick=()=>{ui.lessonMasjid=b.dataset.m;render();});
+  $("#lStatus").onchange=e=>{ui.lessonStatus=e.target.value;render();};
+  $$("[data-edit]").forEach(b=>b.onclick=()=>lessonForm(data.get("lessons",b.dataset.edit)));
+  $$("[data-del]").forEach(b=>b.onclick=async()=>{ const l=data.get("lessons",b.dataset.del), n=activeRegs(l.id).length;
+    if(await confirmDlg("حذف الدرس؟",n?`في هذا الدرس ${N(n)} مسجّلًا. سيبقى سجلهم لكن الدرس سيختفي من الموقع. لإيقافه مؤقتًا اجعله مسودة بدلًا من الحذف.`:`سيُحذف «${l.title}» نهائيًا.`,"حذف الدرس")){ await data.del("lessons",l.id); log(`حذف الدرس «${l.title}»`); toast("تم حذف الدرس",l.title);} });
+};
+
+/* ---- config ---- */
+const CFG={
+  categories:{title:"التصنيفات",one:"تصنيف",cols:["الاسم","الوصف"],row:x=>[`<span class="t">${esc(x.name)}</span>`,`<span class="s">${esc(x.description||"")}</span>`],
+    fields:[{name:"name",label:"اسم التصنيف",required:true,full:true,placeholder:"مثال: التفسير"},{name:"description",label:"وصف مختصر",type:"textarea",full:true}],usedBy:"categoryId"},
+  places:{title:"المواقع",one:"موقع",cols:["المسجد","الموقع","السعة","الخريطة"],row:x=>[`<span class="badge b-secondary">${MASJID[x.masjid]}</span>`,`<span class="t">${esc(x.name)}</span><span class="s">${esc(x.details||"")}</span>`,N(x.capacity),x.mapUrl?`<a href="${esc(x.mapUrl)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">فتح</a>`:"—"],
+    fields:[{name:"masjid",label:"المسجد",type:"radio",required:true,full:true,options:[{value:"haram",label:MASJID.haram},{value:"nabawi",label:MASJID.nabawi}]},{name:"name",label:"اسم الموقع",required:true,placeholder:"مثال: الرواق العثماني"},{name:"capacity",label:"السعة القصوى",type:"number",min:1,required:true},{name:"details",label:"وصف الوصول",type:"textarea",full:true,placeholder:"أقرب باب، الدور، علامة مميزة…"},{name:"mapUrl",label:"رابط الموقع على الخريطة",full:true,ltr:true,placeholder:"https://maps.google.com/…"}],
+    validate:v=>v.mapUrl&&!/^https:\/\//.test(v.mapUrl)?{mapUrl:"يجب أن يبدأ الرابط بـ https://"}:{},usedBy:"placeId"},
+  sheikhs:{title:"المشايخ",one:"شيخ",cols:["الاسم","التخصص","الحالة"],row:x=>[`<span class="t">${esc((x.title?x.title+" ":"")+x.name)}</span><span class="s">${esc(x.bio||"")}</span>`,esc(x.specialty||"—"),x.active===false?`<span class="badge b-outline">موقوف</span>`:`<span class="badge b-primary">نشط</span>`],
+    fields:[{name:"title",label:"اللقب",type:"select",options:["الشيخ","الشيخ د.","الشيخ أ.د.","د.","أ.د.","أ."].map(x=>({value:x,label:x})),placeholder:"بدون لقب"},{name:"name",label:"الاسم",required:true},{name:"specialty",label:"التخصص",placeholder:"مثال: الحديث وعلومه"},{name:"active",label:"الحالة",type:"radio",options:[{value:"true",label:"نشط"},{value:"false",label:"موقوف"}]},{name:"bio",label:"نبذة",type:"textarea",full:true}],
+    map:v=>({...v,active:v.active!=="false"}),unmap:x=>({...x,active:x.active===false?"false":"true"}),usedBy:"sheikhId"},
+  languages:{title:"لغات الترجمة",one:"لغة",cols:["اللغة"],row:x=>[`<span class="t">${esc(x.name)}</span>`],fields:[{name:"name",label:"اسم اللغة",required:true,full:true,placeholder:"مثال: التركية"}]}
+};
+function cfgForm(key,item){
+  const c=CFG[key];
+  openForm({title:item?`تعديل ${c.one}`:`إضافة ${c.one}`,values:item?(c.unmap?c.unmap(item):item):{masjid:"haram",active:"true"},fields:c.fields,validate:c.validate,
+    onSubmit:async v=>{ const dup=data.list(key).find(x=>x.name===v.name&&(!item||x.id!==item.id)&&(key!=="places"||x.masjid===v.masjid)); if(dup) throw new Error(`يوجد ${c.one} بهذا الاسم.`);
+      const rec=c.map?c.map(v):v;
+      if(item){ const {id,...old}=item; await data.set(key,item.id,{...old,...rec}); log(`عدّل ${c.one} «${v.name}»`); }
+      else { await data.add(key,{...rec,createdAt:new Date().toISOString(),createdBy:me().id}); log(`أضاف ${c.one} «${v.name}»`); }
+      toast(item?"تم الحفظ":"تمت الإضافة",v.name); }});
+}
+PAGES.config=()=>{
+  const k=ui.cfgTab, c=CFG[k], rows=data.list(k).sort((a,b)=>(a.masjid||"").localeCompare(b.masjid||"")||(a.name||"").localeCompare(b.name||"","ar"));
+  return `<div class="page-head"><div><h2>الإعدادات</h2><p>القوائم التي يختار منها المشرفون عند إضافة الدروس.</p></div><button class="btn btn-default" id="cfgAdd">${ic("plus")} إضافة ${c.one}</button></div>
+  <div class="toolbar"><div class="tabs" role="tablist" aria-label="أقسام الإعدادات">${Object.entries(CFG).map(([key,x])=>`<button class="tab" role="tab" data-t="${key}" aria-selected="${k===key}">${x.title} <span class="muted">${N(data.list(key).length)}</span></button>`).join("")}</div></div>
+  <div class="table-wrap"><table><thead><tr>${c.cols.map(x=>`<th>${x}</th>`).join("")}${c.usedBy?"<th>الدروس</th>":""}<th><span class="sr-only">إجراءات</span></th></tr></thead><tbody>
+  ${rows.length?rows.map(x=>{ const used=c.usedBy?data.list("lessons").filter(l=>l[c.usedBy]===x.id).length:null; return `<tr>${c.row(x).map(v=>`<td>${v}</td>`).join("")}${c.usedBy?`<td>${N(used)}</td>`:""}<td><div class="actions"><button class="btn btn-ghost btn-sm btn-icon" data-ce="${x.id}" aria-label="تعديل">${ic("edit")}</button><button class="btn btn-ghost btn-sm btn-icon" data-cd="${x.id}" aria-label="حذف">${ic("trash")}</button></div></td></tr>`; }).join(""):`<tr><td colspan="${c.cols.length+2}"><div class="empty">لا توجد عناصر. أضف أول ${c.one} ليظهر للمشرفين عند إضافة الدروس.</div></td></tr>`}
+  </tbody></table></div>`;
+};
+BIND.config=()=>{
+  const k=ui.cfgTab, c=CFG[k];
+  $$("[data-t]").forEach(b=>b.onclick=()=>{ui.cfgTab=b.dataset.t;render();});
+  $("#cfgAdd").onclick=()=>cfgForm(k);
+  $$("[data-ce]").forEach(b=>b.onclick=()=>cfgForm(k,data.get(k,b.dataset.ce)));
+  $$("[data-cd]").forEach(b=>b.onclick=async()=>{ const x=data.get(k,b.dataset.cd);
+    const used=c.usedBy?data.list("lessons").filter(l=>l[c.usedBy]===x.id):k==="languages"?data.list("lessons").filter(l=>(l.languages||[]).includes(x.name)):[];
+    if(used.length){ toast(`لا يمكن حذف ${c.one} مستخدم`,`مرتبط بـ ${N(used.length)} درس. عدّل الدروس أولًا${k==="sheikhs"?"، أو اجعل الشيخ موقوفًا":""}.`); return; }
+    if(await confirmDlg(`حذف ${c.one}؟`,`سيُحذف «${x.name}» من القائمة.`,"حذف")){ await data.del(k,x.id); log(`حذف ${c.one} «${x.name}»`); toast("تم الحذف",x.name);} });
+};
+
+/* ---- users ---- */
+function userForm(u){
+  const roles=Object.keys(ROLES).filter(canManageRole);
+  if(!roles.length){ toast("لا يمكنك إضافة مستخدمين","دورك لا يسمح بإدارة أدوار أخرى."); return; }
+  openForm({title:u?"تعديل المستخدم":"إضافة مستخدم",desc:"يمكنك إضافة الأدوار الأدنى من دورك فقط.",values:u||{role:roles[roles.length-1]},submit:u?"حفظ":"إضافة المستخدم",
+    fields:[{name:"name",label:"الاسم",required:true},{name:"email",label:"البريد الإلكتروني",required:true,ltr:true,type:"email",placeholder:"name@example.com"},{name:"phone",label:"الجوال",ltr:true,placeholder:"05XXXXXXXX"},
+      {name:"role",label:"الدور",type:"radio",required:true,full:true,options:roles.map(r=>({value:r,label:ROLES[r]}))}],
+    validate:v=>{ const e={}; if(v.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) e.email="صيغة البريد غير صحيحة."; else if(data.list("users").some(x=>x.email===v.email.toLowerCase()&&(!u||x.id!==u.id))) e.email="هذا البريد مسجّل لمستخدم آخر."; return e; },
+    onSubmit:async v=>{ v.email=v.email.toLowerCase();
+      if(u){ const {id,...old}=u; await data.set("users",u.id,{...old,...v}); log(`عدّل المستخدم ${v.name} (${ROLES[v.role]})`); }
+      else { await data.add("users",{...v,active:true,createdAt:new Date().toISOString(),createdBy:me().id,createdByName:me().name}); log(`أضاف ${ROLES[v.role]}: ${v.name}`); }
+      toast(u?"تم حفظ المستخدم":"تمت إضافة المستخدم",`${v.name} — ${ROLES[v.role]}`); }});
+}
+PAGES.users=()=>{
+  const q=ui.userQ, rows=data.list("users").filter(u=>!q||u.name.includes(q)||(u.email||"").includes(q)).sort((a,b)=>RANK[b.role]-RANK[a.role]||a.name.localeCompare(b.name,"ar"));
+  const countBy=r=>data.list("users").filter(u=>u.role===r&&u.active!==false).length;
+  return `<div class="page-head"><div><h2>المستخدمون</h2><p>فريق اللوحة وأدوارهم.</p></div><button class="btn btn-default" id="addUser">${ic("plus")} إضافة مستخدم</button></div>
+  <div class="stats">${Object.keys(ROLES).map(r=>`<div class="card stat"><span>${ROLES[r]}</span><b>${N(countBy(r))}</b></div>`).join("")}</div>
+  <div class="toolbar"><label class="sr-only" for="userQ">بحث</label><input class="input" id="userQ" type="search" placeholder="ابحث بالاسم أو البريد" value="${esc(q)}"></div>
+  <div class="table-wrap"><table><thead><tr><th>المستخدم</th><th>الدور</th><th>أضافه</th><th>الحالة</th><th><span class="sr-only">إجراءات</span></th></tr></thead><tbody>
+  ${rows.map(u=>{ const mine=u.id===me().id, ok=!mine&&canManageRole(u.role);
+    return `<tr><td><div style="display:flex;gap:10px;align-items:center"><div class="avatar">${esc(initials(u.name))}</div><div><span class="t">${esc(u.name)}${mine?' <span class="badge b-outline">أنت</span>':""}</span><span class="s ltr" style="display:block;text-align:right">${esc(u.email||"")}</span></div></div></td>
+    <td><span class="badge ${u.role==="super"?"b-gold":u.role==="admin"?"b-primary":"b-secondary"}">${ROLES[u.role]}</span></td><td class="s">${esc(u.createdByName||"—")}</td>
+    <td>${u.active===false?`<span class="badge b-outline">موقوف</span>`:`<span class="badge b-primary">نشط</span>`}</td>
+    <td><div class="actions">${ok?`<button class="btn btn-ghost btn-sm btn-icon" data-ue="${u.id}" aria-label="تعديل">${ic("edit")}</button><button class="btn btn-ghost btn-sm" data-ua="${u.id}">${u.active===false?"تفعيل":"إيقاف"}</button>${me().role==="super"?`<button class="btn btn-ghost btn-sm btn-icon" data-ud="${u.id}" aria-label="حذف">${ic("trash")}</button>`:""}`:""}</div></td></tr>`; }).join("")||`<tr><td colspan="5"><div class="empty">لا يوجد مستخدمون.</div></td></tr>`}
+  </tbody></table></div>`;
+};
+BIND.users=()=>{
+  $("#addUser").onclick=()=>userForm();
+  $("#userQ").oninput=e=>{ui.userQ=e.target.value.trim();render();};
+  $$("[data-ue]").forEach(b=>b.onclick=()=>userForm(data.get("users",b.dataset.ue)));
+  $$("[data-ua]").forEach(b=>b.onclick=async()=>{ const u=data.get("users",b.dataset.ua), on=u.active===false; await data.update("users",u.id,{active:on}); log(`${on?"فعّل":"أوقف"} المستخدم ${u.name}`); toast(on?"تم تفعيل المستخدم":"تم إيقاف المستخدم",u.name); });
+  $$("[data-ud]").forEach(b=>b.onclick=async()=>{ const u=data.get("users",b.dataset.ud); if(u.role==="super"&&data.list("users").filter(x=>x.role==="super"&&x.active!==false).length<2){ toast("لا يمكن الحذف","يجب أن يبقى مدير عام واحد على الأقل."); return; }
+    if(await confirmDlg("حذف المستخدم؟",`سيفقد ${u.name} الوصول إلى اللوحة. لإيقافه مؤقتًا استخدم «إيقاف».`,"حذف المستخدم")){ await data.del("users",u.id); log(`حذف المستخدم ${u.name}`); toast("تم حذف المستخدم",u.name);} });
+};
+
+/* ---- roles & permissions ---- */
+PAGES.roles=()=>{
+  const eds=["admin","supervisor","organizer"];
+  return `<div class="page-head"><div><h2>الأدوار والصلاحيات</h2><p>حدد ما يستطيع كل دور فعله. المدير العام يملك جميع الصلاحيات دائمًا.</p></div><button class="btn btn-outline" id="resetPerms">استعادة الافتراضي</button></div>
+  <div class="stats">${Object.keys(ROLES).map(r=>`<div class="card stat"><span>${ROLES[r]}</span><small style="display:block;margin-top:4px;line-height:1.6">${ROLE_DESC[r]}</small></div>`).join("")}</div>
+  <div class="table-wrap"><table class="matrix"><thead><tr><th>الصلاحية</th>${Object.keys(ROLES).map(r=>`<th>${ROLES[r]}</th>`).join("")}</tr></thead><tbody>
+  ${PERMS.map(([k,t])=>`<tr><td>${t}</td><td><input type="checkbox" checked disabled aria-label="${t} — ${ROLES.super}"></td>${eds.map(r=>`<td><input type="checkbox" data-p="${k}" data-r="${r}" ${permsOf(r).includes(k)?"checked":""} aria-label="${t} — ${ROLES[r]}"></td>`).join("")}</tr>`).join("")}
+  <tr><td>إدارة الأدوار والصلاحيات</td><td><input type="checkbox" checked disabled aria-label="إدارة الأدوار — ${ROLES.super}"></td>${eds.map(()=>`<td><input type="checkbox" disabled aria-label="غير متاح"></td>`).join("")}</tr>
+  </tbody></table></div>
+  <p class="hint" style="margin-top:10px">تُحفظ التغييرات فورًا وتسري على جميع مستخدمي الدور. إضافة المستخدمين محصورة دائمًا في الأدوار الأدنى من دور من يضيفهم.</p>`;
+};
+async function savePerms(next,msg){ await data.set("settings","permissions",next); log(msg); }
+BIND.roles=()=>{
+  $$("[data-p]").forEach(cb=>cb.onchange=async()=>{ const cur={admin:permsOf("admin"),supervisor:permsOf("supervisor"),organizer:permsOf("organizer")};
+    const r=cb.dataset.r, p=cb.dataset.p; cur[r]=cb.checked?[...new Set([...cur[r],p])]:cur[r].filter(x=>x!==p);
+    try{ await savePerms(cur,`${cb.checked?"منح":"سحب"} صلاحية «${PERMS.find(x=>x[0]===p)[1]}» ${cb.checked?"لـ":"من"} ${ROLES[r]}`); toast("تم تحديث الصلاحيات",ROLES[r]); }catch(e){ cb.checked=!cb.checked; toast("تعذّر الحفظ","أعد المحاولة."); } });
+  $("#resetPerms").onclick=async()=>{ if(await confirmDlg("استعادة الصلاحيات الافتراضية؟","ستعود صلاحيات المدير والمشرف والمنظّم إلى إعداداتها الأصلية.","استعادة",false)){ await savePerms(DEFAULT_PERMS,"استعاد الصلاحيات الافتراضية"); toast("تمت الاستعادة","الصلاحيات الافتراضية مفعّلة."); } };
+};
+
+/* ---- audit ---- */
+PAGES.audit=()=>{
+  const rows=data.list("audit").sort((a,b)=>b.at.localeCompare(a.at));
+  return `<div class="page-head"><div><h2>سجل النشاط</h2><p>آخر ${N(rows.length)} إجراء في اللوحة.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>الإجراء</th><th>المستخدم</th><th>الدور</th><th>الوقت</th></tr></thead><tbody>
+  ${rows.map(a=>`<tr><td>${esc(a.text)}</td><td>${esc(a.byName)}</td><td><span class="badge b-secondary">${ROLES[a.role]||""}</span></td><td class="s" style="white-space:nowrap">${fmtDate(a.at)} ${fmtTime(a.at)}</td></tr>`).join("")||`<tr><td colspan="4"><div class="empty">لا يوجد نشاط بعد.</div></td></tr>`}
+  </tbody></table></div>`;
+};
+
+/* ============ boot ============ */
+connect();
+setTimeout(()=>{ if(mode==="loading") startLocal(); },11000);
+})();
+</script>
+</body>
+</html>
