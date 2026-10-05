@@ -6,3 +6,7 @@ public/
 .env
 .env.*
 !.env.example
+
+# Product demo local dependencies and generated recordings
+demo-video/node_modules/
+demo-video/output/
