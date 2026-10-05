@@ -689,7 +689,6 @@ const store = {
       window.claude.use("db").then(db=>{
         if(!db) return;
         this.db=db;
-        notes.attach(db);
         db.collection("seats").onSnapshot(s=>{
           const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=Math.max(0,Number(v.count)||0); });
           this.seats=m; render(); refreshDialog();
@@ -875,19 +874,26 @@ $("#themeBtn").onclick=()=>{ const r=document.documentElement; const dark=r.data
 try{ const t=localStorage.getItem("hl_theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
 
 /* ---------- Visitor tools: notes ---------- */
-const NOTES_PATH="data/users/me/notebook/notes";
+const VISITOR_ID=(()=>{ try{ let id=localStorage.getItem("hl_visitor_id"); if(!id){ id="v_"+crypto.randomUUID().replaceAll("-",""); localStorage.setItem("hl_visitor_id",id); } return id; }catch(_){ return "v_"+crypto.randomUUID().replaceAll("-",""); } })();
+async function apiFetch(path,options={}){
+  const headers={"x-visitor-id":VISITOR_ID,...(options.headers||{})};
+  if(options.body&&!headers["content-type"]) headers["content-type"]="application/json";
+  const r=await fetch(path,{...options,headers});
+  if(!r.ok){ let m="تعذّر الاتصال بالخادم."; try{ const j=await r.json(); if(j.error) m=j.error; }catch(_){} throw new Error(m); }
+  return r.status===204?null:r.json();
+}
 const notes={
   map:{}, db:null,
-  init(){ this.map=store.local("hl_notes")||{}; },
-  attach(db){ this.db=db; db.collection(NOTES_PATH).onSnapshot(s=>{ const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=v; }); this.map=m; notesChanged(); },()=>{}); },
+  init(){ this.map=store.local("hl_notes")||{}; apiFetch("/api/notes").then(r=>{ const m={}; r.notes.forEach(n=>{ m[n.id]={lessonId:n.lesson_id,date:n.note_date,title:n.title,body:n.body,kind:n.kind,createdAt:n.created_at,updatedAt:n.updated_at}; }); this.map=m; this.db=true; store.local("hl_notes",m); notesChanged(); }).catch(()=>{}); },
+  attach(){},
   list(){ return Object.entries(this.map).map(([id,v])=>({id,...v})).sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||"")); },
   async save(id,rec){
-    rec.updatedAt=new Date().toISOString(); if(!rec.createdAt) rec.createdAt=rec.updatedAt;
-    if(this.db){ if(id) await this.db.collection(NOTES_PATH).doc(id).set(rec); else { const r=await this.db.collection(NOTES_PATH).add(rec); id=r.id; } this.map[id]=rec; }
-    else { id=id||("n"+Date.now().toString(36)); this.map[id]=rec; store.local("hl_notes",this.map); }
+    const payload={lesson_id:rec.lessonId,note_date:rec.date,title:rec.title,body:rec.body,kind:rec.kind};
+    const r=await apiFetch(id?`/api/notes/${encodeURIComponent(id)}`:"/api/notes",{method:id?"PUT":"POST",body:JSON.stringify(payload)});
+    id=r.id; rec.updatedAt=new Date().toISOString(); if(!rec.createdAt) rec.createdAt=rec.updatedAt; this.map[id]=rec; this.db=true; store.local("hl_notes",this.map);
     notesChanged(); return id;
   },
-  async del(id){ if(this.db) await this.db.collection(NOTES_PATH).doc(id).delete(); delete this.map[id]; if(!this.db) store.local("hl_notes",this.map); notesChanged(); }
+  async del(id){ await apiFetch(`/api/notes/${encodeURIComponent(id)}`,{method:"DELETE"}); delete this.map[id]; store.local("hl_notes",this.map); notesChanged(); }
 };
 const nt={view:"list",filter:"",q:"",id:null,draft:null};
 const todayKey=()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
@@ -952,15 +958,14 @@ function paintNoteList(){
 
 /* ---------- Visitor tools: live translation ---------- */
 const TLANGS=[["en","English","English"],["ur","اردو","Urdu"],["id","Bahasa Indonesia","Indonesian"],["fr","Français","French"],["tr","Türkçe","Turkish"],["ms","Bahasa Melayu","Malay"],["bn","বাংলা","Bengali"],["fa","فارسی","Persian"],["ha","Hausa","Hausa"],["sw","Kiswahili","Swahili"],["ru","Русский","Russian"],["es","Español","Spanish"]];
-const trs={lines:[],lang:"en",mode:"live",listening:false,rec:null,interim:"",queue:Promise.resolve(),samplePromise:null,noteId:null,status:"",statusKind:""};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-function getSample(){ if(!trs.samplePromise) trs.samplePromise=(window.claude&&typeof window.claude.use==="function")?window.claude.use("sample").catch(()=>null):Promise.resolve(null); return trs.samplePromise; }
+const trs={lines:[],lang:"en",lessonId:"",mode:"live",listening:false,stopping:false,ready:false,ws:null,stream:null,audio:null,source:null,processor:null,interim:"",noteId:null,status:"",statusKind:"",reconnects:0,reconnectTimer:null,endpointTimer:null,stopTimer:null,historyKey:""};
 try{ const l0=localStorage.getItem("hl_tlang"); if(l0) trs.lang=l0; }catch(e){}
-if(!SR) trs.mode="text";
 function paintTranslator(){
+  if(!trs.lessonId) trs.lessonId=defaultLesson()||LESSONS[0].id;
   $("#trPanel").innerHTML=`<div class="panel-head"><div><h2 id="trTitle">الترجمة الفورية <span class="hint" style="font-weight:400">Live translation</span></h2><p class="hint" style="margin:2px 0 0">ترجمة آلية لكلام الشيخ؛ قد تقع فيها أخطاء، فارجع إلى الشيخ في المسائل الدقيقة.</p></div></div>
   <div>
     <div class="tr-controls">
+      <div><label class="label" for="trLesson">الدرس</label><select class="select" id="trLesson">${lessonOptions(trs.lessonId)}</select></div>
       <div><label class="label" for="trLang">ترجم إلى · Translate to</label><select class="select" id="trLang">${TLANGS.map(([c,n])=>`<option value="${c}" ${c===trs.lang?"selected":""}>${n}</option>`).join("")}</select></div>
       <div class="tabs" role="tablist" aria-label="طريقة الإدخال" style="flex:none"><button class="tab" role="tab" data-mode="live" aria-selected="${trs.mode==="live"}">استماع مباشر</button><button class="tab" role="tab" data-mode="text" aria-selected="${trs.mode==="text"}">كتابة نص</button></div>
     </div>
@@ -969,16 +974,17 @@ function paintTranslator(){
     <div class="tr-box" id="trBox" aria-live="polite"></div>
     <div class="dlg-foot"><button class="btn btn-outline" id="trSave">حفظ في ملاحظاتي</button><button class="btn btn-ghost" id="trClear">مسح</button></div>
   </div>`;
-  $("#trLang").onchange=e=>{ trs.lang=e.target.value; try{localStorage.setItem("hl_tlang",trs.lang);}catch(_){}};
+  $("#trLesson").onchange=e=>{ stopListen(); trs.lessonId=e.target.value; trs.lines=[]; trs.noteId=null; loadTranscriptHistory(); };
+  $("#trLang").onchange=e=>{ stopListen(); trs.lang=e.target.value; trs.lines=[]; trs.noteId=null; try{localStorage.setItem("hl_tlang",trs.lang);}catch(_){} loadTranscriptHistory(); };
   const TP=$("#trPanel"); $$("[data-mode]",TP).forEach(b=>b.onclick=()=>{ trs.mode=b.dataset.mode; if(trs.mode==="text") stopListen(); $$("[data-mode]",TP).forEach(x=>x.setAttribute("aria-selected",String(x===b))); paintInput(); });
   $("#trSave").onclick=saveTranscript;
   $("#trClear").onclick=()=>{ stopListen(); trs.lines=[]; trs.noteId=null; paintLines(); };
-  paintInput(); paintLines(); setStatus(trs.status,trs.statusKind);
+  paintInput(); paintLines(); setStatus(trs.status,trs.statusKind); loadTranscriptHistory();
 }
 function paintInput(){
   const box=$("#trInput"); if(!box) return;
   if(trs.mode==="live"){
-    box.innerHTML=`<button class="btn btn-lg btn-listen ${trs.listening?"on":"btn-default"}" id="trListen" aria-pressed="${trs.listening}">${trs.listening?"إيقاف الاستماع":"ابدأ الاستماع"}</button>`;
+    box.innerHTML=`<button class="btn btn-lg btn-listen ${trs.listening?"on":"btn-default"}" id="trListen" aria-pressed="${trs.listening}" ${trs.stopping?"disabled":""}>${trs.stopping?"جارٍ إنهاء الجملة…":trs.listening?"إيقاف الاستماع":"ابدأ الاستماع"}</button>`;
     $("#trListen").onclick=()=>trs.listening?stopListen():startListen();
   }else{
     box.innerHTML=`<form id="trText" style="display:grid;gap:8px"><label class="sr-only" for="trIn">النص العربي</label><textarea class="textarea" id="trIn" placeholder="اكتب أو الصق نصًا عربيًا، مثل حديث أو آية ذكرها الشيخ"></textarea><button class="btn btn-default" type="submit" style="justify-self:start">ترجم</button></form>`;
@@ -988,7 +994,7 @@ function paintInput(){
 function setStatus(t,k){ trs.status=t||""; trs.statusKind=k||""; const el=$("#trStatus"); if(el){ el.textContent=trs.status; el.className="status "+trs.statusKind; } }
 function lineHTML(l){
   const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
-  return `<div class="tr-line" id="ln_${l.id}"><div class="ar">${esc(l.ar)}</div><div class="tr ${l.tr?"":"pending"}" lang="${l.lang}" dir="auto">${l.tr?esc(l.tr):(l.err?"":"جارٍ الترجمة…")}</div>${l.err?`<div class="tr-err">${esc(l.err)} <button class="btn btn-outline btn-sm" data-retry="${l.id}">أعد المحاولة</button></div>`:""}${l.lang!==trs.lang&&false?"":""}</div>`;
+  return `<div class="tr-line" id="ln_${l.id}"><div class="tr ${l.tr?"":"pending"}" lang="${l.lang}" dir="auto">${l.tr?esc(l.tr):(l.err?"":`جارٍ الترجمة إلى ${esc(L[1])}…`)}</div>${l.err?`<div class="tr-err">${esc(l.err)} <button class="btn btn-outline btn-sm" data-retry="${l.id}">أعد المحاولة</button></div>`:""}</div>`;
 }
 function paintLines(){
   const box=$("#trBox"); if(!box) return;
@@ -1002,49 +1008,52 @@ function paintLine(l){
   el.outerHTML=lineHTML(l); bindRetry(box); if(atEnd) box.scrollTop=box.scrollHeight;
   const sv=$("#trSave"); if(sv) sv.disabled=!trs.lines.some(x=>x.tr);
 }
-function bindRetry(box){ $$("[data-retry]",box).forEach(b=>b.onclick=()=>{ const l=trs.lines.find(x=>x.id===b.dataset.retry); if(l){ l.err=""; l.tr=""; paintLine(l); enqueue(l);} }); }
-function paintInterim(){ const el=$("#trInterim"); if(el){ el.textContent=trs.interim; const box=$("#trBox"); box.scrollTop=box.scrollHeight; } }
-function addLine(ar){ const l={id:Math.random().toString(36).slice(2,9),ar,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); enqueue(l); }
-function enqueue(l){ trs.queue=trs.queue.then(()=>translateLine(l)).catch(()=>{}); }
+function bindRetry(box){ $$("[data-retry]",box).forEach(b=>b.onclick=()=>{ const l=trs.lines.find(x=>x.id===b.dataset.retry); if(l){ l.err=""; l.tr=""; paintLine(l); translateLine(l);} }); }
+function paintInterim(){ const el=$("#trInterim"); if(el){ el.textContent=trs.interim?"جارٍ الاستماع…":""; const box=$("#trBox"); box.scrollTop=box.scrollHeight; } }
+function addLine(ar){ const l={id:Math.random().toString(36).slice(2,9),ar,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); translateLine(l); }
 async function translateLine(l){
-  const s=await getSample();
-  if(!s){ l.err="الترجمة غير متاحة في هذه النافذة. افتح الصفحة من رابطها في Claude."; paintLine(l); return; }
-  const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
-  const prompt=`You are a live interpreter for a religious lesson held in Masjid al-Haram or Masjid an-Nabawi. Translate the Arabic below into ${L[2]}.
-The text may come from speech recognition, so it can be a fragment or contain recognition errors: translate the most likely intended meaning.
-Translate Quran verses and hadith as faithful meaning translations. Keep names of prophets, companions and scholars recognisable. Add ﷺ after the Prophet's name where the speaker says it.
-Output only the ${L[2]} translation, with no notes, quotes or preamble.
-
-Arabic:
-${l.ar}`;
   try{
-    const r=await s(prompt,{modelTier:"quick",onText:u=>{ l.tr=u.text; paintLine(l); }});
-    l.tr=(r.text||"").trim(); if(!l.tr) l.err="لم تصل ترجمة لهذه الجملة.";
+    const r=await apiFetch("/api/translate",{method:"POST",body:JSON.stringify({lesson_id:trs.lessonId,target_language:l.lang,text:l.ar})});
+    l.id=r.segment.id; l.tr=r.segment.translated_text; if(!l.tr) l.err="لم تصل ترجمة لهذه الجملة.";
   }catch(e){
-    if(e&&e.text) l.tr=e.text;
-    l.err = e&&e.code==="not_granted"?"لم يُسمح بالترجمة. اضغط «أعد المحاولة» ووافق على طلب الإذن.":e&&e.code==="rate_limited"?"طلبات كثيرة في وقت قصير. انتظر قليلًا ثم اضغط «أعد المحاولة».":"تعذّرت الترجمة. تحقق من اتصالك ثم اضغط «أعد المحاولة».";
-    if(e&&e.code==="rate_limited") await new Promise(r=>setTimeout(r,4000));
+    l.err="تعذّرت الترجمة. تحقق من اتصالك ثم اضغط «أعد المحاولة».";
   }
   paintLine(l);
 }
-function startListen(){
-  if(!SR){ setStatus("متصفحك لا يدعم الاستماع المباشر. استخدم Chrome أو Safari، أو انتقل إلى «كتابة نص».","warn"); return; }
-  getSample();
-  const rec=new SR(); rec.lang="ar-SA"; rec.continuous=true; rec.interimResults=true;
-  rec.onresult=e=>{ let interim=""; for(let i=e.resultIndex;i<e.results.length;i++){ const r=e.results[i]; if(r.isFinal){ const t=r[0].transcript.trim(); if(t) addLine(t); } else interim+=r[0].transcript; } trs.interim=interim; paintInterim(); };
-  rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"||e.error==="audio-capture"){ trs.listening=false; setStatus(e.error==="audio-capture"?"لم يُعثر على ميكروفون. تأكد من توصيله، أو استخدم «كتابة نص».":"لم يُسمح باستخدام الميكروفون في هذه الصفحة. اسمح به من إعدادات المتصفح، أو استخدم «كتابة نص».","warn"); paintInput(); } };
-  rec.onend=()=>{ if(trs.listening){ try{ rec.start(); }catch(_){ trs.listening=false; paintInput(); setStatus("توقف الاستماع. اضغط «ابدأ الاستماع» للمتابعة.","warn"); } } };
-  try{ rec.start(); trs.rec=rec; trs.listening=true; setStatus("يستمع الآن… قرّب الجوال من مكبّر الصوت.","ok"); }
-  catch(e){ trs.listening=false; setStatus("تعذّر تشغيل الاستماع. أعد المحاولة، أو استخدم «كتابة نص».","warn"); }
-  paintInput();
+function pcm16(input,fromRate){ const ratio=fromRate/16000, size=Math.floor(input.length/ratio), out=new Int16Array(size); for(let i=0;i<size;i++){ const a=Math.floor(i*ratio), b=Math.min(input.length,Math.floor((i+1)*ratio)); let sum=0; for(let j=a;j<b;j++) sum+=input[j]; const s=Math.max(-1,Math.min(1,sum/Math.max(1,b-a))); out[i]=s<0?s*32768:s*32767; } return out; }
+function liveUrl(){ const p=new URLSearchParams({lesson_id:trs.lessonId,target_language:trs.lang,visitor_id:VISITOR_ID}); return `${location.protocol==="https:"?"wss":"ws"}://${location.host}/api/live?${p}`; }
+function connectLive(){
+  if(!trs.listening) return; trs.ready=false; setStatus(trs.reconnects?"جارٍ إعادة الاتصال…":"جارٍ الاتصال بخدمة الترجمة…","");
+  const ws=new WebSocket(liveUrl()); ws.binaryType="arraybuffer"; trs.ws=ws;
+  ws.onmessage=e=>{ let m; try{m=JSON.parse(e.data);}catch(_){return;} if(m.type==="ready"){ trs.ready=true; trs.reconnects=0; setStatus("يستمع الآن… قرّب الجوال من مكبّر الصوت.","ok"); }
+    else if(m.type==="interim"){ trs.interim=m.text||""; paintInterim(); clearTimeout(trs.endpointTimer); if(trs.interim&&trs.listening) trs.endpointTimer=setTimeout(()=>{ if(trs.ready&&trs.ws&&trs.ws.readyState===WebSocket.OPEN) trs.ws.send(JSON.stringify({type:"ForceEndpoint"})); },1200); }
+    else if(m.type==="finalizing"){ clearTimeout(trs.endpointTimer); trs.interim=""; const l={id:"p"+Math.random().toString(36).slice(2),ar:m.text,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); setStatus("جارٍ الترجمة…",""); }
+    else if(m.type==="final"){ const l=trs.lines.find(x=>x.ar===m.text&&!x.tr); if(l){ l.id=m.segmentId; l.tr=m.translatedText; paintLine(l); } setStatus(trs.listening?"يستمع الآن… قرّب الجوال من مكبّر الصوت.":"تمت ترجمة الجملة.",trs.listening?"ok":""); if(trs.stopping) finishStop(); }
+    else if(m.type==="translation_error"){ const l=trs.lines.find(x=>x.ar===m.text&&!x.tr); if(l){ l.err=m.message; paintLine(l); } setStatus(m.message||"تعذّرت الترجمة.","warn"); if(trs.stopping) finishStop(); }
+    else if(m.type==="error") setStatus(m.message||"تعذّر الاتصال بخدمة الترجمة.","warn"); };
+  ws.onerror=()=>setStatus("حدث خطأ في الاتصال. سنحاول إعادة الاتصال.","warn");
+  ws.onclose=()=>{ trs.ready=false; if(trs.stopping){ trs.stopping=false; clearTimeout(trs.stopTimer); paintInput(); return; } if(trs.listening&&trs.reconnects<3){ const wait=1000*Math.pow(2,trs.reconnects++); setStatus(`انقطع الاتصال. إعادة المحاولة خلال ${Math.round(wait/1000)} ث…`,"warn"); trs.reconnectTimer=setTimeout(connectLive,wait); } else if(trs.listening){ trs.listening=false; stopAudio(); paintInput(); setStatus("تعذّر إعادة الاتصال. اضغط «ابدأ الاستماع» للمحاولة مجددًا.","warn"); } };
 }
-function stopListen(){ const was=trs.listening; trs.listening=false; try{ trs.rec&&trs.rec.stop(); }catch(e){} trs.rec=null; trs.interim=""; paintInterim(); paintInput(); if(was) setStatus("توقف الاستماع.",""); }
+async function startListen(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ setStatus("متصفحك لا يدعم الوصول إلى الميكروفون. استخدم متصفحًا حديثًا أو «كتابة نص».","warn"); return; }
+  if(!trs.lessonId){ setStatus("اختر الدرس أولًا.","warn"); return; }
+  setStatus("بانتظار إذن الميكروفون…","");
+  try{ const stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true},video:false});
+    const AC=window.AudioContext||window.webkitAudioContext, audio=new AC(); await audio.resume(); const source=audio.createMediaStreamSource(stream), processor=audio.createScriptProcessor(4096,1,1);
+    processor.onaudioprocess=e=>{ if(trs.ready&&trs.ws&&trs.ws.readyState===WebSocket.OPEN) trs.ws.send(pcm16(e.inputBuffer.getChannelData(0),audio.sampleRate).buffer); };
+    source.connect(processor); processor.connect(audio.destination); trs.stream=stream; trs.audio=audio; trs.source=source; trs.processor=processor; trs.listening=true; trs.reconnects=0; paintInput(); connectLive();
+  }catch(e){ const denied=e&&e.name==="NotAllowedError"; setStatus(denied?"لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة.":"لم يُعثر على ميكروفون متاح. تأكد من توصيله ثم أعد المحاولة.","warn"); trs.listening=false; paintInput(); }
+}
+function stopAudio(){ try{trs.processor&&trs.processor.disconnect();}catch(_){} try{trs.source&&trs.source.disconnect();}catch(_){} if(trs.stream) trs.stream.getTracks().forEach(t=>t.stop()); if(trs.audio) trs.audio.close().catch(()=>{}); trs.processor=trs.source=trs.stream=trs.audio=null; }
+function finishStop(){ clearTimeout(trs.stopTimer); clearTimeout(trs.endpointTimer); trs.ready=false; try{ if(trs.ws&&trs.ws.readyState===WebSocket.OPEN){ trs.ws.send(JSON.stringify({type:"Terminate"})); setTimeout(()=>{ try{trs.ws&&trs.ws.close();}catch(_){} trs.ws=null; },300); } }catch(_){} trs.stopping=false; paintInput(); }
+function stopListen(){ const was=trs.listening; trs.listening=false; clearTimeout(trs.reconnectTimer); clearTimeout(trs.endpointTimer); stopAudio(); trs.interim=""; paintInterim(); if(trs.ws&&trs.ws.readyState===WebSocket.OPEN){ trs.stopping=true; try{trs.ws.send(JSON.stringify({type:"ForceEndpoint"}));}catch(_){} setStatus("جارٍ إنهاء الجملة وترجمتها…",""); trs.stopTimer=setTimeout(finishStop,12000); }else{ trs.ready=false; try{trs.ws&&trs.ws.close();}catch(_){} trs.ws=null; if(was) setStatus("توقف الاستماع.",""); } paintInput(); }
+async function loadTranscriptHistory(){ const key=trs.lessonId+":"+trs.lang; trs.historyKey=key; setStatus("جارٍ تحميل الترجمات المحفوظة…",""); try{ const r=await apiFetch(`/api/transcripts?lesson_id=${encodeURIComponent(trs.lessonId)}&target_language=${encodeURIComponent(trs.lang)}`); if(trs.historyKey!==key) return; trs.lines=r.segments.map(s=>({id:s.id,ar:s.text,tr:s.translated_text,err:"",lang:trs.lang,at:s.created_at})); paintLines(); setStatus("",""); }catch(_){ if(trs.historyKey===key) setStatus("تعذّر تحميل الترجمات السابقة. يمكنك المحاولة مجددًا.","warn"); } }
 function saveTranscript(){
   const done=trs.lines.filter(l=>l.tr); if(!done.length) return;
   const names=[...new Set(done.map(l=>(TLANGS.find(x=>x[0]===l.lang)||TLANGS[0])[1]))].join("، ");
   const body=done.map(l=>`${l.ar}\n${l.tr}`).join("\n\n");
   const ex=trs.noteId&&notes.map[trs.noteId];
-  const draft=ex?{...ex,body}:{lessonId:defaultLesson(),date:todayKey(),title:`ترجمة إلى ${names}`,body,kind:"translation"};
+  const draft=ex?{...ex,body}:{lessonId:trs.lessonId,date:todayKey(),title:`ترجمة إلى ${names}`,body,kind:"translation"};
   nt.onSaved=id=>{ trs.noteId=id; };
   openNotes({draft,id:ex?trs.noteId:null});
 }
