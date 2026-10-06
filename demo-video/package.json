@@ -1,0 +1,12 @@
+{
+  "name": "haramin-product-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dry-run": "node record-demo.mjs --dry-run",
+    "record": "node record-demo.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}

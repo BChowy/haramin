@@ -110,6 +110,8 @@ a{color:inherit}
 .badge-secondary{background:hsl(var(--secondary));color:hsl(var(--secondary-foreground))}
 .badge-outline{border-color:hsl(var(--border));color:hsl(var(--foreground))}
 .badge-gold{background:hsl(var(--gold)/.14);color:hsl(var(--gold));border-color:hsl(var(--gold)/.3)}
+.badge-men{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.badge-women{background:#fdf2f8;color:#be185d;border-color:#fbcfe8}
 
 /* ===== Card ===== */
 .card{background:hsl(var(--card));color:hsl(var(--card-foreground));border:1px solid hsl(var(--border));border-radius:var(--radius)}
@@ -211,6 +213,9 @@ section.block{padding-block:80px}
 .meta{display:grid;gap:6px;font-size:14px}
 .meta div{display:flex;gap:8px;align-items:center}
 .meta svg{flex:none;color:hsl(var(--muted-foreground))}
+.meta .location-link{display:inline-flex;align-items:center;gap:4px;color:hsl(var(--primary));font-weight:500;text-decoration:none}
+.meta .location-link:hover{text-decoration:underline}
+.meta .location-link svg{color:hsl(var(--primary))}
 .seats{margin-top:auto}
 .progress{height:6px;border-radius:999px;background:hsl(var(--secondary));overflow:hidden}
 .progress>i{display:block;height:100%;background:hsl(var(--primary));border-radius:999px}
@@ -478,7 +483,7 @@ dialog::backdrop{background:hsl(0 0% 0%/.55)}
           <p>تُقام الدروس في الرواق العثماني والتوسعة السعودية الثالثة، مع دروس مخصصة للمعتمرين تشرح أحكام العمرة والطواف والسعي.</p>
           <div class="facts">
             <div><b data-count="haram">–</b>دروس متاحة</div>
-            <div><b>٤</b>لغات ترجمة</div>
+            <div><b>جميع</b>لغات ترجمة</div>
             <div><b>يوميًا</b>بعد الصلوات</div>
           </div>
         </article>
@@ -488,7 +493,7 @@ dialog::backdrop{background:hsl(0 0% 0%/.55)}
           <p>مجالس في شرح السنة والسيرة النبوية وآداب الزيارة، ومصلى مخصص للنساء يضم دروسًا في فقه الأسرة وتحفيظ القرآن.</p>
           <div class="facts">
             <div><b data-count="nabawi">–</b>دروس متاحة</div>
-            <div><b>٣</b>لغات ترجمة</div>
+            <div><b>جميع</b>لغات ترجمة</div>
             <div><b>يوميًا</b>بعد الصلوات</div>
           </div>
         </article>
@@ -637,16 +642,16 @@ dialog::backdrop{background:hsl(0 0% 0%/.55)}
 const PRAYERS = {fajr:"بعد صلاة الفجر",asr:"بعد صلاة العصر",maghrib:"بعد صلاة المغرب",isha:"بعد صلاة العشاء"};
 const DAYS = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const LESSONS = [
- {id:"h1",masjid:"haram",cat:"العقيدة",title:"شرح كتاب التوحيد",sheikh:"الشيخ د. عبدالرحمن بن سالم",place:"الرواق العثماني — باب الملك عبدالعزيز",prayer:"maghrib",days:[0,2],mins:50,capacity:120,sessions:24,langs:["العربية","الإنجليزية"],audience:"all",desc:"شرح متن كتاب التوحيد بابًا بابًا، مع بيان الأدلة وتقريب المسائل لطالب العلم المبتدئ."},
- {id:"h2",masjid:"haram",cat:"التفسير",title:"تفسير جزء عمّ",sheikh:"الشيخ د. خالد بن إبراهيم",place:"التوسعة السعودية الثالثة — الدور الأول",prayer:"fajr",days:[1,3,5],mins:40,capacity:150,sessions:30,langs:["العربية","الأردية","الإندونيسية"],audience:"all",desc:"تفسير ميسّر لسور جزء عمّ مع وقفات تدبرية وفوائد سلوكية، مناسب لعامة الزوار."},
- {id:"h3",masjid:"haram",cat:"الفقه",title:"أحكام العمرة للمعتمرين",sheikh:"الشيخ أ. فهد بن عبدالله",place:"الرواق العثماني — قرب باب الصفا",prayer:"asr",days:[0,1,2,3,4,5,6],mins:30,capacity:200,sessions:1,langs:["العربية","الإنجليزية","الأردية","الفرنسية"],audience:"all",desc:"درس يومي قصير يشرح أركان العمرة وواجباتها وأخطاء المعتمرين الشائعة في الطواف والسعي."},
- {id:"h4",masjid:"haram",cat:"القرآن الكريم",title:"حلقة تصحيح التلاوة للكبار",sheikh:"الشيخ القارئ محمد بن يوسف",place:"صحن المطاف — الدور الأرضي",prayer:"isha",days:[1,3],mins:60,capacity:40,sessions:16,langs:["العربية"],audience:"men",desc:"حلقة عملية لتصحيح تلاوة سورة الفاتحة وقصار السور، بإشراف قارئ مجاز."},
- {id:"h5",masjid:"haram",cat:"الحديث",title:"شرح الأربعين النووية",sheikh:"الشيخ د. سليمان بن ناصر",place:"التوسعة السعودية الثالثة — الدور الأرضي",prayer:"maghrib",days:[4],mins:50,capacity:100,sessions:20,langs:["العربية"],audience:"all",desc:"شرح الأحاديث الأربعين التي عليها مدار الإسلام، مع ربطها بواقع المسلم اليوم."},
- {id:"n1",masjid:"nabawi",cat:"الحديث",title:"شرح صحيح البخاري — كتاب العلم",sheikh:"الشيخ د. عبدالمحسن بن حمد",place:"التوسعة الشمالية — قرب باب الملك فهد",prayer:"maghrib",days:[0,1,2],mins:55,capacity:130,sessions:28,langs:["العربية","الإنجليزية"],audience:"all",desc:"قراءة وشرح لأحاديث كتاب العلم من صحيح البخاري، مع التعليق على تراجم الأبواب."},
- {id:"n2",masjid:"nabawi",cat:"السيرة",title:"دروس في السيرة النبوية",sheikh:"الشيخ د. أحمد بن علي",place:"الروضة الشريفة — الجهة الغربية",prayer:"asr",days:[3,4],mins:45,capacity:90,sessions:18,langs:["العربية","الإندونيسية"],audience:"all",desc:"رحلة مع أحداث السيرة من المولد إلى الهجرة، مع الوقوف على المعالم المرتبطة بها في المدينة."},
- {id:"n3",masjid:"nabawi",cat:"الفقه",title:"آداب زيارة المسجد النبوي",sheikh:"الشيخ أ. ماجد بن سعد",place:"الساحات الجنوبية — المظلة ١٢",prayer:"fajr",days:[0,1,2,3,4,5,6],mins:25,capacity:180,sessions:1,langs:["العربية","الإنجليزية","الأردية"],audience:"all",desc:"درس قصير يوضح السنن والآداب عند زيارة المسجد النبوي والسلام على النبي ﷺ وصاحبيه."},
- {id:"n4",masjid:"nabawi",cat:"اللغة العربية",title:"متن الآجرومية في النحو",sheikh:"الشيخ د. يحيى بن عمر",place:"التوسعة الشرقية — الدور الأول",prayer:"isha",days:[1,3],mins:50,capacity:60,sessions:12,langs:["العربية"],audience:"all",desc:"مدخل إلى علم النحو عبر متن الآجرومية، مع تمارين إعراب قصيرة في نهاية كل مجلس."},
- {id:"n5",masjid:"nabawi",cat:"الفقه",title:"فقه الأسرة للنساء",sheikh:"أ. د. نورة بنت عبدالعزيز",place:"مصلى النساء — باب ٢٥",prayer:"asr",days:[0,2],mins:45,capacity:80,sessions:10,langs:["العربية","الإنجليزية"],audience:"women",desc:"مجلس نسائي يتناول أحكام الأسرة والحقوق الزوجية وتربية الأبناء بأسلوب قريب وعملي."}
+ {id:"h1",masjid:"haram",cat:"العقيدة",title:"شرح كتاب التوحيد",sheikh:"الشيخ د. عبدالرحمن بن سالم",place:"مصلى رجال - توسعة الملك فهد - الأول - 19",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=795",prayer:"maghrib",days:[0,2],mins:50,capacity:120,sessions:24,langs:["العربية","الإنجليزية"],audience:"men",desc:"شرح متن كتاب التوحيد بابًا بابًا، مع بيان الأدلة وتقريب المسائل لطالب العلم المبتدئ."},
+ {id:"h2",masjid:"haram",cat:"التفسير",title:"تفسير جزء عمّ",sheikh:"الشيخ د. خالد بن إبراهيم",place:"مصلى رجال - الساحات الشرقية - 27",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=865",prayer:"fajr",days:[1,3,5],mins:40,capacity:150,sessions:30,langs:["العربية","الأردية","الإندونيسية"],audience:"men",desc:"تفسير ميسّر لسور جزء عمّ مع وقفات تدبرية وفوائد سلوكية، مناسب لعامة الزوار."},
+ {id:"h3",masjid:"haram",cat:"الفقه",title:"أحكام العمرة للمعتمرين",sheikh:"الشيخ أ. فهد بن عبدالله",place:"مصلى رجال - توسعة الملك فهد - الأول - 19",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=795",prayer:"asr",days:[0,1,2,3,4,5,6],mins:30,capacity:200,sessions:1,langs:["العربية","الإنجليزية","الأردية","الفرنسية"],audience:"men",desc:"درس يومي قصير يشرح أركان العمرة وواجباتها وأخطاء المعتمرين الشائعة في الطواف والسعي."},
+ {id:"h4",masjid:"haram",cat:"القرآن الكريم",title:"حلقة تصحيح التلاوة للكبار",sheikh:"الشيخ القارئ محمد بن يوسف",place:"مصلى رجال - الساحات الشرقية - 27",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=865",prayer:"isha",days:[1,3],mins:60,capacity:40,sessions:16,langs:["العربية"],audience:"men",desc:"حلقة عملية لتصحيح تلاوة سورة الفاتحة وقصار السور، بإشراف قارئ مجاز."},
+ {id:"h5",masjid:"haram",cat:"الحديث",title:"شرح الأربعين النووية",sheikh:"الشيخ د. سليمان بن ناصر",place:"مصلى رجال - توسعة الملك فهد - الأول - 19",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=795",prayer:"maghrib",days:[4],mins:50,capacity:100,sessions:20,langs:["العربية"],audience:"men",desc:"شرح الأحاديث الأربعين التي عليها مدار الإسلام، مع ربطها بواقع المسلم اليوم."},
+ {id:"n1",masjid:"nabawi",cat:"الحديث",title:"شرح صحيح البخاري — كتاب العلم",sheikh:"الشيخ د. عبدالمحسن بن حمد",place:"مصلى رجال - الساحات الشرقية - 27",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=865",prayer:"maghrib",days:[0,1,2],mins:55,capacity:130,sessions:28,langs:["العربية","الإنجليزية"],audience:"men",desc:"قراءة وشرح لأحاديث كتاب العلم من صحيح البخاري، مع التعليق على تراجم الأبواب."},
+ {id:"n2",masjid:"nabawi",cat:"السيرة",title:"دروس في السيرة النبوية",sheikh:"الشيخ د. أحمد بن علي",place:"مصلى رجال - توسعة الملك فهد - الأول - 19",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=795",prayer:"asr",days:[3,4],mins:45,capacity:90,sessions:18,langs:["العربية","الإندونيسية"],audience:"men",desc:"رحلة مع أحداث السيرة من المولد إلى الهجرة، مع الوقوف على المعالم المرتبطة بها في المدينة."},
+ {id:"n3",masjid:"nabawi",cat:"الفقه",title:"آداب زيارة المسجد النبوي",sheikh:"الشيخ أ. ماجد بن سعد",place:"مصلى رجال - الساحات الشرقية - 27",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=865",prayer:"fajr",days:[0,1,2,3,4,5,6],mins:25,capacity:180,sessions:1,langs:["العربية","الإنجليزية","الأردية"],audience:"men",desc:"درس قصير يوضح السنن والآداب عند زيارة المسجد النبوي والسلام على النبي ﷺ وصاحبيه."},
+ {id:"n4",masjid:"nabawi",cat:"اللغة العربية",title:"متن الآجرومية في النحو",sheikh:"الشيخ د. يحيى بن عمر",place:"مصلى رجال - توسعة الملك فهد - الأول - 19",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=795",prayer:"isha",days:[1,3],mins:50,capacity:60,sessions:12,langs:["العربية"],audience:"men",desc:"مدخل إلى علم النحو عبر متن الآجرومية، مع تمارين إعراب قصيرة في نهاية كل مجلس."},
+ {id:"n5",masjid:"nabawi",cat:"الفقه",title:"فقه الأسرة للنساء",sheikh:"أ. د. نورة بنت عبدالعزيز",place:"مصلى نساء - توسعة الملك فهد - الأرضي - 30",mapUrl:"https://maps.alharamain.gov.sa/navQ/default-kiosk/3?lang=ar&type=poi&id=733",prayer:"asr",days:[0,2],mins:45,capacity:80,sessions:10,langs:["العربية","الإنجليزية"],audience:"women",desc:"مجلس نسائي يتناول أحكام الأسرة والحقوق الزوجية وتربية الأبناء بأسلوب قريب وعملي."}
 ];
 const MASJID = {haram:"المسجد الحرام",nabawi:"المسجد النبوي"};
 const AUD = {all:"للجميع",men:"للرجال",women:"للنساء"};
@@ -673,6 +678,8 @@ const icon = {
   clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
   pin:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
   lang:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>',
+  tools:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 0-5-5L12 3.6 9.6 6 7.3 3.7a4 4 0 0 0 5 5l-7.5 7.5a2.1 2.1 0 1 0 3 3l7.5-7.5a4 4 0 0 0 5-5L18 5.9l-2.4 2.4-2.3-2.3 2.4-2.4z"/></svg>',
+  arrow:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
   check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>',
   x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>'
 };
@@ -689,7 +696,6 @@ const store = {
       window.claude.use("db").then(db=>{
         if(!db) return;
         this.db=db;
-        notes.attach(db);
         db.collection("seats").onSnapshot(s=>{
           const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=Math.max(0,Number(v.count)||0); });
           this.seats=m; render(); refreshDialog();
@@ -773,16 +779,19 @@ function render(){
 }
 function card(l,when){
   const t=taken(l), pct=Math.min(100,Math.round(t/l.capacity*100)), reg=store.regs[l.id];
+  const audienceClass=l.audience==="women"?"badge-women":l.audience==="men"?"badge-men":"badge-outline";
+  const place=l.mapUrl?`<a class="location-link" href="${esc(l.mapUrl)}" target="_blank" rel="noopener noreferrer">${esc(l.place)}${icon.arrow}</a>`:`<span>${esc(l.place)}</span>`;
   return `<article class="card lesson">
     <div class="lesson-top"><span class="badge badge-secondary">${MASJID[l.masjid]}</span><span class="badge badge-outline">${esc(l.cat)}</span></div>
     <div>${when?`<div class="next-date">${esc(when)}</div>`:""}<h3>${esc(l.title)}</h3><div class="by">${esc(l.sheikh)}</div></div>
     <div class="meta">
       <div>${icon.cal}<span>${daysText(l)} — ${PRAYERS[l.prayer]}</span></div>
-      <div>${icon.pin}<span>${esc(l.place)}</span></div>
-      <div>${icon.lang}<span>${l.langs.join("، ")}</span></div>
+      <div>${icon.pin}${place}</div>
+      <div>${icon.lang}<span>لغة التقديم: العربية</span></div>
+      <div>${icon.tools}<span>متاح ترجمة فورية لجميع اللغات وتسجيل الملاحظات</span></div>
     </div>
     <div class="seats">
-      <div class="seats-row"><span>${l.audience!=="all"?`<span class="badge badge-gold">${AUD[l.audience]}</span>`:"المقاعد المتبقية"}</span><span>${nf.format(left(l))} من ${nf.format(l.capacity)}</span></div>
+      <div class="seats-row"><span>${l.audience!=="all"?`<span class="badge ${audienceClass}">${AUD[l.audience]}</span>`:"المقاعد المتبقية"}</span><span>${nf.format(left(l))} من ${nf.format(l.capacity)}</span></div>
       <div class="progress" role="progressbar" aria-label="نسبة الحجز" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
     </div>
     <div class="lesson-actions">
@@ -799,7 +808,8 @@ function refreshDialog(){ if(dlg.open && current && view!=="form") paint(); }
 dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
 function paint(){
   const l=current, reg=store.regs[l.id];
-  const head=`<div class="dialog-head"><div><div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><span class="badge badge-secondary">${MASJID[l.masjid]}</span><span class="badge badge-outline">${esc(l.cat)}</span>${l.audience!=="all"?`<span class="badge badge-gold">${AUD[l.audience]}</span>`:""}</div><h2 id="dlgTitle">${esc(l.title)}</h2><div class="hint" style="margin:0">${esc(l.sheikh)}</div></div><button class="btn btn-ghost btn-icon" data-x aria-label="إغلاق">${icon.x}</button></div>`;
+  const audienceClass=l.audience==="women"?"badge-women":l.audience==="men"?"badge-men":"badge-outline";
+  const head=`<div class="dialog-head"><div><div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><span class="badge badge-secondary">${MASJID[l.masjid]}</span><span class="badge badge-outline">${esc(l.cat)}</span>${l.audience!=="all"?`<span class="badge ${audienceClass}">${AUD[l.audience]}</span>`:""}</div><h2 id="dlgTitle">${esc(l.title)}</h2><div class="hint" style="margin:0">${esc(l.sheikh)}</div></div><button class="btn btn-ghost btn-icon" data-x aria-label="إغلاق">${icon.x}</button></div>`;
   const details=`<p style="margin:12px 0 0">${esc(l.desc)}</p>
     <div class="detail-grid">
       <div>أقرب موعد<b>${dateText(l)}</b></div>
@@ -875,19 +885,26 @@ $("#themeBtn").onclick=()=>{ const r=document.documentElement; const dark=r.data
 try{ const t=localStorage.getItem("hl_theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
 
 /* ---------- Visitor tools: notes ---------- */
-const NOTES_PATH="data/users/me/notebook/notes";
+const VISITOR_ID=(()=>{ try{ let id=localStorage.getItem("hl_visitor_id"); if(!id){ id="v_"+crypto.randomUUID().replaceAll("-",""); localStorage.setItem("hl_visitor_id",id); } return id; }catch(_){ return "v_"+crypto.randomUUID().replaceAll("-",""); } })();
+async function apiFetch(path,options={}){
+  const headers={"x-visitor-id":VISITOR_ID,...(options.headers||{})};
+  if(options.body&&!headers["content-type"]) headers["content-type"]="application/json";
+  const r=await fetch(path,{...options,headers});
+  if(!r.ok){ let m="تعذّر الاتصال بالخادم."; try{ const j=await r.json(); if(j.error) m=j.error; }catch(_){} throw new Error(m); }
+  return r.status===204?null:r.json();
+}
 const notes={
   map:{}, db:null,
-  init(){ this.map=store.local("hl_notes")||{}; },
-  attach(db){ this.db=db; db.collection(NOTES_PATH).onSnapshot(s=>{ const m={}; s.docs.forEach(d=>{ const v=d.data(); if(v) m[d.id]=v; }); this.map=m; notesChanged(); },()=>{}); },
+  init(){ this.map=store.local("hl_notes")||{}; apiFetch("/api/notes").then(r=>{ const m={}; r.notes.forEach(n=>{ m[n.id]={lessonId:n.lesson_id,date:n.note_date,title:n.title,body:n.body,kind:n.kind,createdAt:n.created_at,updatedAt:n.updated_at}; }); this.map=m; this.db=true; store.local("hl_notes",m); notesChanged(); }).catch(()=>{}); },
+  attach(){},
   list(){ return Object.entries(this.map).map(([id,v])=>({id,...v})).sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||"")); },
   async save(id,rec){
-    rec.updatedAt=new Date().toISOString(); if(!rec.createdAt) rec.createdAt=rec.updatedAt;
-    if(this.db){ if(id) await this.db.collection(NOTES_PATH).doc(id).set(rec); else { const r=await this.db.collection(NOTES_PATH).add(rec); id=r.id; } this.map[id]=rec; }
-    else { id=id||("n"+Date.now().toString(36)); this.map[id]=rec; store.local("hl_notes",this.map); }
+    const payload={lesson_id:rec.lessonId,note_date:rec.date,title:rec.title,body:rec.body,kind:rec.kind};
+    const r=await apiFetch(id?`/api/notes/${encodeURIComponent(id)}`:"/api/notes",{method:id?"PUT":"POST",body:JSON.stringify(payload)});
+    id=r.id; rec.updatedAt=new Date().toISOString(); if(!rec.createdAt) rec.createdAt=rec.updatedAt; this.map[id]=rec; this.db=true; store.local("hl_notes",this.map);
     notesChanged(); return id;
   },
-  async del(id){ if(this.db) await this.db.collection(NOTES_PATH).doc(id).delete(); delete this.map[id]; if(!this.db) store.local("hl_notes",this.map); notesChanged(); }
+  async del(id){ await apiFetch(`/api/notes/${encodeURIComponent(id)}`,{method:"DELETE"}); delete this.map[id]; store.local("hl_notes",this.map); notesChanged(); }
 };
 const nt={view:"list",filter:"",q:"",id:null,draft:null};
 const todayKey=()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
@@ -952,15 +969,14 @@ function paintNoteList(){
 
 /* ---------- Visitor tools: live translation ---------- */
 const TLANGS=[["en","English","English"],["ur","اردو","Urdu"],["id","Bahasa Indonesia","Indonesian"],["fr","Français","French"],["tr","Türkçe","Turkish"],["ms","Bahasa Melayu","Malay"],["bn","বাংলা","Bengali"],["fa","فارسی","Persian"],["ha","Hausa","Hausa"],["sw","Kiswahili","Swahili"],["ru","Русский","Russian"],["es","Español","Spanish"]];
-const trs={lines:[],lang:"en",mode:"live",listening:false,rec:null,interim:"",queue:Promise.resolve(),samplePromise:null,noteId:null,status:"",statusKind:""};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-function getSample(){ if(!trs.samplePromise) trs.samplePromise=(window.claude&&typeof window.claude.use==="function")?window.claude.use("sample").catch(()=>null):Promise.resolve(null); return trs.samplePromise; }
+const trs={lines:[],lang:"en",lessonId:"",mode:"live",listening:false,stopping:false,ready:false,ws:null,stream:null,audio:null,source:null,processor:null,interim:"",noteId:null,status:"",statusKind:"",reconnects:0,reconnectTimer:null,endpointTimer:null,stopTimer:null,historyKey:""};
 try{ const l0=localStorage.getItem("hl_tlang"); if(l0) trs.lang=l0; }catch(e){}
-if(!SR) trs.mode="text";
 function paintTranslator(){
+  if(!trs.lessonId) trs.lessonId=defaultLesson()||LESSONS[0].id;
   $("#trPanel").innerHTML=`<div class="panel-head"><div><h2 id="trTitle">الترجمة الفورية <span class="hint" style="font-weight:400">Live translation</span></h2><p class="hint" style="margin:2px 0 0">ترجمة آلية لكلام الشيخ؛ قد تقع فيها أخطاء، فارجع إلى الشيخ في المسائل الدقيقة.</p></div></div>
   <div>
     <div class="tr-controls">
+      <div><label class="label" for="trLesson">الدرس</label><select class="select" id="trLesson">${lessonOptions(trs.lessonId)}</select></div>
       <div><label class="label" for="trLang">ترجم إلى · Translate to</label><select class="select" id="trLang">${TLANGS.map(([c,n])=>`<option value="${c}" ${c===trs.lang?"selected":""}>${n}</option>`).join("")}</select></div>
       <div class="tabs" role="tablist" aria-label="طريقة الإدخال" style="flex:none"><button class="tab" role="tab" data-mode="live" aria-selected="${trs.mode==="live"}">استماع مباشر</button><button class="tab" role="tab" data-mode="text" aria-selected="${trs.mode==="text"}">كتابة نص</button></div>
     </div>
@@ -969,16 +985,17 @@ function paintTranslator(){
     <div class="tr-box" id="trBox" aria-live="polite"></div>
     <div class="dlg-foot"><button class="btn btn-outline" id="trSave">حفظ في ملاحظاتي</button><button class="btn btn-ghost" id="trClear">مسح</button></div>
   </div>`;
-  $("#trLang").onchange=e=>{ trs.lang=e.target.value; try{localStorage.setItem("hl_tlang",trs.lang);}catch(_){}};
+  $("#trLesson").onchange=e=>{ stopListen(); trs.lessonId=e.target.value; trs.lines=[]; trs.noteId=null; loadTranscriptHistory(); };
+  $("#trLang").onchange=e=>{ stopListen(); trs.lang=e.target.value; trs.lines=[]; trs.noteId=null; try{localStorage.setItem("hl_tlang",trs.lang);}catch(_){} loadTranscriptHistory(); };
   const TP=$("#trPanel"); $$("[data-mode]",TP).forEach(b=>b.onclick=()=>{ trs.mode=b.dataset.mode; if(trs.mode==="text") stopListen(); $$("[data-mode]",TP).forEach(x=>x.setAttribute("aria-selected",String(x===b))); paintInput(); });
   $("#trSave").onclick=saveTranscript;
   $("#trClear").onclick=()=>{ stopListen(); trs.lines=[]; trs.noteId=null; paintLines(); };
-  paintInput(); paintLines(); setStatus(trs.status,trs.statusKind);
+  paintInput(); paintLines(); setStatus(trs.status,trs.statusKind); loadTranscriptHistory();
 }
 function paintInput(){
   const box=$("#trInput"); if(!box) return;
   if(trs.mode==="live"){
-    box.innerHTML=`<button class="btn btn-lg btn-listen ${trs.listening?"on":"btn-default"}" id="trListen" aria-pressed="${trs.listening}">${trs.listening?"إيقاف الاستماع":"ابدأ الاستماع"}</button>`;
+    box.innerHTML=`<button class="btn btn-lg btn-listen ${trs.listening?"on":"btn-default"}" id="trListen" aria-pressed="${trs.listening}" ${trs.stopping?"disabled":""}>${trs.stopping?"جارٍ إنهاء الجملة…":trs.listening?"إيقاف الاستماع":"ابدأ الاستماع"}</button>`;
     $("#trListen").onclick=()=>trs.listening?stopListen():startListen();
   }else{
     box.innerHTML=`<form id="trText" style="display:grid;gap:8px"><label class="sr-only" for="trIn">النص العربي</label><textarea class="textarea" id="trIn" placeholder="اكتب أو الصق نصًا عربيًا، مثل حديث أو آية ذكرها الشيخ"></textarea><button class="btn btn-default" type="submit" style="justify-self:start">ترجم</button></form>`;
@@ -988,7 +1005,7 @@ function paintInput(){
 function setStatus(t,k){ trs.status=t||""; trs.statusKind=k||""; const el=$("#trStatus"); if(el){ el.textContent=trs.status; el.className="status "+trs.statusKind; } }
 function lineHTML(l){
   const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
-  return `<div class="tr-line" id="ln_${l.id}"><div class="ar">${esc(l.ar)}</div><div class="tr ${l.tr?"":"pending"}" lang="${l.lang}" dir="auto">${l.tr?esc(l.tr):(l.err?"":"جارٍ الترجمة…")}</div>${l.err?`<div class="tr-err">${esc(l.err)} <button class="btn btn-outline btn-sm" data-retry="${l.id}">أعد المحاولة</button></div>`:""}${l.lang!==trs.lang&&false?"":""}</div>`;
+  return `<div class="tr-line" id="ln_${l.id}"><div class="tr ${l.tr?"":"pending"}" lang="${l.lang}" dir="auto">${l.tr?esc(l.tr):(l.err?"":`جارٍ الترجمة إلى ${esc(L[1])}…`)}</div>${l.err?`<div class="tr-err">${esc(l.err)} <button class="btn btn-outline btn-sm" data-retry="${l.id}">أعد المحاولة</button></div>`:""}</div>`;
 }
 function paintLines(){
   const box=$("#trBox"); if(!box) return;
@@ -1002,49 +1019,52 @@ function paintLine(l){
   el.outerHTML=lineHTML(l); bindRetry(box); if(atEnd) box.scrollTop=box.scrollHeight;
   const sv=$("#trSave"); if(sv) sv.disabled=!trs.lines.some(x=>x.tr);
 }
-function bindRetry(box){ $$("[data-retry]",box).forEach(b=>b.onclick=()=>{ const l=trs.lines.find(x=>x.id===b.dataset.retry); if(l){ l.err=""; l.tr=""; paintLine(l); enqueue(l);} }); }
-function paintInterim(){ const el=$("#trInterim"); if(el){ el.textContent=trs.interim; const box=$("#trBox"); box.scrollTop=box.scrollHeight; } }
-function addLine(ar){ const l={id:Math.random().toString(36).slice(2,9),ar,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); enqueue(l); }
-function enqueue(l){ trs.queue=trs.queue.then(()=>translateLine(l)).catch(()=>{}); }
+function bindRetry(box){ $$("[data-retry]",box).forEach(b=>b.onclick=()=>{ const l=trs.lines.find(x=>x.id===b.dataset.retry); if(l){ l.err=""; l.tr=""; paintLine(l); translateLine(l);} }); }
+function paintInterim(){ const el=$("#trInterim"); if(el){ el.textContent=trs.interim?"جارٍ الاستماع…":""; const box=$("#trBox"); box.scrollTop=box.scrollHeight; } }
+function addLine(ar){ const l={id:Math.random().toString(36).slice(2,9),ar,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); translateLine(l); }
 async function translateLine(l){
-  const s=await getSample();
-  if(!s){ l.err="الترجمة غير متاحة في هذه النافذة. افتح الصفحة من رابطها في Claude."; paintLine(l); return; }
-  const L=TLANGS.find(x=>x[0]===l.lang)||TLANGS[0];
-  const prompt=`You are a live interpreter for a religious lesson held in Masjid al-Haram or Masjid an-Nabawi. Translate the Arabic below into ${L[2]}.
-The text may come from speech recognition, so it can be a fragment or contain recognition errors: translate the most likely intended meaning.
-Translate Quran verses and hadith as faithful meaning translations. Keep names of prophets, companions and scholars recognisable. Add ﷺ after the Prophet's name where the speaker says it.
-Output only the ${L[2]} translation, with no notes, quotes or preamble.
-
-Arabic:
-${l.ar}`;
   try{
-    const r=await s(prompt,{modelTier:"quick",onText:u=>{ l.tr=u.text; paintLine(l); }});
-    l.tr=(r.text||"").trim(); if(!l.tr) l.err="لم تصل ترجمة لهذه الجملة.";
+    const r=await apiFetch("/api/translate",{method:"POST",body:JSON.stringify({lesson_id:trs.lessonId,target_language:l.lang,text:l.ar})});
+    l.id=r.segment.id; l.tr=r.segment.translated_text; if(!l.tr) l.err="لم تصل ترجمة لهذه الجملة.";
   }catch(e){
-    if(e&&e.text) l.tr=e.text;
-    l.err = e&&e.code==="not_granted"?"لم يُسمح بالترجمة. اضغط «أعد المحاولة» ووافق على طلب الإذن.":e&&e.code==="rate_limited"?"طلبات كثيرة في وقت قصير. انتظر قليلًا ثم اضغط «أعد المحاولة».":"تعذّرت الترجمة. تحقق من اتصالك ثم اضغط «أعد المحاولة».";
-    if(e&&e.code==="rate_limited") await new Promise(r=>setTimeout(r,4000));
+    l.err="تعذّرت الترجمة. تحقق من اتصالك ثم اضغط «أعد المحاولة».";
   }
   paintLine(l);
 }
-function startListen(){
-  if(!SR){ setStatus("متصفحك لا يدعم الاستماع المباشر. استخدم Chrome أو Safari، أو انتقل إلى «كتابة نص».","warn"); return; }
-  getSample();
-  const rec=new SR(); rec.lang="ar-SA"; rec.continuous=true; rec.interimResults=true;
-  rec.onresult=e=>{ let interim=""; for(let i=e.resultIndex;i<e.results.length;i++){ const r=e.results[i]; if(r.isFinal){ const t=r[0].transcript.trim(); if(t) addLine(t); } else interim+=r[0].transcript; } trs.interim=interim; paintInterim(); };
-  rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"||e.error==="audio-capture"){ trs.listening=false; setStatus(e.error==="audio-capture"?"لم يُعثر على ميكروفون. تأكد من توصيله، أو استخدم «كتابة نص».":"لم يُسمح باستخدام الميكروفون في هذه الصفحة. اسمح به من إعدادات المتصفح، أو استخدم «كتابة نص».","warn"); paintInput(); } };
-  rec.onend=()=>{ if(trs.listening){ try{ rec.start(); }catch(_){ trs.listening=false; paintInput(); setStatus("توقف الاستماع. اضغط «ابدأ الاستماع» للمتابعة.","warn"); } } };
-  try{ rec.start(); trs.rec=rec; trs.listening=true; setStatus("يستمع الآن… قرّب الجوال من مكبّر الصوت.","ok"); }
-  catch(e){ trs.listening=false; setStatus("تعذّر تشغيل الاستماع. أعد المحاولة، أو استخدم «كتابة نص».","warn"); }
-  paintInput();
+function pcm16(input,fromRate){ const ratio=fromRate/16000, size=Math.floor(input.length/ratio), out=new Int16Array(size); for(let i=0;i<size;i++){ const a=Math.floor(i*ratio), b=Math.min(input.length,Math.floor((i+1)*ratio)); let sum=0; for(let j=a;j<b;j++) sum+=input[j]; const s=Math.max(-1,Math.min(1,sum/Math.max(1,b-a))); out[i]=s<0?s*32768:s*32767; } return out; }
+function liveUrl(){ const p=new URLSearchParams({lesson_id:trs.lessonId,target_language:trs.lang,visitor_id:VISITOR_ID}); return `${location.protocol==="https:"?"wss":"ws"}://${location.host}/api/live?${p}`; }
+function connectLive(){
+  if(!trs.listening) return; trs.ready=false; setStatus(trs.reconnects?"جارٍ إعادة الاتصال…":"جارٍ الاتصال بخدمة الترجمة…","");
+  const ws=new WebSocket(liveUrl()); ws.binaryType="arraybuffer"; trs.ws=ws;
+  ws.onmessage=e=>{ let m; try{m=JSON.parse(e.data);}catch(_){return;} if(m.type==="ready"){ trs.ready=true; trs.reconnects=0; setStatus("يستمع الآن… قرّب الجوال من مكبّر الصوت.","ok"); }
+    else if(m.type==="interim"){ trs.interim=m.text||""; paintInterim(); clearTimeout(trs.endpointTimer); if(trs.interim&&trs.listening) trs.endpointTimer=setTimeout(()=>{ if(trs.ready&&trs.ws&&trs.ws.readyState===WebSocket.OPEN) trs.ws.send(JSON.stringify({type:"ForceEndpoint"})); },1200); }
+    else if(m.type==="finalizing"){ clearTimeout(trs.endpointTimer); trs.interim=""; const l={id:"p"+Math.random().toString(36).slice(2),ar:m.text,tr:"",err:"",lang:trs.lang,at:new Date().toISOString()}; trs.lines.push(l); paintLines(); setStatus("جارٍ الترجمة…",""); }
+    else if(m.type==="final"){ const l=trs.lines.find(x=>x.ar===m.text&&!x.tr); if(l){ l.id=m.segmentId; l.tr=m.translatedText; paintLine(l); } setStatus(trs.listening?"يستمع الآن… قرّب الجوال من مكبّر الصوت.":"تمت ترجمة الجملة.",trs.listening?"ok":""); if(trs.stopping) finishStop(); }
+    else if(m.type==="translation_error"){ const l=trs.lines.find(x=>x.ar===m.text&&!x.tr); if(l){ l.err=m.message; paintLine(l); } setStatus(m.message||"تعذّرت الترجمة.","warn"); if(trs.stopping) finishStop(); }
+    else if(m.type==="error") setStatus(m.message||"تعذّر الاتصال بخدمة الترجمة.","warn"); };
+  ws.onerror=()=>setStatus("حدث خطأ في الاتصال. سنحاول إعادة الاتصال.","warn");
+  ws.onclose=()=>{ trs.ready=false; if(trs.stopping){ trs.stopping=false; clearTimeout(trs.stopTimer); paintInput(); return; } if(trs.listening&&trs.reconnects<3){ const wait=1000*Math.pow(2,trs.reconnects++); setStatus(`انقطع الاتصال. إعادة المحاولة خلال ${Math.round(wait/1000)} ث…`,"warn"); trs.reconnectTimer=setTimeout(connectLive,wait); } else if(trs.listening){ trs.listening=false; stopAudio(); paintInput(); setStatus("تعذّر إعادة الاتصال. اضغط «ابدأ الاستماع» للمحاولة مجددًا.","warn"); } };
 }
-function stopListen(){ const was=trs.listening; trs.listening=false; try{ trs.rec&&trs.rec.stop(); }catch(e){} trs.rec=null; trs.interim=""; paintInterim(); paintInput(); if(was) setStatus("توقف الاستماع.",""); }
+async function startListen(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ setStatus("متصفحك لا يدعم الوصول إلى الميكروفون. استخدم متصفحًا حديثًا أو «كتابة نص».","warn"); return; }
+  if(!trs.lessonId){ setStatus("اختر الدرس أولًا.","warn"); return; }
+  setStatus("بانتظار إذن الميكروفون…","");
+  try{ const stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true},video:false});
+    const AC=window.AudioContext||window.webkitAudioContext, audio=new AC(); await audio.resume(); const source=audio.createMediaStreamSource(stream), processor=audio.createScriptProcessor(4096,1,1);
+    processor.onaudioprocess=e=>{ if(trs.ready&&trs.ws&&trs.ws.readyState===WebSocket.OPEN) trs.ws.send(pcm16(e.inputBuffer.getChannelData(0),audio.sampleRate).buffer); };
+    source.connect(processor); processor.connect(audio.destination); trs.stream=stream; trs.audio=audio; trs.source=source; trs.processor=processor; trs.listening=true; trs.reconnects=0; paintInput(); connectLive();
+  }catch(e){ const denied=e&&e.name==="NotAllowedError"; setStatus(denied?"لم يُسمح باستخدام الميكروفون. اسمح به من إعدادات المتصفح ثم أعد المحاولة.":"لم يُعثر على ميكروفون متاح. تأكد من توصيله ثم أعد المحاولة.","warn"); trs.listening=false; paintInput(); }
+}
+function stopAudio(){ try{trs.processor&&trs.processor.disconnect();}catch(_){} try{trs.source&&trs.source.disconnect();}catch(_){} if(trs.stream) trs.stream.getTracks().forEach(t=>t.stop()); if(trs.audio) trs.audio.close().catch(()=>{}); trs.processor=trs.source=trs.stream=trs.audio=null; }
+function finishStop(){ clearTimeout(trs.stopTimer); clearTimeout(trs.endpointTimer); trs.ready=false; try{ if(trs.ws&&trs.ws.readyState===WebSocket.OPEN){ trs.ws.send(JSON.stringify({type:"Terminate"})); setTimeout(()=>{ try{trs.ws&&trs.ws.close();}catch(_){} trs.ws=null; },300); } }catch(_){} trs.stopping=false; paintInput(); }
+function stopListen(){ const was=trs.listening; trs.listening=false; clearTimeout(trs.reconnectTimer); clearTimeout(trs.endpointTimer); stopAudio(); trs.interim=""; paintInterim(); if(trs.ws&&trs.ws.readyState===WebSocket.OPEN){ trs.stopping=true; try{trs.ws.send(JSON.stringify({type:"ForceEndpoint"}));}catch(_){} setStatus("جارٍ إنهاء الجملة وترجمتها…",""); trs.stopTimer=setTimeout(finishStop,12000); }else{ trs.ready=false; try{trs.ws&&trs.ws.close();}catch(_){} trs.ws=null; if(was) setStatus("توقف الاستماع.",""); } paintInput(); }
+async function loadTranscriptHistory(){ const key=trs.lessonId+":"+trs.lang; trs.historyKey=key; setStatus("جارٍ تحميل الترجمات المحفوظة…",""); try{ const r=await apiFetch(`/api/transcripts?lesson_id=${encodeURIComponent(trs.lessonId)}&target_language=${encodeURIComponent(trs.lang)}`); if(trs.historyKey!==key) return; trs.lines=r.segments.map(s=>({id:s.id,ar:s.text,tr:s.translated_text,err:"",lang:trs.lang,at:s.created_at})); paintLines(); setStatus("",""); }catch(_){ if(trs.historyKey===key) setStatus("تعذّر تحميل الترجمات السابقة. يمكنك المحاولة مجددًا.","warn"); } }
 function saveTranscript(){
   const done=trs.lines.filter(l=>l.tr); if(!done.length) return;
   const names=[...new Set(done.map(l=>(TLANGS.find(x=>x[0]===l.lang)||TLANGS[0])[1]))].join("، ");
   const body=done.map(l=>`${l.ar}\n${l.tr}`).join("\n\n");
   const ex=trs.noteId&&notes.map[trs.noteId];
-  const draft=ex?{...ex,body}:{lessonId:defaultLesson(),date:todayKey(),title:`ترجمة إلى ${names}`,body,kind:"translation"};
+  const draft=ex?{...ex,body}:{lessonId:trs.lessonId,date:todayKey(),title:`ترجمة إلى ${names}`,body,kind:"translation"};
   nt.onSaved=id=>{ trs.noteId=id; };
   openNotes({draft,id:ex?trs.noteId:null});
 }
